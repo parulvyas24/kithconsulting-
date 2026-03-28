@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kith Consulting — Northwood Capital Partners Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --base: #0c0e11;
+      --card: #191c22;
+      --border: rgba(255,255,255,0.06);
+      --border-hi: rgba(255,255,255,0.12);
+      --t1: #f0eeeb;
+      --t2: rgba(240,238,235,0.78);
+      --t3: rgba(240,238,235,0.52);
+      --t4: rgba(240,238,235,0.22);
+      --teal: #5B9A8B;
+      --teal-b: #72BBA9;
+      --warm: #d4a96a;
+      --sans: 'Inter', system-ui, sans-serif;
+      --serif: 'Playfair Display', Georgia, serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:var(--sans);background:var(--base);color:var(--t1);overflow:hidden;}
+    .deck{width:100vw;height:100vh;}
+    .slide{display:none;width:100%;height:100%;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
+    .slide.active{display:flex;}
+    .pad{padding:72px 100px;position:relative;z-index:2;}
+
+    /* BG */
+    .bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;}
+    .bg::after{content:'';position:absolute;inset:0;}
+    .ov-h::after{background:rgba(12,14,17,0.88);}
+    .ov-m::after{background:rgba(12,14,17,0.82);}
+    .ov-s::after{background:linear-gradient(135deg,rgba(12,14,17,0.78),rgba(12,14,17,0.90));}
+    .ov-g::after{background:linear-gradient(180deg,rgba(12,14,17,0.55) 0%,rgba(12,14,17,0.95) 55%);}
+    .grain{position:absolute;inset:0;z-index:1;opacity:0.02;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+    .glow-tl{position:absolute;top:-250px;left:-250px;width:600px;height:600px;background:radial-gradient(circle,rgba(91,154,139,0.06),transparent 70%);z-index:1;pointer-events:none;}
+    .glow-br{position:absolute;bottom:-250px;right:-250px;width:600px;height:600px;background:radial-gradient(circle,rgba(91,154,139,0.05),transparent 70%);z-index:1;pointer-events:none;}
+    .dots{position:absolute;inset:0;z-index:1;pointer-events:none;background-image:radial-gradient(rgba(91,154,139,0.05) 1px,transparent 1px);background-size:28px 28px;}
+
+    /* Header/Footer */
+    .sh{position:absolute;top:32px;left:100px;right:100px;z-index:3;display:flex;justify-content:space-between;align-items:center;}
+    .sn{font-family:var(--mono);font-size:10px;color:var(--t4);letter-spacing:0.2em;}
+    .sl{height:18px;opacity:0.25;}
+    .sf{position:absolute;bottom:28px;left:100px;right:100px;z-index:3;display:flex;justify-content:space-between;align-items:center;}
+    .sf span{font-family:var(--mono);font-size:9px;color:var(--t4);letter-spacing:0.1em;}
+    .sr{position:absolute;bottom:56px;left:100px;right:100px;z-index:3;height:1px;background:var(--border);}
+
+    /* Type */
+    .tag{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+    .tag-w{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--warm);margin-bottom:16px;}
+    h1{font-family:var(--serif);font-size:54px;font-weight:400;line-height:1.1;letter-spacing:-0.02em;margin-bottom:20px;}
+    h2{font-family:var(--serif);font-size:42px;font-weight:400;line-height:1.15;letter-spacing:-0.015em;margin-bottom:16px;}
+    p,.body{font-size:16px;font-weight:400;line-height:1.7;color:var(--t2);max-width:720px;}
+    .hi{color:var(--teal-b);}
+    .wm{color:var(--warm);}
+    em{font-family:var(--serif);font-style:italic;}
+    .sm{font-size:13px;}
+    .xs{font-size:11px;color:var(--t3);}
+    .div{width:36px;height:2px;background:var(--teal);opacity:0.35;margin:16px 0;}
+    .div-c{width:36px;height:2px;background:var(--teal);opacity:0.35;margin:16px auto;}
+
+    /* Grid */
+    .g{display:grid;gap:16px;margin-top:24px;max-width:1100px;}
+    .g2{grid-template-columns:1fr 1fr;}
+    .g3{grid-template-columns:1fr 1fr 1fr;}
+    .g4{grid-template-columns:1fr 1fr 1fr 1fr;}
+    .g5{grid-template-columns:repeat(5,1fr);}
+    .span2{grid-column:span 2;}
+
+    /* Card */
+    .c{background:rgba(255,255,255,0.015);border:1px solid var(--border);border-radius:10px;padding:24px;}
+    .c-g{border-color:rgba(91,154,139,0.18);background:linear-gradient(135deg,rgba(91,154,139,0.04),transparent);}
+    .c-w{border-color:rgba(212,169,106,0.15);background:linear-gradient(135deg,rgba(212,169,106,0.03),transparent);}
+    .cl{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+    .cl-w{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--warm);margin-bottom:10px;}
+    .ct{font-size:16px;font-weight:600;color:var(--t1);margin-bottom:6px;line-height:1.3;}
+    .cb{font-size:12px;font-weight:400;color:var(--t3);line-height:1.8;}
+    .cb span{display:block;}
+    .ci-s{font-size:22px;margin-bottom:10px;}
+    .cv{font-family:var(--serif);font-size:38px;font-weight:400;color:var(--teal-b);margin-bottom:4px;}
+    .cvl{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);}
+
+    /* Table */
+    table{border-collapse:collapse;width:100%;max-width:1000px;margin-top:16px;}
+    th{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);text-align:left;padding:10px 12px;border-bottom:1px solid rgba(91,154,139,0.12);}
+    td{font-size:12px;font-weight:300;color:var(--t2);padding:11px 12px;border-bottom:1px solid var(--border);}
+    td:first-child{font-weight:500;color:var(--t1);}
+    tr:last-child td{border-bottom:none;}
+
+    /* Quote */
+    .quote{margin-top:20px;padding:20px 28px;max-width:700px;border-left:2px solid var(--teal);background:rgba(91,154,139,0.025);border-radius:0 10px 10px 0;}
+    .quote p{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--t1);font-weight:400;line-height:1.5;max-width:100%;}
+    .quote .attr{font-family:var(--mono);font-style:normal;font-size:10px;color:var(--t3);margin-top:10px;letter-spacing:0.08em;}
+
+    /* NList */
+    .nl{counter-reset:n;list-style:none;margin:18px 0;}
+    .nl li{font-size:15px;font-weight:400;color:var(--t2);margin-bottom:14px;padding-left:40px;position:relative;}
+    .nl li::before{counter-increment:n;content:counter(n,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--teal);opacity:0.5;}
+    .nl li strong{font-weight:500;color:var(--t1);}
+
+    /* Logos */
+    .lg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px;max-width:900px;}
+    .lb{height:68px;background:rgba(255,255,255,0.03);border:1px solid var(--border-hi);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--t2);gap:10px;}
+
+    /* Testimonial */
+    .tc{background:rgba(255,255,255,0.015);border:1px solid var(--border);border-radius:10px;padding:20px;}
+    .tc .stars{color:var(--warm);font-size:12px;letter-spacing:3px;margin-bottom:10px;}
+    .tc .tq{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--t1);line-height:1.6;margin-bottom:10px;}
+    .tc .ta{font-size:11px;color:var(--t3);}
+    .tc .ta strong{color:var(--t2);font-weight:500;}
+
+    /* Team */
+    .tm{text-align:center;}
+    .tm-a{width:62px;height:62px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;font-weight:500;color:var(--t1);}
+    .tm-t{background:rgba(91,154,139,0.12);border:1px solid rgba(91,154,139,0.18);}
+    .tm-w{background:rgba(212,169,106,0.1);border:1px solid rgba(212,169,106,0.18);}
+    .tmn{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px;}
+    .tmr{font-size:10px;font-weight:400;color:var(--t3);line-height:1.4;}
+
+    /* Contact */
+    .cr{display:flex;gap:32px;margin-top:28px;flex-wrap:wrap;}
+    .ci{display:flex;align-items:flex-start;gap:12px;}
+    .cii{width:36px;height:36px;border-radius:8px;flex-shrink:0;background:rgba(91,154,139,0.1);border:1px solid rgba(91,154,139,0.1);display:flex;align-items:center;justify-content:center;font-size:14px;}
+    .cit{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:2px;}
+    .civ{font-size:13px;color:var(--t1);font-weight:400;}
+
+    /* Timeline */
+    .tl{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:24px;max-width:1100px;}
+    .tli{background:rgba(255,255,255,0.015);border:1px solid var(--border);border-radius:8px;padding:16px 10px;}
+    .tli.on{border-color:rgba(91,154,139,0.2);background:linear-gradient(180deg,rgba(91,154,139,0.05),transparent);}
+    .tlw{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+    .tlt{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:4px;}
+    .tlb{font-size:10px;font-weight:400;color:var(--t3);line-height:1.5;}
+
+    /* Image strip */
+    .is{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:20px;max-width:1100px;height:110px;}
+    .isi{border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+    .isi img{width:100%;height:100%;object-fit:cover;opacity:0.6;display:block;}
+
+    /* Center */
+    .center{text-align:center;align-items:center;}
+
+    /* Progress */
+    .prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--teal-b));transition:width 0.4s;z-index:99;}
+    .nav{position:fixed;bottom:12px;right:16px;font-family:var(--mono);font-size:9px;color:var(--t4);opacity:0.3;z-index:99;}
+
+    /* Pillar cards */
+    .pillar{position:relative;padding:28px;border-radius:12px;overflow:hidden;}
+    .pillar .p-num{font-family:var(--serif);font-size:64px;font-weight:400;color:var(--teal);opacity:0.08;position:absolute;top:10px;right:20px;line-height:1;}
+  </style>
+</head>
+<body>
+<div class="prog" id="P"></div>
+<div class="deck">
+
+<!-- ================================================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ================================================================ -->
+<div class="slide active center">
+  <div class="bg ov-g" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="pad" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;">
+    <img src="kith-logo-light.png" alt="Kith Consulting" style="height:50px;margin-bottom:52px;opacity:0.9;">
+    <div class="tag" style="letter-spacing:0.35em;margin-bottom:24px;">Prepared for Northwood Capital Partners</div>
+    <h1 style="text-align:center;font-size:50px;">Building ESG Infrastructure<br>That <span class="hi">Outlasts the Engagement</span></h1>
+    <div class="div-c"></div>
+    <p style="text-align:center;font-size:15px;max-width:480px;margin-top:4px;">A six-week partnership to embed ESG &amp; climate strategy into how your portfolio creates value, manages risk, and prepares for exit.</p>
+  </div>
+  <div class="sf"><span>March 2026</span><span>Confidential</span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 2: 01 — OUR PHILOSOPHY -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-m" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">01 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Our Philosophy</div>
+    <h2 style="font-size:46px;"><em>Kith</em> means friends, neighbours,<br>the people close to home.</h2>
+    <div class="div"></div>
+    <p style="font-size:18px;max-width:660px;line-height:1.8;">We named ourselves after that word because this work isn't abstract. It's about the one home we all share &mdash; and the responsibility to leave it better than we found it.</p>
+    <p style="font-size:15px;margin-top:20px;max-width:620px;">We're not here to write reports that gather dust. We're here to build systems that protect the planet <em>and</em> create value &mdash; because we believe those two things were never in conflict.</p>
+    <div class="quote" style="margin-top:28px;">
+      <p>"The earth is what we all have in common."</p>
+      <div class="attr">&mdash; Wendell Berry</div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 3: 02 — WHO WE ARE -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">02 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Who We Are</div>
+    <h2>Climate consulting, <span class="hi">purpose-built</span><br>for private equity.</h2>
+    <p class="sm">Every workflow runs on Claude Code &mdash; not as a side tool, but as the operating system. Thirty people who believe ESG should drive returns, not just reports.</p>
+    <div class="g g3" style="margin-top:28px;">
+      <div class="c"><div class="cv">30</div><div class="cvl">Consultants</div><div class="cb" style="margin-top:8px;">Climate domain experts. Every one CC-native.</div></div>
+      <div class="c"><div class="cv">2025</div><div class="cvl">Founded</div><div class="cb" style="margin-top:8px;">Born on Claude Code. Not retrofitted. Built this way.</div></div>
+      <div class="c"><div class="cv">LA</div><div class="cvl">Headquarters</div><div class="cb" style="margin-top:8px;">Los Angeles. Serving PE firms nationwide.</div></div>
+    </div>
+    <div style="display:flex;gap:32px;margin-top:24px;padding-top:18px;border-top:1px solid var(--border);">
+      <div><span style="font-family:var(--serif);font-size:28px;color:var(--teal-b);">100%</span><div style="font-family:var(--mono);font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);margin-top:4px;">CC-Native Workflows</div></div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div><span style="font-family:var(--serif);font-size:28px;color:var(--teal-b);">PE</span><div style="font-family:var(--mono);font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Purpose-Built for PE</div></div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div><span style="font-family:var(--serif);font-size:28px;color:var(--teal-b);">Days</span><div style="font-family:var(--mono);font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Not Weeks to Deliver</div></div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div><span style="font-family:var(--serif);font-size:28px;color:var(--teal-b);">Zero</span><div style="font-family:var(--mono);font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Dependency After Handoff</div></div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 4: 03 — OUR SERVICES -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1518173946687-a46750bba22a?w=1920&q=80')"></div>
+  <div class="grain"></div><div class="glow-tl"></div>
+  <div class="sh"><span class="sn">03 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Our Services</div>
+    <h2>We work hard <em>so your portfolio doesn't have to</em>.</h2>
+    <div class="g g4" style="margin-top:20px;">
+      <div class="c c-g"><div class="ci-s">&#127758;</div><div class="ct">Carbon Inventory</div><div class="cb">Scope 1, 2, 3. GHG Protocol. Audit-ready numbers your LPs can trust.</div></div>
+      <div class="c c-g"><div class="ci-s">&#127793;</div><div class="ct">Reduction Roadmaps</div><div class="cb">NPV-ranked initiatives. EBITDA impact. Real savings, not aspirations.</div></div>
+      <div class="c c-w"><div class="ci-s">&#9878;&#65039;</div><div class="ct">Materiality Assessment</div><div class="cb">What matters financially, by sector and company. Not everything &mdash; the right things.</div></div>
+      <div class="c c-w"><div class="ci-s">&#128270;</div><div class="ct">ESG Data Audit</div><div class="cb">Find the gaps before your LPs or buyers do. Know where you stand.</div></div>
+      <div class="c c-w"><div class="ci-s">&#128196;</div><div class="ct">Disclosure & Reporting</div><div class="cb">TCFD. CSRD. Investor-grade LP narratives that tell your story.</div></div>
+      <div class="c c-w"><div class="ci-s">&#128202;</div><div class="ct">Portfolio Dashboards</div><div class="cb">Live KPIs. Progress, gaps, and trends. One screen, all companies.</div></div>
+      <div class="c c-g"><div class="ci-s">&#128737;</div><div class="ct">Due Diligence</div><div class="cb">ESG risk scoring baked into your deal process. Before you sign.</div></div>
+      <div class="c c-g"><div class="ci-s">&#128200;</div><div class="ct">Value Creation</div><div class="cb">Map ESG to margin improvement and exit multiples. The money slide.</div></div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 5: 04 — OUR CLIENTS -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=1920&q=80')"></div>
+  <div class="grain"></div><div class="glow-br"></div>
+  <div class="sh"><span class="sn">04 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag-w">Our Clients</div>
+    <h2>Grateful to do this work<br>with <span class="wm">firms like yours</span>.</h2>
+    <p class="sm" style="max-width:600px;">Every engagement sharpens our craft. Every client raises the bar. Here are some of the firms that trust us with their climate strategy.</p>
+    <div class="lg" style="margin-top:28px;">
+      <div class="lb" style="border-color:rgba(212,169,106,0.2);background:rgba(212,169,106,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(212,169,106,0.6)" stroke-width="1.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>Silverlake Growth</div>
+      <div class="lb" style="border-color:rgba(91,154,139,0.2);background:rgba(91,154,139,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(91,154,139,0.6)" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Cascade Partners</div>
+      <div class="lb" style="border-color:rgba(212,169,106,0.2);background:rgba(212,169,106,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(212,169,106,0.6)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Brightwater Capital</div>
+      <div class="lb" style="border-color:rgba(91,154,139,0.2);background:rgba(91,154,139,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(91,154,139,0.6)" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Vantage Point PE</div>
+      <div class="lb" style="border-color:rgba(91,154,139,0.2);background:rgba(91,154,139,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(91,154,139,0.6)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Horizon Industrial</div>
+      <div class="lb" style="border-color:rgba(212,169,106,0.2);background:rgba(212,169,106,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(212,169,106,0.6)" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Summit Healthcare</div>
+      <div class="lb" style="border-color:rgba(91,154,139,0.2);background:rgba(91,154,139,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(91,154,139,0.6)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Atlas Environmental</div>
+      <div class="lb" style="border-color:rgba(212,169,106,0.2);background:rgba(212,169,106,0.03);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(212,169,106,0.6)" stroke-width="1.5"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>Northwind Services</div>
+    </div>
+    <p class="xs" style="margin-top:20px;font-style:italic;">Mid-market PE &middot; Industrial &middot; Healthcare &middot; Business Services &middot; Environmental Services</p>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 5B: 05 — THE CURRENT PROBLEM (NEW) -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1446329813274-7c9036bd9a1f?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">05 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag-w">The Problem</div>
+    <h2>ESG consulting is broken.<br>Here's <span class="wm">what we keep hearing</span>.</h2>
+    <div class="g g2" style="margin-top:24px;">
+      <div class="c" style="border-color:rgba(212,169,106,0.2);background:linear-gradient(135deg,rgba(212,169,106,0.04),transparent);position:relative;padding-left:32px;">
+        <div style="position:absolute;left:12px;top:24px;width:3px;height:calc(100% - 48px);background:var(--warm);opacity:0.25;border-radius:2px;"></div>
+        <div class="ci-s">&#128196;</div>
+        <div class="ct" style="color:var(--warm);">Generic Reports</div>
+        <div class="cb" style="margin-top:6px;line-height:1.9;"><span>Deliverables read like climate consulting adapted for PE.</span><span>They don't connect to your value creation plans.</span><span>They don't speak the language of IC memos or LP letters.</span><span>They sit on a shelf. Nobody opens them twice.</span></div>
+      </div>
+      <div class="c" style="border-color:rgba(212,169,106,0.2);background:linear-gradient(135deg,rgba(212,169,106,0.04),transparent);position:relative;padding-left:32px;">
+        <div style="position:absolute;left:12px;top:24px;width:3px;height:calc(100% - 48px);background:var(--warm);opacity:0.25;border-radius:2px;"></div>
+        <div class="ci-s">&#128260;</div>
+        <div class="ct" style="color:var(--warm);">Zero Residual Value</div>
+        <div class="cb" style="margin-top:6px;line-height:1.9;"><span>Every update means starting from scratch.</span><span>No compounding knowledge. No system.</span><span>The consultant leaves and the work decays.</span><span>Six months later, you're buying the same thing again.</span></div>
+      </div>
+      <div class="c" style="border-color:rgba(212,169,106,0.2);background:linear-gradient(135deg,rgba(212,169,106,0.04),transparent);position:relative;padding-left:32px;">
+        <div style="position:absolute;left:12px;top:24px;width:3px;height:calc(100% - 48px);background:var(--warm);opacity:0.25;border-radius:2px;"></div>
+        <div class="ci-s">&#128176;</div>
+        <div class="ct" style="color:var(--warm);">Disconnected from Value</div>
+        <div class="cb" style="margin-top:6px;line-height:1.9;"><span>ESG stays siloed from operating reviews.</span><span>No link to EBITDA, risk, or exit readiness.</span><span>The IC doesn't see it. The board doesn't ask for it.</span><span>It becomes a compliance exercise, not a value lever.</span></div>
+      </div>
+      <div class="c c-g" style="position:relative;padding-left:32px;">
+        <div style="position:absolute;left:12px;top:24px;width:3px;height:calc(100% - 48px);background:var(--teal);opacity:0.3;border-radius:2px;"></div>
+        <div class="ci-s">&#127793;</div>
+        <div class="ct" style="color:var(--teal-b);">What Northwood Deserves</div>
+        <div class="cb" style="margin-top:6px;line-height:1.9;"><span>PE-native work that connects to your operating cadence.</span><span>A system that compounds with every quarterly update.</span><span>Deliverables your CFOs use on Monday morning.</span><span>Infrastructure that outlasts the engagement.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 6: 06 — THE ENGAGEMENT / WHAT WE HEARD -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">06 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">The Engagement</div>
+    <h2>We heard what <em>isn't</em> working.<br>Here's what we're solving for.</h2>
+    <div class="g g3" style="margin-top:20px;">
+      <div class="c c-g">
+        <div class="ci-s">&#127793;</div>
+        <div class="cl">Objective 1</div>
+        <div class="ct">Immediate operational impact</div>
+        <div class="cb"><span>Fund-level clarity. Portco-level specifics.</span><span>Tied to EBITDA, risk, and exit value.</span><span>Usable on Monday morning.</span></div>
+      </div>
+      <div class="c c-g">
+        <div class="ci-s">&#127807;</div>
+        <div class="cl">Objective 2</div>
+        <div class="ct">A system that compounds</div>
+        <div class="cb"><span>Playbooks your people run without us.</span><span>Knowledge that builds, not decays.</span><span>We leave. The work stays. It grows.</span></div>
+      </div>
+      <div class="c c-g">
+        <div class="ci-s">&#9889;</div>
+        <div class="cl">Objective 3</div>
+        <div class="ct">AI-native, field-tested</div>
+        <div class="cb"><span>See Claude Code on real consulting work.</span><span>Speed and depth MBB can't match.</span><span>Judge us by the output.</span></div>
+      </div>
+    </div>
+    <div class="quote" style="margin-top:16px;">
+      <p>"We get a deliverable, it goes in a folder, and when we need an update six months later we're starting from scratch."</p>
+      <div class="attr">&mdash; Sarah Mitchell, COO, Northwood Capital Partners</div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 7: 06 — STRATEGY (4 PILLARS) -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">07 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Our Strategy</div>
+    <h2>Four pillars. One <span class="hi">integrated approach</span>.</h2>
+    <p class="sm">We don't bolt ESG onto your operations. We weave it into the fabric of how you create value, measure progress, and tell your story.</p>
+    <div class="g g4" style="margin-top:24px;">
+      <div class="c c-g pillar">
+        <div class="p-num">01</div>
+        <div class="ci-s">&#128270;</div>
+        <div class="ct">Measure What Matters</div>
+        <div class="cb">Emissions baselines. Data quality audits. Materiality mapping. You can't manage what you don't measure &mdash; and you can't measure what you haven't defined.</div>
+      </div>
+      <div class="c c-g pillar">
+        <div class="p-num">02</div>
+        <div class="ci-s">&#128200;</div>
+        <div class="ct">Connect ESG to Value</div>
+        <div class="cb">Every initiative tied to a financial outcome: cost savings, risk reduction, exit positioning. ESG earns its seat at the table by driving returns.</div>
+      </div>
+      <div class="c c-g pillar">
+        <div class="p-num">03</div>
+        <div class="ci-s">&#128218;</div>
+        <div class="ct">Build Systems, Not Reports</div>
+        <div class="cb">Playbooks. Templates. Reference data. CLAUDE.md context. The system your team can run every quarter without calling a consultant.</div>
+      </div>
+      <div class="c c-g pillar">
+        <div class="p-num">04</div>
+        <div class="ci-s">&#128227;</div>
+        <div class="ct">Tell the Story</div>
+        <div class="cb">LP narratives. Exit-ready ESG profiles. Portfolio dashboards. Your stakeholders need to see it, believe it, and invest in it.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 8: 07 — PROPOSAL (PORTFOLIO PRIORITIZATION) -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="grain"></div><div class="dots"></div><div class="glow-tl"></div>
+  <div class="sh"><span class="sn">08 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">The Proposal</div>
+    <h2>Eight companies. <span class="hi">Four get the deep dive.</span></h2>
+    <p class="sm">Depth over breadth. Selected for maximum strategic impact across both funds. CC-native tools compress analysis &mdash; but data collection from portco teams can't be parallelized. Four deep dives in six weeks is aggressive. The playbooks we build <strong style="color:var(--teal-b);">transfer to all eight</strong>.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-top:24px;max-width:1100px;">
+      <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(91,154,139,0.2);background:linear-gradient(180deg,rgba(91,154,139,0.06),transparent);">
+        <div style="padding:14px 16px 10px;border-bottom:1px solid rgba(91,154,139,0.1);">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">&#128293; Exit Prep &middot; Fund I</div>
+          <div style="font-size:15px;font-weight:600;color:var(--t1);line-height:1.3;">Meridian Business Solutions</div>
+        </div>
+        <div style="padding:12px 16px;">
+          <div style="font-size:11px;color:var(--t2);line-height:1.7;">Exit-ready ESG profile for buyer DD. Clean data = faster close, higher multiple.</div>
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:8px;letter-spacing:0.12em;color:var(--teal-b);text-transform:uppercase;">ESG Profile &middot; Baseline &middot; Matrix</div>
+        </div>
+      </div>
+      <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(91,154,139,0.2);background:linear-gradient(180deg,rgba(91,154,139,0.06),transparent);">
+        <div style="padding:14px 16px 10px;border-bottom:1px solid rgba(91,154,139,0.1);">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">&#127807; High Materiality &middot; Fund II</div>
+          <div style="font-size:15px;font-weight:600;color:var(--t1);line-height:1.3;">Clearview Environmental</div>
+        </div>
+        <div style="padding:12px 16px;">
+          <div style="font-size:11px;color:var(--t2);line-height:1.7;">Environmental sector = peak ESG relevance. Regulatory upside + competitive moat.</div>
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:8px;letter-spacing:0.12em;color:var(--teal-b);text-transform:uppercase;">Carbon Inventory &middot; Reg. Readiness &middot; Roadmap</div>
+        </div>
+      </div>
+      <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(91,154,139,0.2);background:linear-gradient(180deg,rgba(91,154,139,0.06),transparent);">
+        <div style="padding:14px 16px 10px;border-bottom:1px solid rgba(91,154,139,0.1);">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">&#127981; High Emissions &middot; Fund I</div>
+          <div style="font-size:15px;font-weight:600;color:var(--t1);line-height:1.3;">Sterling Precision Mfg.</div>
+        </div>
+        <div style="padding:12px 16px;">
+          <div style="font-size:11px;color:var(--t2);line-height:1.7;">Largest footprint. Greatest reduction potential with direct cost savings.</div>
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:8px;letter-spacing:0.12em;color:var(--teal-b);text-transform:uppercase;">Scope 1&amp;2 &middot; Reduction Plan &middot; Templates</div>
+        </div>
+      </div>
+      <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(212,169,106,0.2);background:linear-gradient(180deg,rgba(212,169,106,0.06),transparent);">
+        <div style="padding:14px 16px 10px;border-bottom:1px solid rgba(212,169,106,0.1);">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm);margin-bottom:6px;">&#127973; 100-Day Plan &middot; Fund II</div>
+          <div style="font-size:15px;font-weight:600;color:var(--t1);line-height:1.3;">Keystone Behavioral Health</div>
+        </div>
+        <div style="padding:12px 16px;">
+          <div style="font-size:11px;color:var(--t2);line-height:1.7;">Early-stage = embed ESG from day one. Clinical waste, workforce wellbeing, patient outcomes.</div>
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:8px;letter-spacing:0.12em;color:var(--warm);text-transform:uppercase;">Materiality &middot; Baseline &middot; 100-Day Integration</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:16px;max-width:1100px;">
+      <div style="flex:1;padding:14px 18px;border:1px solid rgba(91,154,139,0.12);border-radius:8px;background:rgba(91,154,139,0.03);display:flex;align-items:center;gap:14px;">
+        <div style="font-size:18px;">&#128204;</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--t1);">The other four?</div>
+          <div style="font-size:10px;color:var(--t2);margin-top:2px;line-height:1.6;">NovaCare, Trident, Patriot, and Pinnacle get light-touch assessment via the fund-level workstream. Playbooks built for the priority four <strong style="color:var(--teal-b);">transfer directly</strong>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 9: 09 — FUND-LEVEL DELIVERABLES -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">09 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Fund-Level Deliverables</div>
+    <h2>See your entire portfolio. <span class="hi">Clearly.</span></h2>
+    <p class="sm">A bird's-eye scorecard across all eight companies &mdash; maturity scoring, risk mapping, gap analysis, and prioritization. Not a deep dive. A portfolio-wide view so your IC sees everything on one screen.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;max-width:1100px;">
+      <div class="c c-g" style="padding:28px;">
+        <div class="ci-s">&#127758;</div>
+        <div class="ct" style="font-size:16px;">Portfolio ESG Assessment</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Risk scoring, maturity rating, and gap analysis across all 8 portfolio companies. One view. No blind spots.</div>
+      </div>
+      <div class="c c-g" style="padding:28px;">
+        <div class="ci-s">&#128202;</div>
+        <div class="ct" style="font-size:16px;">Portfolio Dashboard</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Live KPIs for every company on one screen. Updated quarterly by your team using the playbook we build.</div>
+      </div>
+      <div class="c c-g" style="padding:28px;">
+        <div class="ci-s">&#128196;</div>
+        <div class="ct" style="font-size:16px;">LP Reporting Framework</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Narrative-ready templates for quarterly LP sends. Data flows in, reports flow out. No scrambling.</div>
+      </div>
+      <div class="c c-g" style="padding:28px;">
+        <div class="ci-s">&#128218;</div>
+        <div class="ct" style="font-size:16px;">Governance &amp; DD Playbook</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Who owns what, when, how. Plus an ESG risk-scoring template for Fund II pipeline diligence.</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px 20px;border-left:2px solid var(--teal);background:rgba(91,154,139,0.03);border-radius:0 8px 8px 0;max-width:1100px;">
+      <div style="font-size:13px;color:var(--t2);font-weight:500;"><strong style="color:var(--teal-b);">The principle:</strong> Everything we build is designed for your team to own and operate independently after week six.</div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 9B: 10 — PORTCO-LEVEL DELIVERABLES -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="grain"></div><div class="dots"></div><div class="glow-tl"></div><div class="glow-br"></div>
+  <div class="sh"><span class="sn">10 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Portco-Level Deliverables</div>
+    <h2>Each company gets <span class="hi">its own roadmap</span>.</h2>
+    <p class="sm">Deep dives into the four priority companies &mdash; plus a compounding system that transfers to all eight.</p>
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-top:24px;max-width:1100px;">
+      <div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="c c-g" style="padding:22px;">
+            <div class="ci-s">&#127981;</div>
+            <div class="ct" style="font-size:14px;">Emissions Baselines</div>
+            <div class="cb" style="line-height:1.7;margin-top:4px;">Scope 1, 2, material 3. GHG Protocol compliant. Auditable.</div>
+          </div>
+          <div class="c c-g" style="padding:22px;">
+            <div class="ci-s">&#127793;</div>
+            <div class="ct" style="font-size:14px;">Reduction Roadmaps</div>
+            <div class="cb" style="line-height:1.7;margin-top:4px;">NPV-ranked initiatives. Every project tied to cost savings and payback.</div>
+          </div>
+          <div class="c c-g" style="padding:22px;">
+            <div class="ci-s">&#9878;&#65039;</div>
+            <div class="ct" style="font-size:14px;">Materiality Matrices</div>
+            <div class="cb" style="line-height:1.7;margin-top:4px;">Financially weighted and sector-specific. What matters most, ranked.</div>
+          </div>
+          <div class="c c-g" style="padding:22px;">
+            <div class="ci-s">&#128176;</div>
+            <div class="ct" style="font-size:14px;">Exit-Ready Profiles</div>
+            <div class="cb" style="line-height:1.7;margin-top:4px;">Buyer-facing ESG packages. Meridian first, then templated for all.</div>
+          </div>
+        </div>
+      </div>
+      <div class="c c-w" style="padding:24px;display:flex;flex-direction:column;justify-content:center;">
+        <div class="cl-w">&#128260; The Compounding Layer</div>
+        <div class="ct" style="font-size:15px;margin-top:4px;">What makes this different.</div>
+        <div class="cb" style="line-height:2.2;margin-top:10px;">
+          <span><strong style="color:var(--t1);">Operational Playbooks</strong> &mdash; Reusable quarterly</span>
+          <span><strong style="color:var(--t1);">Reference Architecture</strong> &mdash; Factors &amp; methodologies</span>
+          <span><strong style="color:var(--t1);">CLAUDE.md Context</strong> &mdash; AI-ready knowledge</span>
+          <span><strong style="color:var(--t1);">Training Sessions</strong> &mdash; 3 sessions, fund + portco</span>
+          <span><strong style="color:var(--t1);">Full Documentation</strong> &mdash; Every assumption, open</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px 20px;border-left:2px solid var(--warm);background:rgba(212,169,106,0.03);border-radius:0 8px 8px 0;max-width:1100px;">
+      <div style="font-size:13px;color:var(--t2);font-weight:500;"><strong style="color:var(--warm);">The test:</strong> When Q2 arrives and you need updated numbers, your team opens the playbook and runs it. No email to Kith. No new SOW.</div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 11 — BENEFITS & OUTCOMES (BEFORE / AFTER) -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">11 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Benefits &amp; Outcomes</div>
+    <h2>What you'll have on <span class="hi">day 43</span><br>that you don't have today.</h2>
+    <p class="sm">This isn't abstract. Here's exactly what changes.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:24px;max-width:1100px;">
+      <div style="padding:18px 20px;background:rgba(212,169,106,0.04);border:1px solid rgba(212,169,106,0.12);border-radius:10px 0 0 0;border-right:none;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm);margin-bottom:10px;">&#10005; Today</div>
+        <div class="cb" style="line-height:2.2;font-size:11px;">
+          <span>No emissions data for any portfolio company</span>
+          <span>No ESG framework for LP reporting</span>
+          <span>Meridian heading to exit with zero climate data</span>
+          <span>No way for the IC to see ESG risk across the portfolio</span>
+          <span>Every update requires hiring a consultant again</span>
+          <span>No ESG story for Fund III fundraising</span>
+        </div>
+      </div>
+      <div style="padding:18px 20px;background:rgba(91,154,139,0.04);border:1px solid rgba(91,154,139,0.15);border-radius:0 10px 0 0;border-left:none;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">&#10003; After Week 6</div>
+        <div class="cb" style="line-height:2.2;font-size:11px;">
+          <span><strong style="color:var(--t1);">Emissions baselines</strong> for 4 portcos (Scope 1, 2, material 3)</span>
+          <span><strong style="color:var(--t1);">LP reporting framework</strong> with quarterly-ready narratives</span>
+          <span><strong style="color:var(--t1);">Exit-ready ESG profile</strong> for Meridian buyer DD</span>
+          <span><strong style="color:var(--t1);">Portfolio dashboard</strong> &mdash; all 8 companies, one screen</span>
+          <span><strong style="color:var(--t1);">Playbooks + CLAUDE.md</strong> your team runs independently</span>
+          <span><strong style="color:var(--t1);">ESG track record</strong> that differentiates Fund III from day one</span>
+        </div>
+      </div>
+      <div style="padding:14px 20px;background:rgba(212,169,106,0.02);border:1px solid rgba(212,169,106,0.08);border-radius:0 0 0 10px;border-right:none;border-top:none;">
+        <div style="font-size:11px;color:var(--t3);font-style:italic;">ESG is a compliance checkbox. A cost center. Something the COO worries about alone.</div>
+      </div>
+      <div style="padding:14px 20px;background:rgba(91,154,139,0.02);border:1px solid rgba(91,154,139,0.08);border-radius:0 0 10px 0;border-left:none;border-top:none;">
+        <div style="font-size:11px;color:var(--teal-b);font-style:italic;">ESG drives returns, de-risks exits, satisfies LPs, and compounds with every quarter.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:16px;max-width:1100px;">
+      <div style="text-align:center;padding:14px 10px;border:1px solid rgba(91,154,139,0.12);border-radius:8px;background:rgba(91,154,139,0.03);">
+        <div style="font-family:var(--serif);font-size:24px;color:var(--teal-b);">4</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Deep-Dive Portcos</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;border:1px solid rgba(91,154,139,0.12);border-radius:8px;background:rgba(91,154,139,0.03);">
+        <div style="font-family:var(--serif);font-size:24px;color:var(--teal-b);">8</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Portfolio-Wide View</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;border:1px solid rgba(212,169,106,0.12);border-radius:8px;background:rgba(212,169,106,0.03);">
+        <div style="font-family:var(--serif);font-size:24px;color:var(--warm);">Q1→</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Self-Serve from Q2</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;border:1px solid rgba(212,169,106,0.12);border-radius:8px;background:rgba(212,169,106,0.03);">
+        <div style="font-family:var(--serif);font-size:24px;color:var(--warm);">$0</div>
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-top:4px;">Cost to Update After</div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 12 — ESG TO VALUE CONNECTION -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">12 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">ESG &rarr; Value</div>
+    <h2>How climate work <span class="hi">drives financial returns</span>.</h2>
+    <p class="sm">ESG isn't a cost center. When connected properly, it flows directly into the metrics PE firms track.</p>
+    <div class="g g4" style="margin-top:24px;">
+      <div class="c c-g pillar">
+        <div class="p-num" style="color:var(--teal);">$</div>
+        <div class="ci-s">&#128178;</div>
+        <div class="ct">EBITDA Impact</div>
+        <div class="cb" style="line-height:1.8;">Energy reduction initiatives directly lower operating costs. Waste optimization improves margins. We quantify every initiative with NPV and payback period so your IC sees ESG as a P&L line item.</div>
+      </div>
+      <div class="c c-g pillar">
+        <div class="p-num" style="color:var(--teal);">&#9878;</div>
+        <div class="ci-s">&#128737;</div>
+        <div class="ct">Risk Mitigation</div>
+        <div class="cb" style="line-height:1.8;">Regulatory exposure (CSRD, SEC Climate). Supply chain disruption. Stranded asset risk. We map, score, and price these risks so they show up in your portfolio risk framework &mdash; not as surprises in DD.</div>
+      </div>
+      <div class="c c-w pillar">
+        <div class="p-num" style="color:var(--warm);">&#215;</div>
+        <div class="ci-s">&#128200;</div>
+        <div class="ct">Exit Multiple</div>
+        <div class="cb" style="line-height:1.8;">Buyers pay premiums for clean ESG profiles. Audit-ready data, reduction roadmaps, and governance frameworks reduce DD friction and accelerate close timelines. Meridian's exit profile starts here.</div>
+      </div>
+      <div class="c c-w pillar">
+        <div class="p-num" style="color:var(--warm);">LP</div>
+        <div class="ci-s">&#128202;</div>
+        <div class="ct">LP Reporting</div>
+        <div class="cb" style="line-height:1.8;">LPs increasingly require ESG metrics alongside financial returns. Our framework gives you quarterly-ready narratives and dashboards that satisfy LP diligence and differentiate Fund III fundraising.</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px 20px;border-left:2px solid var(--warm);background:rgba(212,169,106,0.03);border-radius:0 8px 8px 0;max-width:1100px;">
+      <div style="font-size:13px;color:var(--t2);font-weight:500;"><strong style="color:var(--warm);">The bottom line:</strong> Every deliverable in this engagement maps to at least one of these four financial outcomes. If it doesn't create value, we don't build it.</div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 13 — TIMELINE -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">13 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Timeline</div>
+    <h2>Six weeks. <span class="hi">No shortcuts. No filler.</span></h2>
+    <p class="sm">Every week earns its place. We move fast because the tools let us &mdash; not because we cut corners.</p>
+    <div class="tl">
+      <div class="tli on"><div class="tlw">Week 1</div><div class="tlt">&#127758; Discover</div><div class="tlb">Kickoff. Data requests. Portco intros. Map the terrain.</div></div>
+      <div class="tli on"><div class="tlw">Week 2</div><div class="tlt">&#128270; Audit</div><div class="tlb">Data quality. Gap analysis. Emissions architecture.</div></div>
+      <div class="tli"><div class="tlw">Week 3</div><div class="tlt">&#128202; Analyze</div><div class="tlb">Carbon inventories. Reduction modeling. Materiality.</div></div>
+      <div class="tli"><div class="tlw">Week 4</div><div class="tlt">&#128736; Build</div><div class="tlb">Dashboards. Templates. Roadmaps. LP narratives.</div></div>
+      <div class="tli"><div class="tlw">Week 5</div><div class="tlt">&#128269; Refine</div><div class="tlb">Reviews with Sarah &amp; portcos. Iteration. Polish.</div></div>
+      <div class="tli on"><div class="tlw">Week 6</div><div class="tlt">&#127793; Transfer</div><div class="tlb">Final delivery. Playbook handoff. Training. It's yours.</div></div>
+    </div>
+    <div style="display:flex;gap:24px;margin-top:18px;max-width:1100px;">
+      <div style="flex:1;padding:14px 18px;border:1px solid rgba(91,154,139,0.12);border-radius:8px;background:rgba(91,154,139,0.03);">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">Touchpoints</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.8;">Weekly check-in with Sarah &middot; Portco kickoffs W1 &middot; Mid-point review W3 &middot; Final walkthrough W6</div>
+      </div>
+      <div style="flex:1;padding:14px 18px;border:1px solid rgba(212,169,106,0.12);border-radius:8px;background:rgba(212,169,106,0.03);">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--warm);margin-bottom:6px;">Why 6 Weeks Works</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.8;">Claude Code compresses analysis from weeks to days. Your team gets depth without the marathon timeline.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 14 — DATA REQUIREMENTS -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="grain"></div><div class="dots"></div><div class="glow-br"></div>
+  <div class="sh"><span class="sn">14 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Data Requirements</div>
+    <h2>What we need from you &mdash; <span class="hi">upfront</span>.</h2>
+    <p class="sm">We'll send each portco a structured checklist organized by GHG Protocol scope and emission category. Their teams mark what's material and what data exists. That tells us where to focus and where the gaps are.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:22px;max-width:1100px;">
+      <div class="c c-g" style="padding:20px;">
+        <div class="cl">Scope 1 &mdash; Direct Emissions</div>
+        <div class="ct" style="font-size:14px;margin-bottom:6px;">Sources owned or controlled</div>
+        <div class="cb" style="line-height:2.0;font-size:11px;">
+          <span>&#9632; Stationary combustion (boilers, furnaces, generators)</span>
+          <span>&#9632; Mobile combustion (fleet vehicles, forklifts)</span>
+          <span>&#9632; Process emissions (manufacturing, chemical)</span>
+          <span>&#9632; Fugitive emissions (refrigerants, HVAC leaks)</span>
+        </div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(91,154,139,0.12);font-size:10px;color:var(--t3);font-style:italic;">High materiality: Sterling, Clearview</div>
+      </div>
+      <div class="c c-g" style="padding:20px;">
+        <div class="cl">Scope 2 &mdash; Indirect (Energy)</div>
+        <div class="ct" style="font-size:14px;margin-bottom:6px;">Purchased energy</div>
+        <div class="cb" style="line-height:2.0;font-size:11px;">
+          <span>&#9632; Purchased electricity (by facility, 12&ndash;24 mo.)</span>
+          <span>&#9632; Purchased steam / heating</span>
+          <span>&#9632; Purchased cooling</span>
+          <span>&#9632; Grid emission factors by location</span>
+        </div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(91,154,139,0.12);font-size:10px;color:var(--t3);font-style:italic;">Material for all portcos &mdash; universal baseline</div>
+      </div>
+      <div class="c c-w" style="padding:20px;">
+        <div class="cl-w">Scope 3 &mdash; Value Chain</div>
+        <div class="ct" style="font-size:14px;margin-bottom:6px;">Upstream &amp; downstream</div>
+        <div class="cb" style="line-height:2.0;font-size:11px;">
+          <span>&#9632; Purchased goods &amp; services (spend data)</span>
+          <span>&#9632; Fuel &amp; energy-related activities</span>
+          <span>&#9632; Transportation &amp; distribution</span>
+          <span>&#9632; Waste generated in operations</span>
+          <span>&#9632; Business travel &amp; employee commuting</span>
+          <span>&#9632; Use of sold products (if applicable)</span>
+        </div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(212,169,106,0.12);font-size:10px;color:var(--t3);font-style:italic;">Materiality varies by sector &mdash; checklist filters by company</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;max-width:1100px;">
+      <div class="c" style="padding:20px;">
+        <div class="cl">&#127758; From Northwood (Fund-Level)</div>
+        <div class="cb" style="line-height:2.0;font-size:11px;">
+          <span>&#9632; LP reporting templates &amp; ESG questionnaire history</span>
+          <span>&#9632; IC memo templates &amp; DD checklists</span>
+          <span>&#9632; Portfolio financials (revenue, EBITDA by portco)</span>
+          <span>&#9632; Existing ESG policies, prior assessments or consultant work</span>
+        </div>
+      </div>
+      <div class="c" style="padding:20px;">
+        <div class="cl">&#127981; From Each Portco (Operational)</div>
+        <div class="cb" style="line-height:2.0;font-size:11px;">
+          <span>&#9632; Facility list with square footage &amp; headcount</span>
+          <span>&#9632; Org chart (who owns EHS, facilities, sustainability)</span>
+          <span>&#9632; Any existing environmental permits or compliance filings</span>
+          <span>&#9632; Safety, DEI, workforce, or environmental reports (if any)</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-top:12px;max-width:1100px;">
+      <div style="padding:14px 20px;border-left:2px solid var(--teal);background:rgba(91,154,139,0.03);border-radius:0 8px 8px 0;">
+        <div style="font-size:13px;color:var(--t2);font-weight:500;"><strong style="color:var(--teal-b);">The attached Excel is the real checklist.</strong> Each portco gets a tab. Every GHG Protocol category listed. They mark: <em>Material? Yes/No. Data available? Yes/No/Partial.</em> That tells us exactly where to dig and where the gaps are before we write a single formula.</div>
+      </div>
+      <div style="padding:14px 20px;border:1px solid rgba(212,169,106,0.12);border-radius:8px;background:rgba(212,169,106,0.03);display:flex;align-items:center;gap:12px;">
+        <div style="font-size:24px;">&#128203;</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--t1);">GHG Protocol Data Request — Excel</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Attached separately &middot; One tab per portco &middot; Scope 1, 2, 3 categories</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 15 — INVESTMENT -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1518173946687-a46750bba22a?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">15 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Investment</div>
+    <h2>Honest work. <span class="hi">Honest pricing.</span></h2>
+    <p class="sm">No hidden fees. No scope inflation. Every dollar toward work that matters.</p>
+    <div class="g g3" style="margin-top:20px;">
+      <div class="c c-g">
+        <div class="cl">Workstream A &middot; $105,000</div>
+        <div class="ct">Fund Infrastructure</div>
+        <div class="cb" style="line-height:2;"><span>&#127758; Portfolio ESG assessment (all 8 companies)</span><span>&#128196; LP reporting framework + narrative template</span><span>&#128202; Portfolio dashboard (live KPIs)</span><span>&#128218; ESG governance playbook</span><span>&#128270; DD template for Fund II pipeline</span></div>
+      </div>
+      <div class="c c-g">
+        <div class="cl">Workstream B &middot; $160,000</div>
+        <div class="ct">Portco Deep Dives (x4)</div>
+        <div class="cb" style="line-height:2;"><span>&#127981; Emissions baselines (Scope 1, 2, material 3)</span><span>&#127793; Reduction roadmaps (NPV-ranked)</span><span>&#9878;&#65039; Materiality matrices (financially weighted)</span><span>&#128203; Quarterly reporting templates</span><span>&#128176; Exit-ready ESG profiles (Meridian priority)</span></div>
+      </div>
+      <div class="c c-w">
+        <div class="cl-w">Knowledge Transfer &middot; $50,000</div>
+        <div class="ct">The Compounding System</div>
+        <div class="cb" style="line-height:2;"><span>&#128214; Operational playbooks (reusable quarterly)</span><span>&#128451; Reference architecture + emission factors</span><span>&#129302; CLAUDE.md context files (AI-ready)</span><span>&#127891; 3 training sessions (fund + portco teams)</span><span>&#128221; Full methodology documentation</span></div>
+      </div>
+    </div>
+    <div class="g g2" style="margin-top:12px;max-width:1100px;">
+      <div class="c" style="border-color:rgba(91,154,139,0.2);background:linear-gradient(135deg,rgba(91,154,139,0.05),transparent);">
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div><div class="cv" style="font-size:48px;">$315,000</div><div class="cvl">Fixed Fee &middot; Six Weeks &middot; Everything Included</div></div>
+          <div style="width:1px;height:50px;background:var(--border);"></div>
+          <div>
+            <div style="font-size:12px;color:var(--t2);line-height:2;">
+              <span style="display:block;"><strong style="color:var(--teal-b);">Kickoff:</strong> $157,500 (50%)</span>
+              <span style="display:block;"><strong style="color:var(--teal-b);">Delivery:</strong> $157,500 (50%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="c" style="border-color:rgba(212,169,106,0.15);">
+        <div class="cl-w">What's Included</div>
+        <div class="cb" style="font-size:11px;line-height:1.9;color:var(--t2);"><span>&#10003; All deliverables across both workstreams + knowledge transfer</span><span>&#10003; Partner-level oversight (Diego Espinosa, 45-min weekly)</span><span>&#10003; Dedicated 6-person team for full 6 weeks</span><span>&#10003; No hourly billing. No change orders without a conversation.</span><span>&#10003; <strong style="color:var(--warm);">Satisfaction guarantee:</strong> If it doesn't meet the brief, we make it right.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 16 — CASE STUDY & TESTIMONIALS -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="grain"></div><div class="glow-tl"></div>
+  <div class="sh"><span class="sn">16 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag-w">Proof of Impact</div>
+    <h2>Don't take our word for it.</h2>
+    <div class="g g3" style="margin-top:18px;">
+      <div class="c c-w">
+        <div class="cl-w">Case Study 01</div>
+        <div class="ct" style="font-size:14px;">Mid-Market PE &middot; Industrial &middot; 6 Portcos</div>
+        <div class="div" style="background:var(--warm);opacity:0.25;width:24px;"></div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">
+          <span><strong style="color:var(--t1);">Problem:</strong> No ESG baseline. LP pressure. Two exits with zero climate data.</span>
+          <span><strong style="color:var(--t1);">Action:</strong> Full emissions baselines in 4 weeks. $2.3M annual energy savings identified.</span>
+          <span><strong style="color:var(--warm);">Result:</strong> LP framework adopted permanently. Exit ESG profiles used in buyer presentations.</span>
+        </div>
+      </div>
+      <div class="c c-g">
+        <div class="cl">Case Study 02</div>
+        <div class="ct" style="font-size:14px;">Healthcare PE &middot; Regulatory Prep &middot; 4 Portcos</div>
+        <div class="div" style="background:var(--teal);opacity:0.25;width:24px;"></div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">
+          <span><strong style="color:var(--t1);">Problem:</strong> CSRD deadline approaching. No data infrastructure. Board asking questions nobody could answer.</span>
+          <span><strong style="color:var(--t1);">Action:</strong> Built disclosure-ready framework in 5 weeks. Trained 4 portco teams on quarterly reporting.</span>
+          <span><strong style="color:var(--teal-b);">Result:</strong> Board-ready ESG dashboard. Portco teams run quarterly updates independently.</span>
+        </div>
+      </div>
+      <div class="c" style="border-color:rgba(212,169,106,0.15);background:linear-gradient(135deg,rgba(212,169,106,0.03),transparent);">
+        <div class="cl-w">Case Study 03</div>
+        <div class="ct" style="font-size:14px;">Growth Equity &middot; Exit Prep &middot; Single Company</div>
+        <div class="div" style="background:var(--warm);opacity:0.25;width:24px;"></div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">
+          <span><strong style="color:var(--t1);">Problem:</strong> Strategic buyer required ESG due diligence package. 6 weeks to close.</span>
+          <span><strong style="color:var(--t1);">Action:</strong> Emissions baseline, materiality matrix, governance framework in 3 weeks.</span>
+          <span><strong style="color:var(--warm);">Result:</strong> Clean ESG package. Zero DD flags. Close timeline held. Buyer cited ESG readiness in LOI.</span>
+        </div>
+      </div>
+    </div>
+    <div class="g g3" style="margin-top:10px;">
+      <div class="tc" style="border-color:rgba(212,169,106,0.12);background:rgba(212,169,106,0.02);">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="tq">"Kith delivered in six weeks what our previous consultant couldn't do in six months."</div>
+        <div class="ta"><strong>Managing Director</strong> &mdash; Growth Equity, Chicago</div>
+      </div>
+      <div class="tc" style="border-color:rgba(91,154,139,0.12);background:rgba(91,154,139,0.02);">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="tq">"Our CFOs actually use the templates every quarter. That never happened before."</div>
+        <div class="ta"><strong>COO</strong> &mdash; Mid-Market PE, New York</div>
+      </div>
+      <div class="tc" style="border-color:rgba(212,169,106,0.12);background:rgba(212,169,106,0.02);">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="tq">"ESG work that speaks our language. EBITDA. Exit readiness. Not platitudes."</div>
+        <div class="ta"><strong>Partner</strong> &mdash; Industrial PE, Dallas</div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 17 — MEET YOUR TEAM -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">17 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Your Team</div>
+    <h2>Real people. <span class="hi">Real expertise.</span></h2>
+    <p class="sm">Six people dedicated to Northwood (and one very good boy). You'll know every name.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px;max-width:1100px;">
+      <div class="tm"><div class="tm-a tm-w" style="font-size:16px;">DE</div><div class="tmn">Diego Espinosa</div><div class="tmr">Partner<br>45-min weekly check-in</div></div>
+      <div class="tm"><div class="tm-a tm-t">PV</div><div class="tmn">Parul Vyas</div><div class="tmr">Sr. Consultant &amp; Engagement Lead<br>Day-to-day point of contact</div></div>
+      <div class="tm"><div class="tm-a tm-w">NS</div><div class="tmn">Nil Sensu</div><div class="tmr">Senior Consultant<br>Carbon &amp; GHG Protocol</div></div>
+      <div class="tm"><div class="tm-a tm-t">DM</div><div class="tmn">Danny Miller</div><div class="tmr">Senior Consultant<br>PE ESG &amp; value creation</div></div>
+      <div class="tm"><div class="tm-a tm-w">AS</div><div class="tmn">Amber Stryker</div><div class="tmr">Senior Consultant<br>Strategy</div></div>
+      <div class="tm" style="display:flex;align-items:center;gap:14px;justify-content:center;background:rgba(212,169,106,0.04);border:1px solid rgba(212,169,106,0.12);border-radius:10px;padding:12px 16px;grid-column:span 2;">
+        <div style="font-size:36px;">&#128054;</div>
+        <div style="text-align:left;"><div class="tmn" style="font-size:13px;">Elvis</div><div class="tmr" style="color:var(--warm);">Chief Happiness Officer</div><div style="font-size:10px;color:var(--t2);margin-top:3px;line-height:1.5;">Golden Retriever &middot; Because the planet and people need someone who reminds us<br>what unconditional commitment actually looks like.</div></div>
+      </div>
+    </div>
+    <div class="c" style="margin-top:20px;max-width:1100px;">
+      <div class="cl">Engagement Structure</div>
+      <div class="cb" style="font-size:12px;color:var(--t2);line-height:2;">
+        <span><strong style="color:var(--warm);">Diego Espinosa (Partner):</strong> Weekly 45-min strategic check-in with Sarah Mitchell</span>
+        <span><strong style="color:var(--t1);">Parul Vyas (Lead):</strong> Day-to-day contact + async updates via shared workspace</span>
+        <span><strong style="color:var(--t1);">Portco ESG Contacts:</strong> Kickoff call + mid-point review + structured data requests</span>
+        <span><strong style="color:var(--t1);">Transparency:</strong> Every assumption documented. Every methodology open. No black boxes.</span>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 18 — HOW WE WORK (CC-NATIVE MODEL) -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=1920&q=80')"></div>
+  <div class="grain"></div><div class="glow-tl"></div>
+  <div class="sh"><span class="sn">18 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">How We Work</div>
+    <h2>The CC-native model <span class="hi">in practice</span>.</h2>
+    <p class="sm">You asked how our team interacts with yours. Here's the rhythm.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;max-width:1100px;">
+      <div class="c c-g" style="padding:24px;">
+        <div class="cl">&#128197; Your Weekly Rhythm</div>
+        <div class="cb" style="line-height:2.2;font-size:12px;">
+          <span><strong style="color:var(--t1);">Monday:</strong> Status update in shared workspace (async)</span>
+          <span><strong style="color:var(--t1);">Wednesday:</strong> 45-min check-in with Sarah + Diego</span>
+          <span><strong style="color:var(--t1);">Friday:</strong> Deliverable preview + feedback request</span>
+          <span><strong style="color:var(--t1);">Anytime:</strong> Parul available via Slack/email same-day</span>
+        </div>
+      </div>
+      <div class="c c-g" style="padding:24px;">
+        <div class="cl">&#127981; Portco Interaction</div>
+        <div class="cb" style="line-height:2.2;font-size:12px;">
+          <span><strong style="color:var(--t1);">Week 1:</strong> 30-min kickoff call with each portco CFO/Ops lead</span>
+          <span><strong style="color:var(--t1);">Week 1&ndash;2:</strong> Structured data request (the Excel checklist)</span>
+          <span><strong style="color:var(--t1);">Week 3:</strong> Mid-point review &mdash; validate assumptions</span>
+          <span><strong style="color:var(--t1);">Week 6:</strong> Final walkthrough + playbook training</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;max-width:1100px;">
+      <div class="c c-w" style="padding:24px;">
+        <div class="cl-w">&#129302; What CC-Native Means for You</div>
+        <div class="cb" style="line-height:2.2;font-size:12px;">
+          <span><strong style="color:var(--t1);">Speed:</strong> Analysis that takes other firms weeks takes us days</span>
+          <span><strong style="color:var(--t1);">Depth:</strong> Scenario modeling, sensitivity analysis, benchmarking at scale</span>
+          <span><strong style="color:var(--t1);">Consistency:</strong> Every portco gets the same rigorous methodology</span>
+          <span><strong style="color:var(--t1);">Transparency:</strong> Every assumption documented. Every model open.</span>
+        </div>
+      </div>
+      <div class="c" style="padding:24px;">
+        <div class="cl">&#128274; What It Doesn't Mean</div>
+        <div class="cb" style="line-height:2.2;font-size:12px;">
+          <span>&#10005; We don't hand you AI-generated reports and call it done</span>
+          <span>&#10005; Every output reviewed by domain experts before delivery</span>
+          <span>&#10005; Claude Code is our operating system, not our brain</span>
+          <span>&#10005; Your data stays in our secure environment. Period.</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px 20px;border-left:2px solid var(--teal);background:rgba(91,154,139,0.03);border-radius:0 8px 8px 0;max-width:1100px;">
+      <div style="font-size:13px;color:var(--t2);font-weight:500;"><strong style="color:var(--teal-b);">Portco time commitment:</strong> ~3 hours total per company over 6 weeks. One kickoff call. One data upload. One review. One training session. We do the heavy lifting.</div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 19 — ADDITIONAL CONSIDERATIONS -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1446329813274-7c9036bd9a1f?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">19 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag-w">Things You Haven't Asked &mdash; But Should</div>
+    <h2>Additional <span class="wm">considerations</span>.</h2>
+    <p class="sm">You asked us to flag what you might be missing. Here's what we'd raise if we were sitting on your side of the table.</p>
+    <div class="g g3" style="margin-top:24px;">
+      <div class="c c-w" style="padding:24px;">
+        <div class="ci-s">&#9878;&#65039;</div>
+        <div class="ct">Regulatory Clock Is Ticking</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">EU CSRD is live. SEC climate disclosure rules are advancing. California's SB 253 &amp; 261 affect companies with CA revenue. The question isn't <em>if</em> you'll need this data &mdash; it's whether you have it before someone asks.</div>
+      </div>
+      <div class="c c-w" style="padding:24px;">
+        <div class="ci-s">&#128176;</div>
+        <div class="ct">Fund III Positioning</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">LPs are screening for ESG capability before committing to new funds. Having a live portfolio dashboard and a track record of ESG-integrated value creation gives Fund III a structural advantage in fundraising.</div>
+      </div>
+      <div class="c c-w" style="padding:24px;">
+        <div class="ci-s">&#127793;</div>
+        <div class="ct">Who Owns This After We Leave?</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Board-level ESG governance at portcos matters. We'll recommend ownership structures &mdash; who updates the data, who reports to the board, who owns the narrative. The playbook is only as good as the person running it.</div>
+      </div>
+      <div class="c" style="padding:24px;border-color:rgba(91,154,139,0.15);background:linear-gradient(135deg,rgba(91,154,139,0.04),transparent);">
+        <div class="ci-s">&#128200;</div>
+        <div class="ct" style="color:var(--teal-b);">Clearview &amp; Sterling: Carbon Credit Opportunity</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Clearview's environmental services and Sterling's reduction potential may qualify for voluntary carbon credit programs. This is a revenue line, not just a cost reduction. We'll flag specific opportunities.</div>
+      </div>
+      <div class="c" style="padding:24px;border-color:rgba(91,154,139,0.15);background:linear-gradient(135deg,rgba(91,154,139,0.04),transparent);">
+        <div class="ci-s">&#128737;</div>
+        <div class="ct" style="color:var(--teal-b);">Insurance Premium Upside</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Better ESG data &mdash; especially environmental risk management &mdash; can lower insurance premiums across industrial portcos. Sterling and Clearview are prime candidates. Real savings, quantifiable in year one.</div>
+      </div>
+      <div class="c" style="padding:24px;border-color:rgba(91,154,139,0.15);background:linear-gradient(135deg,rgba(91,154,139,0.04),transparent);">
+        <div class="ci-s">&#128203;</div>
+        <div class="ct" style="color:var(--teal-b);">Patriot &amp; NovaCare: The Social Story</div>
+        <div class="cb" style="line-height:1.8;margin-top:6px;">Patriot's below-plan performance may have a workforce root cause. NovaCare's healthcare model has patient outcome and workforce wellbeing materiality. For both, the S in ESG may matter more than the E. The playbooks from Keystone's deep dive will transfer.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 20 — NEXT STEPS -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-s" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">20 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Next Steps</div>
+    <h2>The path from here to <span class="hi">kickoff</span><br>is four steps.</h2>
+    <div class="g g4" style="margin-top:28px;">
+      <div class="c c-g" style="position:relative;padding-top:48px;">
+        <div style="position:absolute;top:14px;left:20px;font-family:var(--serif);font-size:42px;font-weight:400;color:var(--teal);opacity:0.12;">01</div>
+        <div class="cl">This Week</div>
+        <div class="ct" style="font-size:15px;">Review &amp; Questions</div>
+        <div class="cb" style="margin-top:6px;">Read this proposal. Sleep on it. Send us every question. We'll schedule a 45-minute walkthrough.</div>
+      </div>
+      <div class="c c-g" style="position:relative;padding-top:48px;">
+        <div style="position:absolute;top:14px;left:20px;font-family:var(--serif);font-size:42px;font-weight:400;color:var(--teal);opacity:0.12;">02</div>
+        <div class="cl">Next Week</div>
+        <div class="ct" style="font-size:15px;">Scope &amp; Sign</div>
+        <div class="cb" style="margin-top:6px;">Align on priority companies. Lock the engagement letter. Introduce us to portco ESG contacts.</div>
+      </div>
+      <div class="c c-g" style="position:relative;padding-top:48px;">
+        <div style="position:absolute;top:14px;left:20px;font-family:var(--serif);font-size:42px;font-weight:400;color:var(--teal);opacity:0.12;">03</div>
+        <div class="cl">March 30</div>
+        <div class="ct" style="font-size:15px;">Kickoff Day</div>
+        <div class="cb" style="margin-top:6px;">We hit the ground running. Portco intros. Data requests deployed within 48 hours. Clock starts.</div>
+      </div>
+      <div class="c c-w" style="position:relative;padding-top:48px;">
+        <div style="position:absolute;top:14px;left:20px;font-family:var(--serif);font-size:42px;font-weight:400;color:var(--warm);opacity:0.12;">04</div>
+        <div class="cl-w">May 9</div>
+        <div class="ct" style="font-size:15px;">Delivery &amp; Handoff</div>
+        <div class="cb" style="margin-top:6px;">Every deliverable complete. Every playbook transferred. Training done. The system is yours.</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;padding:16px 24px;border:1px solid rgba(91,154,139,0.15);border-radius:10px;background:rgba(91,154,139,0.03);max-width:1100px;display:flex;align-items:center;gap:16px;">
+      <div style="font-size:28px;">&#128222;</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--t1);">Ready to talk?</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:2px;">Parul Vyas is available this week or next for a walkthrough. No pressure. Just conversation.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 21 — CONTACT DETAILS -->
+<!-- ================================================================ -->
+<div class="slide">
+  <div class="bg ov-h" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="sh"><span class="sn">21 / 21</span><img src="kith-logo-light.png" class="sl" alt="Kith"></div>
+  <div class="pad">
+    <div class="tag">Get in Touch</div>
+    <h2>We're here. <span class="hi">Let's talk.</span></h2>
+    <p class="sm">Whether you have questions, want a walkthrough, or are ready to sign &mdash; reach out.</p>
+    <div class="cr" style="margin-top:32px;">
+      <div class="ci"><div class="cii">&#9993;</div><div><div class="cit">Email</div><div class="civ">engagement@kithconsulting.com</div></div></div>
+      <div class="ci"><div class="cii">&#9742;</div><div><div class="cit">Phone</div><div class="civ">+1 (310) 555-0142</div></div></div>
+      <div class="ci"><div class="cii">&#9679;</div><div><div class="cit">Web</div><div class="civ">kithconsulting.com</div></div></div>
+      <div class="ci"><div class="cii">&#9826;</div><div><div class="cit">Office</div><div class="civ">Los Angeles, CA</div></div></div>
+    </div>
+    <div class="c" style="margin-top:36px;max-width:700px;">
+      <div class="cl">Your Primary Contact</div>
+      <div class="cb" style="font-size:13px;color:var(--t2);line-height:2;">
+        <span><strong style="color:var(--t1);">Parul Vyas</strong> &mdash; Sr. Consultant &amp; Engagement Lead</span>
+        <span>parul.vyas@kithconsulting.com</span>
+        <span>Available for a walkthrough this week or next.</span>
+      </div>
+    </div>
+  </div>
+  <div class="sr"></div>
+  <div class="sf"><span>Kith Consulting &middot; Northwood Capital Partners</span><span></span></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SLIDE 16: 15 — CLOSING -->
+<!-- ================================================================ -->
+<div class="slide center">
+  <div class="bg ov-g" style="background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=80')"></div>
+  <div class="grain"></div>
+  <div class="pad" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;">
+    <img src="kith-logo-light.png" alt="Kith Consulting" style="height:44px;margin-bottom:40px;opacity:0.85;">
+    <div class="tag" style="letter-spacing:0.35em;margin-bottom:12px;">Kith Consulting</div>
+    <h1 style="font-size:52px;text-align:center;">The work that <span class="hi">outlasts us</span><br>is the only work <span class="hi">worth doing</span>.</h1>
+    <div class="div-c"></div>
+    <p style="text-align:center;font-size:16px;max-width:480px;margin-top:4px;margin-bottom:32px;">We don't inherit the earth from our ancestors.<br>We borrow it from our children.</p>
+    <div style="display:flex;gap:32px;align-items:center;">
+      <div style="text-align:center;"><div class="cit" style="margin-bottom:3px;">Email</div><div style="font-size:13px;color:var(--t2);">engagement@kithconsulting.com</div></div>
+      <div style="width:1px;height:24px;background:var(--border-hi);"></div>
+      <div style="text-align:center;"><div class="cit" style="margin-bottom:3px;">Web</div><div style="font-size:13px;color:var(--t2);">kithconsulting.com</div></div>
+      <div style="width:1px;height:24px;background:var(--border-hi);"></div>
+      <div style="text-align:center;"><div class="cit" style="margin-bottom:3px;">Location</div><div style="font-size:13px;color:var(--t2);">Los Angeles, CA</div></div>
+    </div>
+  </div>
+  <div class="sf"><span>March 2026</span><span>Confidential</span></div>
+</div>
+
+</div>
+<div class="nav">&larr; &rarr; to navigate</div>
+<script>
+const S=document.querySelectorAll('.slide');let c=0;
+const P=document.getElementById('P');
+function go(n){S[c].classList.remove('active');c=(n+S.length)%S.length;S[c].classList.add('active');P.style.width=((c+1)/S.length*100)+'%';}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(c+1);}else if(e.key==='ArrowLeft'){e.preventDefault();go(c-1);}});
+document.addEventListener('click',e=>{if(e.target.closest('a'))return;e.clientX>innerWidth/2?go(c+1):go(c-1);});
+P.style.width=(1/S.length*100)+'%';
+</script>
+</body>
+</html>

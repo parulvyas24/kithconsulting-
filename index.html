@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kith Compass v3.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #0a0c10;
+  color: #c8cdd8;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* ── NOISE TEXTURE ──────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── VARIABLES ──────────────────────────────────── */
+:root {
+  --bg: #0a0c10;
+  --card: #12151c;
+  --card-hover: #181c26;
+  --border: #1c2030;
+  --border-light: #252a38;
+  --teal: #5B9A8B;
+  --teal-bright: #72BBA9;
+  --gold: #d4a96a;
+  --red: #c0564b;
+  --orange: #d4784a;
+  --green: #5fa85f;
+  --purple: #8b7ec8;
+  --text: #c8cdd8;
+  --text-muted: #6b7280;
+  --text-dim: #454d5e;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── TOP NAV (fixed, z-index 100) ───────────────── */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: rgba(10,12,16,0.85);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+.logo { display: flex; align-items: baseline; gap: 2px; font-size: 0.92rem; letter-spacing: 0.12em; }
+.logo-kith { color: var(--teal-bright); font-weight: 600; font-style: italic; }
+.logo-compass { color: var(--text-dim); font-weight: 400; }
+
+.tabs { display: flex; gap: 2px; position: relative; }
+.tab-btn {
+  background: none; border: none; color: var(--text-muted);
+  font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500;
+  padding: 8px 18px; cursor: pointer; position: relative;
+  transition: color 0.2s; white-space: nowrap; letter-spacing: 0.01em;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: #fff; }
+.tab-btn.active::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 8px; right: 8px;
+  height: 2px; background: var(--teal-bright); border-radius: 2px;
+  box-shadow: 0 0 8px rgba(91,154,139,0.5);
+}
+
+.nav-right { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.04em; }
+
+/* ── CONTENT AREA (fixed between nav and footer) ── */
+.content-wrapper {
+  position: fixed;
+  top: 56px; bottom: 40px; left: 0; right: 0;
+  overflow-y: auto;
+  z-index: 1;
+}
+.tab-panel {
+  display: none;
+  padding: 40px 60px 56px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeUp 0.3s ease;
+}
+.tab-panel.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FOOTER (fixed, z-index 100) ────────────────── */
+.footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: rgba(10,12,16,0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  font-size: 0.68rem; color: var(--text-dim);
+  z-index: 100; letter-spacing: 0.02em;
+}
+
+/* ── SCROLLBAR ──────────────────────────────────── */
+.content-wrapper::-webkit-scrollbar { width: 6px; }
+.content-wrapper::-webkit-scrollbar-track { background: transparent; }
+.content-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.content-wrapper::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+/* ── TYPOGRAPHY ─────────────────────────────────── */
+h1.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem; font-weight: 600; color: #e8ecf2;
+  margin-bottom: 6px;
+}
+.section-sub { color: var(--text-muted); font-size: 0.84rem; margin-bottom: 32px; line-height: 1.5; }
+.section-header {
+  font-size: 0.76rem; font-weight: 600; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 36px 0 16px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── BADGES ─────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 3px 9px; border-radius: 4px;
+}
+.badge-teal { background: rgba(91,154,139,0.15); color: var(--teal-bright); }
+.badge-gold { background: rgba(212,169,106,0.15); color: var(--gold); }
+.badge-red { background: rgba(192,86,75,0.15); color: var(--red); }
+.badge-orange { background: rgba(212,120,74,0.15); color: var(--orange); }
+.badge-green { background: rgba(95,168,95,0.15); color: var(--green); }
+.badge-purple { background: rgba(139,126,200,0.15); color: var(--purple); }
+.badge-grey { background: rgba(255,255,255,0.05); color: var(--text-dim); }
+
+.format-tag {
+  font-size: 0.64rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 2px 7px;
+  border-radius: 3px;
+}
+.format-html { background: rgba(91,154,139,0.12); color: var(--teal); }
+.format-xlsx { background: rgba(95,168,95,0.12); color: var(--green); }
+
+.metric-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.72rem; font-weight: 600; padding: 3px 10px;
+  border-radius: 20px; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════════════
+   DASHBOARD TAB
+   ══════════════════════════════════════════════════ */
+
+/* ── Stat Cards: 4 across ───────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  text-align: center;
+  transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; font-weight: 700; line-height: 1.1; margin-bottom: 4px;
+}
+.stat-label { font-size: 0.74rem; color: var(--text-muted); font-weight: 500; }
+.stat-card.accent-teal .stat-number { color: var(--teal-bright); }
+.stat-card.accent-teal { border-color: rgba(91,154,139,0.2); }
+.stat-card.accent-gold .stat-number { color: var(--gold); }
+.stat-card.accent-gold { border-color: rgba(212,169,106,0.2); }
+.stat-card.accent-red .stat-number { color: var(--red); }
+.stat-card.accent-red { border-color: rgba(192,86,75,0.2); }
+.stat-card.accent-orange .stat-number { color: var(--orange); }
+.stat-card.accent-orange { border-color: rgba(212,120,74,0.2); }
+
+/* ── Stepper ────────────────────────────────────── */
+.stepper {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin: 36px 0 40px; position: relative;
+}
+.step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+.step-line {
+  position: absolute; top: 14px; left: calc(50% + 16px); right: calc(-50% + 16px);
+  height: 2px; background: var(--border);
+}
+.step:last-child .step-line { display: none; }
+.step.completed .step-line { background: var(--teal); }
+.step-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700; color: var(--text-dim);
+  background: var(--bg); position: relative; z-index: 2;
+}
+.step.completed .step-dot { border-color: var(--teal); background: rgba(91,154,139,0.15); color: var(--teal-bright); }
+.step.current .step-dot {
+  border-color: var(--gold); background: rgba(212,169,106,0.15); color: #fff;
+  box-shadow: 0 0 12px rgba(212,169,106,0.4);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(212,169,106,0.3); }
+  50% { box-shadow: 0 0 18px rgba(212,169,106,0.6); }
+}
+.step-label { margin-top: 10px; font-size: 0.72rem; font-weight: 600; color: var(--text-dim); text-align: center; line-height: 1.3; }
+.step.completed .step-label { color: var(--teal-bright); }
+.step.current .step-label { color: #e8ecf2; }
+.step-chip {
+  margin-top: 5px; font-size: 0.62rem; color: var(--text-dim);
+  background: rgba(255,255,255,0.03); padding: 2px 8px; border-radius: 10px;
+}
+.step.completed .step-chip { color: var(--teal); }
+.step.current .step-chip { color: var(--gold); }
+
+/* ── Quick Access Tiles: 3x2 ────────────────────── */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.tile {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.24s;
+  position: relative; overflow: hidden;
+}
+.tile::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(91,154,139,0.04));
+  opacity: 0; transition: opacity 0.3s;
+}
+.tile:hover::after { opacity: 1; }
+.tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-light);
+  background: var(--card-hover);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+}
+.tile-icon { font-size: 1.6rem; margin-bottom: 12px; }
+.tile-title { font-size: 0.92rem; font-weight: 600; color: #e8ecf2; margin-bottom: 6px; }
+.tile-metric { font-size: 0.74rem; color: var(--text-muted); }
+
+/* ══════════════════════════════════════════════════
+   WEEK 1 TAB
+   ══════════════════════════════════════════════════ */
+.week-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.week-date { font-size: 0.82rem; color: var(--text-muted); }
+
+.week1-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.big-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  display: block;
+}
+.big-card:hover { border-color: var(--border-light); box-shadow: 0 6px 24px rgba(0,0,0,0.2); transform: translateY(-2px); }
+.big-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.18rem; color: #e8ecf2; margin-bottom: 12px;
+}
+.big-card .desc { font-size: 0.84rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 18px; }
+.big-card .meta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.big-card .meta span { font-size: 0.74rem; color: var(--text-dim); }
+.big-card .meta strong { color: var(--text); }
+.card-footer-row { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+.open-link { font-size: 0.82rem; font-weight: 600; color: var(--teal-bright); margin-left: auto; }
+
+/* ══════════════════════════════════════════════════
+   WEEK 2 TAB
+   ══════════════════════════════════════════════════ */
+.deliv-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.deliv-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.deliv-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  cursor: pointer;
+  transition: all 0.24s;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.deliv-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-light);
+  background: var(--card-hover);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+}
+.deliv-card h4 { font-size: 0.92rem; font-weight: 600; color: #e8ecf2; }
+.deliv-card .deliv-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+.deliv-card .deliv-footer { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+
+/* Company profile cards */
+.profile-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.24s;
+  cursor: pointer;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.profile-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border-color: var(--border-light);
+}
+.profile-card .accent-bar {
+  position: absolute; top: 0; left: 24px; right: 24px;
+  height: 2px; border-radius: 0 0 2px 2px;
+}
+.profile-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; color: #e8ecf2; margin-bottom: 10px; margin-top: 6px;
+}
+.grade-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.grade-pill {
+  font-size: 0.66rem; font-weight: 600; padding: 2px 8px;
+  border-radius: 4px; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); color: var(--text-muted);
+}
+
+/* Featured / proof-of-concept card */
+.featured-card {
+  background: var(--card);
+  border: 1px solid var(--teal);
+  border-radius: 12px;
+  padding: 32px;
+  transition: all 0.24s;
+  cursor: pointer;
+  position: relative;
+}
+.featured-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(91,154,139,0.15);
+}
+.featured-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.18rem; color: #e8ecf2; margin-bottom: 10px;
+}
+.featured-card .desc { font-size: 0.84rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 18px; }
+.inline-stats {
+  display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.inline-stat {
+  font-size: 0.78rem; color: var(--text-muted);
+  padding: 6px 14px; background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: 6px;
+}
+.inline-stat strong { color: var(--text); }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 22px; border-radius: 7px; border: none;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.01em;
+}
+.btn-teal {
+  background: linear-gradient(135deg, var(--teal), var(--teal-bright));
+  color: #0a0c10;
+}
+.btn-teal:hover { box-shadow: 0 4px 18px rgba(91,154,139,0.35); transform: translateY(-1px); }
+
+/* ══════════════════════════════════════════════════
+   WEEKS 3-6 TAB
+   ══════════════════════════════════════════════════ */
+
+/* Vertical timeline */
+.tl-vertical { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 36px; }
+.tl-vertical::before {
+  content: ''; position: absolute; left: 14px; top: 0; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.tl-item { position: relative; padding: 0 0 36px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute; left: -29px; top: 2px;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.58rem; font-weight: 700; color: var(--text-dim);
+  z-index: 2;
+}
+.tl-week-badge {
+  display: inline-block;
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 4px; color: var(--text-dim);
+}
+.tl-title { font-size: 0.94rem; font-weight: 600; color: #e8ecf2; margin-bottom: 5px; }
+.tl-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+.tl-status {
+  display: inline-block; font-size: 0.64rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-top: 8px; color: var(--text-dim);
+  padding: 2px 8px; border-radius: 3px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+}
+
+/* Immediate action cards: 3 across */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+.action-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+.action-card h4 { font-size: 0.82rem; font-weight: 600; margin-bottom: 8px; }
+.action-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+/* Callout box */
+.callout-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin-top: 32px;
+  border-left: 3px solid var(--teal);
+}
+.callout-box p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.7; }
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .profile-grid { grid-template-columns: repeat(2, 1fr); }
+  .deliv-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .tab-panel { padding: 32px 32px 48px; }
+}
+@media (max-width: 800px) {
+  .stats-grid, .quick-grid, .week1-grid, .deliv-grid-2, .deliv-grid-3, .profile-grid, .action-grid {
+    grid-template-columns: 1fr;
+  }
+  .tab-panel { padding: 24px 16px 40px; }
+  .tab-btn { font-size: 0.7rem; padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOP NAV ═══ -->
+<nav class="topnav">
+  <div class="logo"><span class="logo-kith">kith</span><span class="logo-compass">compass</span></div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+    <button class="tab-btn" data-tab="week1">Week 1</button>
+    <button class="tab-btn" data-tab="week2">Week 2</button>
+    <button class="tab-btn" data-tab="weeks36">Weeks 3&ndash;6</button>
+  </div>
+  <div class="nav-right">Northwood Capital Partners</div>
+</nav>
+
+<!-- ═══ CONTENT ═══ -->
+<div class="content-wrapper">
+
+  <!-- ────────────────────────────────────────────────
+       TAB: DASHBOARD
+       ──────────────────────────────────────────────── -->
+  <div class="tab-panel active" id="panel-dashboard">
+    <h1 class="section-title">Engagement Dashboard</h1>
+    <p class="section-sub">Week 2 of 6 &mdash; Data quality assessment complete</p>
+
+    <!-- Stat Cards — 4 in a row -->
+    <div class="stats-grid">
+      <div class="stat-card accent-teal">
+        <div class="stat-number" data-count="14">0</div>
+        <div class="stat-label">Deliverables Produced</div>
+      </div>
+      <div class="stat-card accent-gold">
+        <div class="stat-number" data-count="143">0</div>
+        <div class="stat-label">Facilities Audited</div>
+      </div>
+      <div class="stat-card accent-red">
+        <div class="stat-number" data-count-text="$45-75M">$0</div>
+        <div class="stat-label">Portfolio Value at Risk</div>
+      </div>
+      <div class="stat-card accent-orange">
+        <div class="stat-number" data-count="22" data-suffix="%">0%</div>
+        <div class="stat-label">Climate Data Completeness</div>
+      </div>
+    </div>
+
+    <!-- Engagement Progress Stepper -->
+    <div class="section-header">Engagement Progress</div>
+    <div class="stepper">
+      <div class="step completed">
+        <div class="step-line"></div>
+        <div class="step-dot">&#10003;</div>
+        <div class="step-label">Week 1<br>Kickoff</div>
+        <div class="step-chip">2 deliverables</div>
+      </div>
+      <div class="step current">
+        <div class="step-line"></div>
+        <div class="step-dot">2</div>
+        <div class="step-label">Week 2<br>Data Quality</div>
+        <div class="step-chip">12 deliverables</div>
+      </div>
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-dot">3</div>
+        <div class="step-label">Week 3<br>GHG Baseline</div>
+        <div class="step-chip">&mdash;</div>
+      </div>
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-dot">4</div>
+        <div class="step-label">Week 4<br>MACC Curve</div>
+        <div class="step-chip">&mdash;</div>
+      </div>
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-dot">5</div>
+        <div class="step-label">Week 5<br>TCFD Report</div>
+        <div class="step-chip">&mdash;</div>
+      </div>
+      <div class="step">
+        <div class="step-dot">6</div>
+        <div class="step-label">Week 6<br>Final Deliverables</div>
+        <div class="step-chip">&mdash;</div>
+      </div>
+    </div>
+
+    <!-- Quick Access — 3x2 grid -->
+    <div class="section-header">Quick Access</div>
+    <div class="quick-grid">
+      <a class="tile" href="./week2-deliverable-deck-2026-03-26-v6.html">
+        <div class="tile-icon">&#128202;</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <div class="tile-title">Summary Deck</div>
+          <span class="badge badge-gold">Start Here</span>
+        </div>
+        <div class="tile-metric">Executive overview of all Week 2 findings</div>
+      </a>
+      <a class="tile" href="./quality-assessment-scorecard-2026-03-26-v5.html">
+        <div class="tile-icon">&#128203;</div>
+        <div class="tile-title">Quality Scorecard</div>
+        <div class="tile-metric"><span class="metric-chip" style="color:var(--orange);">28/100 Readiness</span></div>
+      </a>
+      <a class="tile" href="./data-request-memo-northwood-2026-03-26-v5.html">
+        <div class="tile-icon">&#128228;</div>
+        <div class="tile-title">Data Request</div>
+        <div class="tile-metric"><span class="metric-chip">37 requests</span></div>
+      </a>
+      <a class="tile" href="./tcfd-portfolio-dashboard-2026-03-26-v3.html">
+        <div class="tile-icon">&#127777;</div>
+        <div class="tile-title">TCFD Dashboard</div>
+        <div class="tile-metric"><span class="metric-chip">10 companies</span></div>
+      </a>
+      <a class="tile" href="./climate-risk-assessment-sterling-2026-03-26-v4.html">
+        <div class="tile-icon">&#9889;</div>
+        <div class="tile-title">Sterling Risk Assessment</div>
+        <div class="tile-metric"><span class="metric-chip" style="color:var(--red);">Proof of concept</span></div>
+      </a>
+      <a class="tile" href="./error-log-2026-03-26-v4.html">
+        <div class="tile-icon">&#128269;</div>
+        <div class="tile-title">Error Log</div>
+        <div class="tile-metric"><span class="metric-chip" style="color:var(--red);">41 findings</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────────────────────
+       TAB: WEEK 1
+       ──────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-week1">
+    <div class="week-header">
+      <h1 class="section-title">Week 1 &mdash; Engagement Kickoff</h1>
+      <span class="week-date">Mar 16&ndash;20, 2026</span>
+      <span class="badge badge-green">&#10003; Complete</span>
+    </div>
+    <p class="section-sub">Engagement scope, methodology, and kickoff materials finalized and distributed.</p>
+
+    <div class="week1-grid">
+      <a class="big-card" href="./northwood-proposal.html">
+        <h3>Engagement Proposal</h3>
+        <div class="desc">Scope, methodology, timeline, and fee structure for portfolio-wide ESG &amp; climate risk assessment</div>
+        <div class="meta">
+          <span><strong>6-week</strong> engagement</span>
+          <span><strong>10</strong> portfolio companies</span>
+          <span><strong>3</strong> final deliverables</span>
+        </div>
+        <div class="card-footer-row">
+          <span class="format-tag format-html">HTML</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+          <span class="open-link">Open &rarr;</span>
+        </div>
+      </a>
+      <a class="big-card" href="./week1-kickoff-brief-v1.html">
+        <h3>Kickoff Brief</h3>
+        <div class="desc">Engagement objectives, team introductions, data collection timeline, and communication protocols</div>
+        <div class="meta">
+          <span><strong>Objectives</strong> &amp; scope</span>
+          <span><strong>Team</strong> assignments</span>
+          <span><strong>Data</strong> timeline</span>
+        </div>
+        <div class="card-footer-row">
+          <span class="format-tag format-html">HTML</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+          <span class="open-link">Open &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────────────────────
+       TAB: WEEK 2
+       ──────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-week2">
+    <div class="week-header">
+      <h1 class="section-title">Week 2 &mdash; Data Quality Assessment &amp; Client Data Request</h1>
+      <span class="week-date">Mar 23&ndash;27, 2026</span>
+      <span class="badge badge-gold">&#9679; Current</span>
+    </div>
+    <p class="section-sub">Complete data quality assessment across all 10 portfolio companies with remediation roadmap.</p>
+
+    <!-- Section 1: Summary & Presentation -->
+    <div class="section-header">Summary &amp; Presentation</div>
+    <a class="deliv-card" href="./week2-deliverable-deck-2026-03-26-v6.html" style="margin-bottom: 4px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <h4>Week 2 Summary Deck</h4>
+        <span class="badge badge-gold">START HERE</span>
+      </div>
+      <div class="deliv-desc">4-slide executive presentation: findings, deliverable index, and next steps</div>
+      <div class="deliv-footer">
+        <span class="format-tag format-html">HTML</span>
+        <span class="badge badge-green">&#10003; Complete</span>
+        <span class="open-link" style="margin-left:auto;">Open &rarr;</span>
+      </div>
+    </a>
+
+    <!-- Section 2: Core Assessment Deliverables -->
+    <div class="section-header">Core Assessment Deliverables</div>
+    <div class="deliv-grid-3">
+      <a class="deliv-card" href="./data-inventory-2026-03-26-v2.xlsx">
+        <h4>Data Inventory</h4>
+        <div class="deliv-desc">241 files &middot; 143 facilities &middot; 17 database tables &middot; 6-sheet workbook</div>
+        <div class="deliv-footer">
+          <span class="format-tag format-xlsx">XLSX</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+        </div>
+      </a>
+      <a class="deliv-card" href="./quality-assessment-scorecard-2026-03-26-v5.html">
+        <h4>Quality Assessment Scorecard</h4>
+        <div class="deliv-desc">7-dimension scoring &middot; 28/100 climate readiness &middot; Emissions methodology</div>
+        <div class="deliv-footer">
+          <span class="format-tag format-html">HTML</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+        </div>
+      </a>
+      <a class="deliv-card" href="./error-log-2026-03-26-v4.html">
+        <h4>Error Log &amp; Remediation</h4>
+        <div class="deliv-desc">41 findings &middot; 3 horizons &middot; 8 critical &middot; Readiness tracker</div>
+        <div class="deliv-footer">
+          <span class="format-tag format-html">HTML</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+        </div>
+      </a>
+      <a class="deliv-card" href="./data-request-memo-northwood-2026-03-26-v5.html">
+        <h4>Client Data Request</h4>
+        <div class="deliv-desc">37 requests &middot; 3 workstreams &middot; 6-week timeline &middot; Public fallbacks</div>
+        <div class="deliv-footer">
+          <span class="format-tag format-html">HTML</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+        </div>
+      </a>
+      <a class="deliv-card" href="./ghg-gap-analysis-2026-03-26-v3.xlsx">
+        <h4>GHG Gap Analysis</h4>
+        <div class="deliv-desc">Portfolio-wide emissions gaps &middot; Per-scope quality grades &middot; 11-sheet workbook</div>
+        <div class="deliv-footer">
+          <span class="format-tag format-xlsx">XLSX</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+        </div>
+      </a>
+      <a class="deliv-card" href="./tcfd-portfolio-dashboard-2026-03-26-v3.html">
+        <h4>TCFD Portfolio Dashboard</h4>
+        <div class="deliv-desc">10-company &times; 4-pillar heat map &middot; Governance &middot; Strategy &middot; Risk &middot; Metrics</div>
+        <div class="deliv-footer">
+          <span class="format-tag format-html">HTML</span>
+          <span class="badge badge-green">&#10003; Complete</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Section 3: Company Deep Dives -->
+    <div class="section-header">Company Deep Dives &mdash; Priority 4</div>
+    <div class="profile-grid">
+      <a class="profile-card" href="./company-profile-meridian-2026-03-26-v4.html">
+        <div class="accent-bar" style="background: var(--gold);"></div>
+        <h3>Meridian Business Services</h3>
+        <div class="grade-pills">
+          <span class="grade-pill">S1: B+</span>
+          <span class="grade-pill">S2: B+</span>
+          <span class="grade-pill">S3: F</span>
+        </div>
+        <span class="badge badge-gold">Exit Prep</span>
+      </a>
+      <a class="profile-card" href="./company-profile-clearview-2026-03-26-v4.html">
+        <div class="accent-bar" style="background: var(--green);"></div>
+        <h3>Clearview Environmental</h3>
+        <div class="grade-pills">
+          <span class="grade-pill">S1: A</span>
+          <span class="grade-pill">S2: A</span>
+          <span class="grade-pill">S3: F</span>
+        </div>
+        <span class="badge badge-green">On Plan</span>
+      </a>
+      <a class="profile-card" href="./company-profile-sterling-2026-03-26-v4.html">
+        <div class="accent-bar" style="background: var(--teal);"></div>
+        <h3>Sterling Precision</h3>
+        <div class="grade-pills">
+          <span class="grade-pill">S1: A</span>
+          <span class="grade-pill">S2: A</span>
+          <span class="grade-pill">S3: F</span>
+        </div>
+        <span class="badge badge-teal">Strong</span>
+      </a>
+      <a class="profile-card" href="./company-profile-keystone-2026-03-26-v4.html">
+        <div class="accent-bar" style="background: var(--orange);"></div>
+        <h3>Keystone Behavioral Health</h3>
+        <div class="grade-pills">
+          <span class="grade-pill">S1: C</span>
+          <span class="grade-pill">S2: C</span>
+          <span class="grade-pill">S3: F</span>
+        </div>
+        <span class="badge badge-orange">100-Day</span>
+      </a>
+    </div>
+
+    <!-- Section 4: Proof of Concept -->
+    <div class="section-header">Proof of Concept</div>
+    <a class="featured-card" href="./climate-risk-assessment-sterling-2026-03-26-v4.html">
+      <h3>Sterling Precision &mdash; Climate Risk Assessment</h3>
+      <div class="desc">Full NGFS/IEA scenario analysis, physical &amp; transition risk mapping, financial impact through 2035, MACC curve preview</div>
+      <div class="inline-stats">
+        <div class="inline-stat"><strong>Physical Risk:</strong> Moderate</div>
+        <div class="inline-stat"><strong>Transition Risk:</strong> $25&ndash;42M</div>
+        <div class="inline-stat"><strong>Investment:</strong> $500&ndash;800K/yr</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="format-tag format-html">HTML</span>
+        <span class="badge badge-green">&#10003; Complete</span>
+        <button class="btn btn-teal" onclick="event.preventDefault();">Open Assessment &rarr;</button>
+      </div>
+    </a>
+  </div>
+
+  <!-- ────────────────────────────────────────────────
+       TAB: WEEKS 3-6
+       ──────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-weeks36">
+    <h1 class="section-title">Weeks 3&ndash;6 &mdash; Upcoming Phases</h1>
+    <p class="section-sub">Remaining engagement phases building on the Week 2 data quality foundation.</p>
+
+    <!-- Vertical Timeline -->
+    <div class="tl-vertical">
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-week-badge">Week 3 &mdash; Mar 30 &ndash; Apr 3</div>
+        <div class="tl-title">GHG Baseline Development</div>
+        <div class="tl-desc">Scope 1 &amp; 2 emissions calculations for all 10 portfolio companies, Scope 3 estimation for priority 4</div>
+        <div class="tl-status">Upcoming</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-week-badge">Week 4 &mdash; Apr 6 &ndash; 10</div>
+        <div class="tl-title">MACC Curve Construction</div>
+        <div class="tl-desc">Marginal abatement cost curves with prioritized reduction initiatives and payback analysis</div>
+        <div class="tl-status">Upcoming</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">5</div>
+        <div class="tl-week-badge">Week 5 &mdash; Apr 13 &ndash; 17</div>
+        <div class="tl-title">TCFD Report Drafting</div>
+        <div class="tl-desc">Portfolio-wide TCFD-aligned climate risk disclosure across all 4 pillars</div>
+        <div class="tl-status">Upcoming</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">6</div>
+        <div class="tl-week-badge">Week 6 &mdash; Apr 20 &ndash; 24</div>
+        <div class="tl-title">Final Deliverables</div>
+        <div class="tl-desc">Board-ready presentations, executive summary, implementation roadmap</div>
+        <div class="tl-status">Upcoming</div>
+      </div>
+    </div>
+
+    <!-- Immediate Actions -->
+    <div class="section-header">Immediate Actions</div>
+    <div class="action-grid">
+      <div class="action-card" style="border-top: 2px solid var(--gold);">
+        <h4 style="color: var(--gold);">Northwood</h4>
+        <p>Distribute data requests to all portfolio companies TODAY</p>
+      </div>
+      <div class="action-card" style="border-top: 2px solid var(--teal);">
+        <h4 style="color: var(--teal-bright);">Portfolio Companies</h4>
+        <p>Respond to ALL data requests by April 2</p>
+      </div>
+      <div class="action-card" style="border-top: 2px solid var(--purple);">
+        <h4 style="color: var(--purple);">Kith</h4>
+        <p>Begin GHG baseline calculations for Grade A companies immediately</p>
+      </div>
+    </div>
+
+    <!-- Closing Callout -->
+    <div class="callout-box">
+      <p>The Sterling Climate Risk Assessment demonstrates what we can build with existing data. With the full dataset, we'll deliver this for all 4 priority companies &mdash; plus the MACC curve and TCFD report.</p>
+    </div>
+  </div>
+
+</div><!-- /content-wrapper -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <span>Kith Consulting &middot; Confidential &middot; March 2026</span>
+  <span>Kith Compass v3.0</span>
+</div>
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Tab Switching ──────────────────────────────── */
+  const tabMap = {
+    dashboard: 'panel-dashboard',
+    week1: 'panel-week1',
+    week2: 'panel-week2',
+    weeks36: 'panel-weeks36'
+  };
+  const btns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  const wrapper = document.querySelector('.content-wrapper');
+
+  function switchTab(tabId) {
+    btns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+    panels.forEach(p => {
+      p.classList.toggle('active', p.id === tabMap[tabId]);
+    });
+    wrapper.scrollTop = 0;
+    if (tabId === 'dashboard') animateCounters();
+  }
+
+  btns.forEach(b => {
+    b.addEventListener('click', () => switchTab(b.dataset.tab));
+  });
+
+  /* ── Keyboard nav: arrow keys between tabs ──── */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      const active = document.querySelector('.tab-btn.active');
+      const arr = Array.from(btns);
+      const idx = arr.indexOf(active);
+      let next;
+      if (e.key === 'ArrowRight') next = arr[(idx + 1) % arr.length];
+      else next = arr[(idx - 1 + arr.length) % arr.length];
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        switchTab(next.dataset.tab);
+      }
+    }
+  });
+
+  /* ── Stat Counter Animation ─────────────────── */
+  let countersAnimated = false;
+  function animateCounters() {
+    if (countersAnimated) return;
+    countersAnimated = true;
+    document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(target * ease) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+    document.querySelectorAll('.stat-number[data-count-text]').forEach(el => {
+      const text = el.dataset.countText;
+      setTimeout(() => { el.textContent = text; }, 800);
+    });
+  }
+
+  /* ── Run counter animation on load ────────── */
+  animateCounters();
+
+})();
+</script>
+</body>
+</html>

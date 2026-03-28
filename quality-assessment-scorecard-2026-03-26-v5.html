@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Quality & Climate Readiness Scorecard — Northwood Capital Partners</title>
+<style>
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-card: #1e1e1e;
+    --bg-card-hover: #252525;
+    --accent: #00e5ff;
+    --accent-dim: #00bcd4;
+    --accent-glow: rgba(0,229,255,0.15);
+    --text-primary: #e8e8e8;
+    --text-secondary: #999;
+    --text-muted: #666;
+    --border: #2a2a2a;
+    --border-light: #333;
+    --green: #4caf50;
+    --green-bg: rgba(76,175,80,0.12);
+    --yellow: #ffc107;
+    --yellow-bg: rgba(255,193,7,0.12);
+    --orange: #ff9800;
+    --orange-bg: rgba(255,152,0,0.12);
+    --red: #f44336;
+    --red-bg: rgba(244,67,54,0.12);
+    --finance-blue: #42a5f5;
+    --finance-blue-bg: rgba(66,165,245,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #111820 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 40px;
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 48px;
+  }
+  .header-text { flex: 1; }
+  .header-tag {
+    display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+    background: var(--accent-glow); padding: 4px 12px; border-radius: 4px;
+  }
+  .header h1 {
+    font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    font-size: 15px; color: var(--text-secondary); font-weight: 400;
+  }
+  .header .subtitle span { color: var(--accent-dim); }
+
+  /* Overall gauge */
+  .gauge-wrap {
+    flex-shrink: 0; text-align: center;
+  }
+  .gauge-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-secondary); margin-top: 8px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px;
+  }
+  .section-number {
+    font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-glow);
+    padding: 4px 10px; border-radius: 4px; letter-spacing: 1px;
+  }
+  .section-title {
+    font-size: 22px; font-weight: 600; color: #fff; letter-spacing: -0.3px;
+  }
+  .section-subtitle {
+    font-size: 14px; color: var(--text-secondary); margin-top: -16px; margin-bottom: 28px; padding-left: 56px;
+  }
+
+  /* Dimension bars */
+  .dim-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .dim-item {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px;
+  }
+  .dim-top {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+  }
+  .dim-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .dim-score { font-size: 20px; font-weight: 700; }
+  .dim-bar-track {
+    width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden;
+  }
+  .dim-bar-fill {
+    height: 100%; border-radius: 4px; transition: width 0.6s ease;
+  }
+  .dim-desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+
+  .color-green { color: var(--green); }
+  .color-yellow { color: var(--yellow); }
+  .color-orange { color: var(--orange); }
+  .color-red { color: var(--red); }
+  .color-blue { color: var(--finance-blue); }
+  .bg-green { background: var(--green); }
+  .bg-yellow { background: var(--yellow); }
+  .bg-orange { background: var(--orange); }
+  .bg-red { background: var(--red); }
+  .bg-blue { background: var(--finance-blue); }
+
+  /* Deliverable group label */
+  .dim-group-label {
+    grid-column: 1 / -1;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--accent-dim); padding: 8px 0 0;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+  .dim-group-label:first-child { border-top: none; margin-top: 0; }
+
+  /* Comparison section — 3-way */
+  .comparison-grid-3 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px;
+  }
+  .compare-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; position: relative; overflow: hidden;
+  }
+  .compare-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .compare-card.finance::before { background: linear-gradient(90deg, var(--finance-blue), #1e88e5); }
+  .compare-card.ghg::before { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+  .compare-card.macc::before { background: linear-gradient(90deg, var(--red), #b71c1c); }
+  .compare-card-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+  }
+  .compare-card-title { font-size: 15px; font-weight: 600; color: #fff; }
+  .compare-card-score { font-size: 28px; font-weight: 800; }
+  .compare-list { list-style: none; }
+  .compare-list li {
+    font-size: 13px; color: var(--text-primary); padding: 6px 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .compare-list li:last-child { border-bottom: none; }
+  .compare-list .icon-ok { color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .compare-list .icon-fail { color: var(--red); font-weight: 700; flex-shrink: 0; }
+  .compare-list .icon-warn { color: var(--yellow); font-weight: 700; flex-shrink: 0; }
+  .compare-list .icon-half { color: var(--orange); font-weight: 700; flex-shrink: 0; }
+  .compare-gaps { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .compare-gaps-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 6px;
+  }
+  .compare-gaps p { font-size: 12px; color: var(--text-secondary); }
+
+  .insight-callout {
+    background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(0,188,212,0.03));
+    border: 1px solid rgba(0,229,255,0.2); border-radius: 10px; padding: 24px 28px;
+    position: relative;
+  }
+  .insight-callout::before {
+    content: 'INSIGHT'; position: absolute; top: -10px; left: 24px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent);
+    background: var(--bg-primary); padding: 0 8px;
+  }
+  .insight-callout p {
+    font-size: 14px; color: var(--text-primary); line-height: 1.7; font-style: italic;
+  }
+  .insight-callout .insight-bold {
+    color: var(--accent); font-weight: 600; font-style: normal;
+  }
+
+  /* Company cards */
+  .priority-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;
+  }
+  .company-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; position: relative;
+  }
+  .company-card.priority {
+    border-color: rgba(0,229,255,0.25);
+  }
+  .company-card.priority::after {
+    content: 'DEEP DIVE'; position: absolute; top: 12px; right: 12px;
+    font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--accent);
+    background: var(--accent-glow); padding: 3px 8px; border-radius: 3px;
+  }
+  .card-top {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .card-company-name { font-size: 16px; font-weight: 700; color: #fff; }
+  .card-sector { font-size: 11px; color: var(--text-secondary); }
+  .status-badge {
+    display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 2px 8px; border-radius: 3px; text-transform: uppercase;
+  }
+  .status-green { background: var(--green-bg); color: var(--green); }
+  .status-yellow { background: var(--yellow-bg); color: var(--yellow); }
+  .status-orange { background: var(--orange-bg); color: var(--orange); }
+  .status-red { background: var(--red-bg); color: var(--red); }
+
+  .card-scores {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px;
+  }
+  .card-score-box {
+    background: #141414; border-radius: 6px; padding: 12px; text-align: center;
+  }
+  .card-score-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 4px;
+  }
+  .card-score-value { font-size: 24px; font-weight: 800; }
+
+  .scope-badges { display: flex; gap: 6px; margin-bottom: 12px; }
+  .scope-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px;
+  }
+
+  .card-mini-gauge {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .card-mini-gauge-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+  .card-mini-gauge-track {
+    flex: 1; height: 6px; background: #222; border-radius: 3px; overflow: hidden;
+  }
+  .card-mini-gauge-fill { height: 100%; border-radius: 3px; }
+  .card-mini-gauge-val { font-size: 12px; font-weight: 700; min-width: 30px; text-align: right; }
+
+  .card-meta { margin-top: 12px; }
+  .card-meta-item {
+    font-size: 12px; color: var(--text-secondary); padding: 4px 0; display: flex; gap: 6px;
+  }
+  .card-meta-label { color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+
+  /* Light-touch cards */
+  .light-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .light-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px;
+  }
+  .light-card-name { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+  .light-card-sector { font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; }
+  .light-scores { display: flex; gap: 16px; margin-bottom: 10px; }
+  .light-score { text-align: center; }
+  .light-score-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+  .light-score-val { font-size: 20px; font-weight: 800; }
+  .light-grades { display: flex; gap: 4px; margin-bottom: 8px; }
+  .light-note { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+
+  /* Heatmap */
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+  }
+  .heatmap th {
+    background: var(--bg-secondary); color: var(--text-secondary); font-weight: 600;
+    padding: 10px 8px; text-align: center; border: 1px solid var(--border);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .heatmap th:first-child { text-align: left; min-width: 160px; }
+  .heatmap td {
+    padding: 8px; text-align: center; border: 1px solid var(--border); font-weight: 600; font-size: 11px;
+  }
+  .heatmap td:first-child {
+    text-align: left; font-weight: 600; color: var(--text-primary); background: var(--bg-secondary);
+  }
+  .hm-green { background: rgba(76,175,80,0.2); color: var(--green); }
+  .hm-yellow { background: rgba(255,193,7,0.15); color: var(--yellow); }
+  .hm-red { background: rgba(244,67,54,0.15); color: var(--red); }
+  .hm-none { background: rgba(255,255,255,0.03); color: var(--text-muted); }
+
+  /* Supabase health */
+  .db-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .db-row {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  }
+  .db-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .db-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .db-dot.empty { background: var(--red); }
+  .db-dot.partial { background: var(--yellow); }
+  .db-name { font-size: 12px; color: var(--text-primary); font-family: 'SF Mono', 'Fira Code', monospace; }
+  .db-count { font-size: 11px; color: var(--text-muted); margin-left: auto; }
+
+  /* Findings */
+  .findings-list { list-style: none; counter-reset: finding; }
+  .findings-list li {
+    counter-increment: finding; padding: 16px 20px; margin-bottom: 10px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    font-size: 13px; color: var(--text-primary); display: flex; align-items: flex-start; gap: 14px;
+  }
+  .findings-list li::before {
+    content: counter(finding); font-size: 11px; font-weight: 800; color: var(--accent);
+    background: var(--accent-glow); min-width: 28px; height: 28px; display: flex;
+    align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;
+  }
+  .finding-severity {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+    padding: 2px 6px; border-radius: 3px; margin-left: 8px; vertical-align: middle;
+  }
+
+  /* Methodology */
+  .method-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  .method-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px;
+  }
+  .method-card h4 {
+    font-size: 14px; font-weight: 600; color: var(--accent-dim); margin-bottom: 12px;
+  }
+  .method-card table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+  }
+  .method-card th, .method-card td {
+    padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border);
+  }
+  .method-card th { color: var(--text-secondary); font-weight: 600; }
+  .method-card td { color: var(--text-primary); }
+
+  /* Deliverable Readiness Gauges */
+  .readiness-gauges {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 28px;
+  }
+  .readiness-gauge {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 32px 24px; text-align: center;
+  }
+  .readiness-gauge-title {
+    font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 16px;
+  }
+  .readiness-gauge-note {
+    font-size: 11px; color: var(--text-secondary); margin-top: 12px; line-height: 1.4;
+  }
+
+  /* Emissions Methodology Section */
+  .emissions-section .subsection {
+    margin-bottom: 32px;
+  }
+  .emissions-section .subsection:last-child {
+    margin-bottom: 0;
+  }
+  .emissions-section .subsection-header {
+    font-size: 15px; font-weight: 600; color: var(--accent-dim); margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .emissions-table-wrap { overflow-x: auto; }
+  .emissions-table {
+    width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 12px;
+  }
+  .emissions-table th {
+    background: var(--bg-secondary); color: var(--text-secondary); font-weight: 600;
+    padding: 10px 10px; text-align: left; border: 1px solid var(--border);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .emissions-table td {
+    padding: 8px 10px; text-align: left; border: 1px solid var(--border);
+    font-size: 12px; color: var(--text-primary); vertical-align: top;
+  }
+  .emissions-table tr:nth-child(even) td {
+    background: rgba(255,255,255,0.02);
+  }
+  .emissions-table .company-col {
+    font-weight: 600; color: #fff; white-space: nowrap;
+  }
+  .conf-high { background: rgba(76,175,80,0.15); color: var(--green); font-weight: 700; text-align: center; }
+  .conf-moderate { background: rgba(255,193,7,0.15); color: var(--yellow); font-weight: 700; text-align: center; }
+  .conf-low { background: rgba(255,152,0,0.15); color: var(--orange); font-weight: 700; text-align: center; }
+  .conf-vlow { background: rgba(244,67,54,0.15); color: var(--red); font-weight: 700; text-align: center; }
+  .conf-benchmark { background: rgba(102,102,102,0.15); color: var(--text-secondary); font-weight: 700; text-align: center; }
+
+  .emissions-note {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 20px; font-size: 12px; color: var(--text-secondary); line-height: 1.6;
+    margin-top: 16px;
+  }
+  .emissions-note strong { color: var(--text-primary); }
+
+  .assumptions-list {
+    list-style: none; padding: 0;
+  }
+  .assumptions-list li {
+    padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px;
+    color: var(--text-primary); display: flex; align-items: flex-start; gap: 10px;
+  }
+  .assumptions-list li:last-child { border-bottom: none; }
+  .assumptions-list li::before {
+    content: '\2022'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: -1px;
+  }
+
+  /* Portfolio summary total row */
+  .emissions-table .total-row td {
+    background: rgba(0,229,255,0.08); font-weight: 700; color: #fff;
+    border-top: 2px solid var(--accent-dim);
+  }
+
+  /* Footer */
+  .footer {
+    padding: 40px 0; border-top: 1px solid var(--border);
+  }
+  .qa-box {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 24px;
+  }
+  .qa-box h4 {
+    font-size: 13px; font-weight: 600; color: var(--accent-dim); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .qa-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .qa-item { font-size: 12px; }
+  .qa-item .qa-check { color: var(--green); font-weight: 700; margin-right: 4px; }
+  .qa-item .qa-label { color: var(--text-secondary); }
+  .qa-item .qa-status { color: var(--text-primary); font-weight: 600; display: block; margin-top: 2px; }
+  .footer-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .footer-meta .confidential {
+    color: var(--red); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  @media (max-width: 1000px) {
+    .header-inner { flex-direction: column; text-align: center; }
+    .dim-grid, .priority-grid, .method-grid { grid-template-columns: 1fr; }
+    .comparison-grid-3 { grid-template-columns: 1fr; }
+    .light-grid { grid-template-columns: 1fr 1fr; }
+    .db-grid { grid-template-columns: 1fr 1fr; }
+    .qa-grid { grid-template-columns: 1fr 1fr; }
+    .readiness-gauges { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .light-grid, .db-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- HEADER                                                       -->
+<!-- ============================================================ -->
+<header class="header">
+<div class="container">
+  <div class="header-inner">
+    <div class="header-text">
+      <div class="header-tag">Week 2 Deliverable</div>
+      <h1>Data Quality &amp; Climate Readiness Scorecard</h1>
+      <div class="subtitle">
+        <span>Kith Consulting</span> &middot; Northwood Capital Partners &middot; March 2026
+      </div>
+      <div style="margin-top:12px; font-size:12px; color:var(--text-muted);">
+        10 portfolio companies &middot; $1.75B AUM &middot; Fund I (harvesting) + Fund II (deploying) &middot; 3 deliverables: GHG Baseline, MACC Curve, TCFD Report
+      </div>
+    </div>
+    <div class="gauge-wrap">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="70" fill="none" stroke="#222" stroke-width="10"/>
+        <circle cx="80" cy="80" r="70" fill="none" stroke="url(#gaugeGrad)" stroke-width="10"
+                stroke-dasharray="440" stroke-dashoffset="357" stroke-linecap="round"
+                transform="rotate(-90 80 80)" />
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f44336"/>
+            <stop offset="100%" stop-color="#ff9800"/>
+          </linearGradient>
+        </defs>
+        <text x="80" y="72" text-anchor="middle" fill="#fff" font-size="36" font-weight="800">19</text>
+        <text x="80" y="92" text-anchor="middle" fill="#999" font-size="13">/100</text>
+        <text x="80" y="112" text-anchor="middle" fill="#f44336" font-size="10" font-weight="600">CLIMATE AVG</text>
+      </svg>
+      <div class="gauge-label">Portfolio Climate Readiness</div>
+    </div>
+  </div>
+</div>
+</header>
+
+<main class="container">
+
+<!-- ============================================================ -->
+<!-- SECTION 1: PORTFOLIO-LEVEL READINESS DIMENSIONS              -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2 class="section-title">Portfolio-Level Readiness Dimensions</h2>
+  </div>
+  <p class="section-subtitle">Seven dimensions scored across three engagement deliverables: GHG Baseline, MACC Curve, TCFD Report.</p>
+
+  <div class="dim-grid">
+    <!-- GHG Baseline Group -->
+    <div class="dim-group-label">GHG Baseline Readiness</div>
+
+    <!-- Financial Data Quality -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">Financial Data Quality</span>
+        <span class="dim-score color-green">72<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-green" style="width:72%"></div></div>
+      <div class="dim-desc">Monthly actuals, budgets, and prior year available for most portcos in Supabase. 74 rows in portco_financials. Some gaps in budget data for newer portcos.</div>
+    </div>
+    <!-- Operational KPI Coverage -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">Operational KPI Coverage</span>
+        <span class="dim-score color-yellow">55<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-yellow" style="width:55%"></div></div>
+      <div class="dim-desc">311 KPI records in Supabase. Headcount, customer count, NRR, utilization, DSO, turnover tracked. Some portcos have incomplete coverage.</div>
+    </div>
+    <!-- Scope 1+2 Data Quality -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">Scope 1+2 Data Quality</span>
+        <span class="dim-score color-orange">45<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-orange" style="width:45%"></div></div>
+      <div class="dim-desc">Quality of existing data varies. 60% of facilities report from utility bills (Grade A). Remaining 40% rely on estimates or spend-based proxies.</div>
+    </div>
+    <!-- Scope 3 Data Coverage -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">Scope 3 Data Coverage</span>
+        <span class="dim-score color-red">5<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-red" style="width:5%"></div></div>
+      <div class="dim-desc">Zero Scope 3 data collected across the entire portfolio. No value chain emissions analysis. No supplier surveys, no procurement data mapped to emission categories. Score reflects complete absence.</div>
+    </div>
+
+    <!-- MACC Curve Group -->
+    <div class="dim-group-label">MACC Curve Readiness</div>
+
+    <!-- MACC Input Data -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">MACC Input Data</span>
+        <span class="dim-score color-red">8<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-red" style="width:8%"></div></div>
+      <div class="dim-desc">No utility rate schedules, equipment specifications, vendor quotes, or capex budgets exist at any portco. Public reference data (EPA, DOE, RS Means) available as fallback for screening-level estimates.</div>
+    </div>
+
+    <!-- TCFD Report Group -->
+    <div class="dim-group-label">TCFD Report Readiness</div>
+
+    <!-- Framework Alignment -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">Framework Alignment</span>
+        <span class="dim-score color-red">12<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-red" style="width:12%"></div></div>
+      <div class="dim-desc">No TCFD-aligned reporting at any portco. No GHG Protocol-compliant inventories computed. No climate governance structures in place.</div>
+    </div>
+    <!-- Reporting Maturity -->
+    <div class="dim-item">
+      <div class="dim-top">
+        <span class="dim-name">Reporting Maturity</span>
+        <span class="dim-score color-red">8<span style="font-size:12px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <div class="dim-bar-track"><div class="dim-bar-fill bg-red" style="width:8%"></div></div>
+      <div class="dim-desc">No climate reporting cadence at any portco. No scenario analysis conducted. No board-level climate oversight. No reduction targets or transition plans.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: THREE-WAY DATA COMPARISON                         -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Financial vs. GHG Baseline vs. MACC &amp; TCFD Data</h2>
+  </div>
+  <p class="section-subtitle">The headline gap: financial reporting is mature. GHG baseline data exists but needs computation. MACC and TCFD inputs are absent.</p>
+
+  <div class="comparison-grid-3">
+    <!-- Financial Card -->
+    <div class="compare-card finance">
+      <div class="compare-card-header">
+        <span class="compare-card-title">Financial Data</span>
+        <span class="compare-card-score color-blue">72<span style="font-size:14px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <ul class="compare-list">
+        <li><span class="icon-ok">&#10003;</span> Monthly P&amp;L available for most portfolio companies</li>
+        <li><span class="icon-ok">&#10003;</span> Budget vs. actual tracking in place</li>
+        <li><span class="icon-ok">&#10003;</span> Prior year comparisons available</li>
+        <li><span class="icon-ok">&#10003;</span> Revenue, COGS, Gross Profit, EBITDA, Net Income tracked</li>
+        <li><span class="icon-ok">&#10003;</span> 74 records in Supabase portco_financials</li>
+        <li><span class="icon-ok">&#10003;</span> KPI dashboard maintained per portco</li>
+        <li><span class="icon-ok">&#10003;</span> Board deck cadence established (monthly/quarterly)</li>
+      </ul>
+      <div class="compare-gaps">
+        <div class="compare-gaps-label">Known Gaps</div>
+        <p>Some budget data missing for newer portcos (Pinnacle, Harvest Ridge, Ridgeline). Not all portcos have same granularity. Fund II drawn capital shows $149M discrepancy between dashboard ($754M) and firm overview ($825M).</p>
+      </div>
+    </div>
+
+    <!-- GHG Baseline Card -->
+    <div class="compare-card ghg">
+      <div class="compare-card-header">
+        <span class="compare-card-title">GHG Baseline Data</span>
+        <span class="compare-card-score color-orange">35<span style="font-size:14px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <ul class="compare-list">
+        <li><span class="icon-ok">&#10003;</span> Scope 1+2 energy data exists for all 10 portcos</li>
+        <li><span class="icon-ok">&#10003;</span> 3 companies at Grade A (Sterling, Clearview, Harvest Ridge)</li>
+        <li><span class="icon-ok">&#10003;</span> Carbon collection CSV and questionnaires submitted</li>
+        <li><span class="icon-fail">&#10007;</span> No Scope 3 data collected</li>
+        <li><span class="icon-fail">&#10007;</span> No emissions actually computed yet</li>
+        <li><span class="icon-fail">&#10007;</span> 40% of facilities use estimated energy data</li>
+        <li><span class="icon-half">&#9684;</span> Public reference data available for Scope 3 screening</li>
+      </ul>
+      <div class="compare-gaps">
+        <div class="compare-gaps-label">Bright Spot</div>
+        <p>Raw energy data across 47 facilities provides the foundation. The data pipeline works &mdash; it just has not been connected to emissions calculations. Scope 3 screening can begin with EPA and EEIO reference data.</p>
+      </div>
+    </div>
+
+    <!-- MACC & TCFD Card -->
+    <div class="compare-card macc">
+      <div class="compare-card-header">
+        <span class="compare-card-title">MACC &amp; TCFD Data</span>
+        <span class="compare-card-score color-red">10<span style="font-size:14px;color:var(--text-muted)">/100</span></span>
+      </div>
+      <ul class="compare-list">
+        <li><span class="icon-fail">&#10007;</span> No utility rate schedules</li>
+        <li><span class="icon-fail">&#10007;</span> No equipment inventories</li>
+        <li><span class="icon-fail">&#10007;</span> No vendor quotes for abatement measures</li>
+        <li><span class="icon-fail">&#10007;</span> No capex budgets</li>
+        <li><span class="icon-fail">&#10007;</span> No climate governance structures</li>
+        <li><span class="icon-fail">&#10007;</span> No scenario analysis conducted</li>
+        <li><span class="icon-half">&#9684;</span> Public benchmarks (EPA, DOE, RS Means, EIA) available as fallback</li>
+        <li><span class="icon-ok">&#10003;</span> Sterling climate risk proof of concept completed</li>
+      </ul>
+      <div class="compare-gaps">
+        <div class="compare-gaps-label">Critical Gap</div>
+        <p>MACC and TCFD deliverables depend entirely on data that does not yet exist in the portfolio. Public benchmarks provide &plusmn;30-50% accuracy vs. &plusmn;10-15% with actual company data.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-callout">
+    <p>
+      Financial reporting is mature. GHG baseline data exists but needs computation and Scope 3 screening. MACC and TCFD inputs are the critical gap &mdash; <span class="insight-bold">but public reference databases provide credible starting points while company-specific data is collected.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: COMPANY SCORECARDS                                -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Company Scorecards</h2>
+  </div>
+  <p class="section-subtitle">Priority 4 deep dives. 6 light-touch assessments. Financial + GHG Baseline + MACC/TCFD scores for all 10.</p>
+
+  <!-- Priority 4 -->
+  <div class="priority-grid">
+
+    <!-- Meridian -->
+    <div class="company-card priority">
+      <div class="card-top">
+        <div>
+          <div class="card-company-name">Meridian Business Solutions</div>
+          <div class="card-sector">Business Services &middot; Fund I &middot; Acquired Mar 2018</div>
+        </div>
+        <span class="status-badge status-green">Exit Prep</span>
+      </div>
+      <div class="card-scores">
+        <div class="card-score-box">
+          <div class="card-score-label">Financial</div>
+          <div class="card-score-value color-blue">80</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">GHG Baseline</div>
+          <div class="card-score-value color-orange">32</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">MACC/TCFD</div>
+          <div class="card-score-value color-red">10</div>
+        </div>
+      </div>
+      <div class="scope-badges">
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);">S1: C+</span>
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);">S2: C+</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);">S3: F</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">GHG Readiness</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-orange" style="width:32%"></div></div>
+        <span class="card-mini-gauge-val color-orange">32%</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">Grade A Facilities</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-yellow" style="width:65%"></div></div>
+        <span class="card-mini-gauge-val color-yellow">65%</span>
+      </div>
+      <div class="card-meta">
+        <div class="card-meta-item"><span class="card-meta-label">Key Risk:</span> Climate data gaps may surface in exit due diligence. Buyers increasingly requesting ESG data rooms.</div>
+        <div class="card-meta-item"><span class="card-meta-label">Priority:</span> Compute emissions baseline before exit process launch. Include in vendor DD workstream.</div>
+      </div>
+    </div>
+
+    <!-- Clearview -->
+    <div class="company-card priority">
+      <div class="card-top">
+        <div>
+          <div class="card-company-name">Clearview Environmental Services</div>
+          <div class="card-sector">Environmental Services &middot; Fund II &middot; Acquired Mar 2023</div>
+        </div>
+        <span class="status-badge status-green">On Plan</span>
+      </div>
+      <div class="card-scores">
+        <div class="card-score-box">
+          <div class="card-score-label">Financial</div>
+          <div class="card-score-value color-blue">75</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">GHG Baseline</div>
+          <div class="card-score-value color-orange">38</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">MACC/TCFD</div>
+          <div class="card-score-value color-red">12</div>
+        </div>
+      </div>
+      <div class="scope-badges">
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);">S1: B-</span>
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);">S2: B-</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);">S3: F</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">GHG Readiness</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-orange" style="width:38%"></div></div>
+        <span class="card-mini-gauge-val color-orange">38%</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">Grade A Facilities</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-green" style="width:75%"></div></div>
+        <span class="card-mini-gauge-val color-green">75%</span>
+      </div>
+      <div class="card-meta">
+        <div class="card-meta-item"><span class="card-meta-label">Key Risk:</span> Environmental services company without own emissions accounting creates credibility risk with regulators and clients.</div>
+        <div class="card-meta-item"><span class="card-meta-label">Priority:</span> Highest climate data quality in portfolio. Best candidate for pilot emissions reporting program. Fleet data exists but not at vehicle level.</div>
+      </div>
+    </div>
+
+    <!-- Sterling -->
+    <div class="company-card priority">
+      <div class="card-top">
+        <div>
+          <div class="card-company-name">Sterling Precision Manufacturing</div>
+          <div class="card-sector">Industrial Technology &middot; Fund I &middot; Acquired Jun 2020</div>
+        </div>
+        <span class="status-badge status-green">Strong</span>
+      </div>
+      <div class="card-scores">
+        <div class="card-score-box">
+          <div class="card-score-label">Financial</div>
+          <div class="card-score-value color-blue">78</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">GHG Baseline</div>
+          <div class="card-score-value color-orange">35</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">MACC/TCFD</div>
+          <div class="card-score-value color-red">15</div>
+        </div>
+      </div>
+      <div class="scope-badges">
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);">S1: C+</span>
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);">S2: C+</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);">S3: F</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">GHG Readiness</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-orange" style="width:35%"></div></div>
+        <span class="card-mini-gauge-val color-orange">35%</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">Grade A Facilities</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-yellow" style="width:70%"></div></div>
+        <span class="card-mini-gauge-val color-yellow">70%</span>
+      </div>
+      <div class="card-meta">
+        <div class="card-meta-item"><span class="card-meta-label">Key Risk:</span> Manufacturing = highest Scope 1 intensity in portfolio. Natural gas and process emissions unquantified. R-22 refrigerant identified in questionnaire. Defense contract RFPs increasingly require carbon disclosure.</div>
+        <div class="card-meta-item"><span class="card-meta-label">Priority:</span> Install sub-metering at primary facility. Map process emissions. Climate risk PoC completed &mdash; best MACC/TCFD starting point.</div>
+      </div>
+    </div>
+
+    <!-- Keystone -->
+    <div class="company-card priority">
+      <div class="card-top">
+        <div>
+          <div class="card-company-name">Keystone Behavioral Health</div>
+          <div class="card-sector">Healthcare Services &middot; Fund II &middot; Acquired Feb 2024</div>
+        </div>
+        <span class="status-badge status-yellow">100-Day</span>
+      </div>
+      <div class="card-scores">
+        <div class="card-score-box">
+          <div class="card-score-label">Financial</div>
+          <div class="card-score-value color-yellow">55</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">GHG Baseline</div>
+          <div class="card-score-value color-red">18</div>
+        </div>
+        <div class="card-score-box">
+          <div class="card-score-label">MACC/TCFD</div>
+          <div class="card-score-value color-red">5</div>
+        </div>
+      </div>
+      <div class="scope-badges">
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);">S1: D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);">S2: D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);">S3: F</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">GHG Readiness</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-red" style="width:18%"></div></div>
+        <span class="card-mini-gauge-val color-red">18%</span>
+      </div>
+      <div class="card-mini-gauge">
+        <span class="card-mini-gauge-label">Grade A Facilities</span>
+        <div class="card-mini-gauge-track"><div class="card-mini-gauge-fill bg-red" style="width:30%"></div></div>
+        <span class="card-mini-gauge-val color-red">30%</span>
+      </div>
+      <div class="card-meta">
+        <div class="card-meta-item"><span class="card-meta-label">Key Risk:</span> Financial and operational systems still building. Climate data collection not yet a priority. BCBA recruitment consuming management bandwidth. No operational baseline for MACC inputs.</div>
+        <div class="card-meta-item"><span class="card-meta-label">Priority:</span> Embed climate data collection into the operational infrastructure being built during 100-day plan. Cheaper to build in now than retrofit.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Light-touch 6 -->
+  <div style="margin-top:8px; margin-bottom:16px; font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px;">Light-Touch Assessments</div>
+  <div class="light-grid">
+
+    <!-- NovaCare -->
+    <div class="light-card">
+      <div class="light-card-name">NovaCare Health Partners</div>
+      <div class="light-card-sector">Healthcare Services &middot; Fund I</div>
+      <div class="light-scores">
+        <div class="light-score"><div class="light-score-label">Financial</div><div class="light-score-val color-blue">65</div></div>
+        <div class="light-score"><div class="light-score-label">GHG</div><div class="light-score-val color-red">20</div></div>
+        <div class="light-score"><div class="light-score-label">MACC/TCFD</div><div class="light-score-val color-red">5</div></div>
+      </div>
+      <div class="light-grades">
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S1:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S2:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S3:F</span>
+      </div>
+      <div class="light-note">Watch status. Post-acquisition financial gaps persisting. Clinic expansion diluting data quality. Climate data minimal. No MACC inputs.</div>
+    </div>
+
+    <!-- Trident -->
+    <div class="light-card">
+      <div class="light-card-name">Trident IT Solutions</div>
+      <div class="light-card-sector">Technology Services &middot; Fund I</div>
+      <div class="light-scores">
+        <div class="light-score"><div class="light-score-label">Financial</div><div class="light-score-val color-blue">72</div></div>
+        <div class="light-score"><div class="light-score-label">GHG</div><div class="light-score-val color-red">25</div></div>
+        <div class="light-score"><div class="light-score-label">MACC/TCFD</div><div class="light-score-val color-red">8</div></div>
+      </div>
+      <div class="light-grades">
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);font-size:9px;">S1:C</span>
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);font-size:9px;">S2:C</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S3:F</span>
+      </div>
+      <div class="light-note">Good IT ops data. SOC facility has some specs. Low-footprint business but data centers unmetered. No utility rate data.</div>
+    </div>
+
+    <!-- Patriot -->
+    <div class="light-card">
+      <div class="light-card-name">Patriot Staffing Solutions</div>
+      <div class="light-card-sector">Business Services &middot; Fund II</div>
+      <div class="light-scores">
+        <div class="light-score"><div class="light-score-label">Financial</div><div class="light-score-val color-yellow">60</div></div>
+        <div class="light-score"><div class="light-score-label">GHG</div><div class="light-score-val color-red">10</div></div>
+        <div class="light-score"><div class="light-score-label">MACC/TCFD</div><div class="light-score-val color-red">3</div></div>
+      </div>
+      <div class="light-grades">
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S1:F</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S2:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S3:F</span>
+      </div>
+      <div class="light-note">Below plan. Worst data quality across the board. Only 4% Grade A facilities. Management focused on margin recovery. MACC/TCFD score lowest in portfolio.</div>
+    </div>
+
+    <!-- Pinnacle -->
+    <div class="light-card">
+      <div class="light-card-name">Pinnacle Testing &amp; Inspection</div>
+      <div class="light-card-sector">Industrial Technology &middot; Fund II</div>
+      <div class="light-scores">
+        <div class="light-score"><div class="light-score-label">Financial</div><div class="light-score-val color-yellow">50</div></div>
+        <div class="light-score"><div class="light-score-label">GHG</div><div class="light-score-val color-red">22</div></div>
+        <div class="light-score"><div class="light-score-label">MACC/TCFD</div><div class="light-score-val color-red">6</div></div>
+      </div>
+      <div class="light-grades">
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S1:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S2:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S3:F</span>
+      </div>
+      <div class="light-note">4 months post-close. Inherited data from founder-led operation. Financial systems under ERP migration. Climate data is pre-acquisition vintage.</div>
+    </div>
+
+    <!-- Harvest Ridge -->
+    <div class="light-card">
+      <div class="light-card-name">Harvest Ridge Foods</div>
+      <div class="light-card-sector">Food &amp; Agriculture &middot; Fund II</div>
+      <div class="light-scores">
+        <div class="light-score"><div class="light-score-label">Financial</div><div class="light-score-val color-blue">68</div></div>
+        <div class="light-score"><div class="light-score-label">GHG</div><div class="light-score-val color-orange">30</div></div>
+        <div class="light-score"><div class="light-score-label">MACC/TCFD</div><div class="light-score-val color-red">10</div></div>
+      </div>
+      <div class="light-grades">
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);font-size:9px;">S1:C</span>
+        <span class="scope-badge" style="background:var(--yellow-bg);color:var(--yellow);font-size:9px;">S2:C</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S3:F</span>
+      </div>
+      <div class="light-note">Food processing = high energy and water intensity. Good energy data from utility bills. Cold chain infrastructure documented. Food processing equipment unspecified for MACC.</div>
+    </div>
+
+    <!-- Ridgeline -->
+    <div class="light-card">
+      <div class="light-card-name">Ridgeline Property Services</div>
+      <div class="light-card-sector">Real Estate Services &middot; Fund II</div>
+      <div class="light-scores">
+        <div class="light-score"><div class="light-score-label">Financial</div><div class="light-score-val color-orange">45</div></div>
+        <div class="light-score"><div class="light-score-label">GHG</div><div class="light-score-val color-red">15</div></div>
+        <div class="light-score"><div class="light-score-label">MACC/TCFD</div><div class="light-score-val color-red">4</div></div>
+      </div>
+      <div class="light-grades">
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S1:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S2:D</span>
+        <span class="scope-badge" style="background:var(--red-bg);color:var(--red);font-size:9px;">S3:F</span>
+      </div>
+      <div class="light-note">Most recent acquisition (Mar 2025). Minimal systems in place. Financial reporting framework still being built during 100-day plan. Climate data collection not started.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: DELIVERABLE READINESS GAUGES                      -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Deliverable Readiness</h2>
+  </div>
+  <p class="section-subtitle">Data readiness for each of the three engagement deliverables.</p>
+
+  <div class="readiness-gauges">
+    <!-- GHG Baseline -->
+    <div class="readiness-gauge">
+      <div class="readiness-gauge-title">GHG Baseline</div>
+      <svg width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="58" fill="none" stroke="#222" stroke-width="10"/>
+        <circle cx="70" cy="70" r="58" fill="none" stroke="var(--orange)" stroke-width="10"
+                stroke-dasharray="364.4" stroke-dashoffset="236.9" stroke-linecap="round"
+                transform="rotate(-90 70 70)" />
+        <text x="70" y="65" text-anchor="middle" fill="#fff" font-size="32" font-weight="800">35</text>
+        <text x="70" y="82" text-anchor="middle" fill="#999" font-size="12">/100</text>
+      </svg>
+      <div class="readiness-gauge-note">Energy data exists. Needs emissions computation and Scope 3 screening.</div>
+    </div>
+
+    <!-- MACC Curve -->
+    <div class="readiness-gauge">
+      <div class="readiness-gauge-title">MACC Curve</div>
+      <svg width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="58" fill="none" stroke="#222" stroke-width="10"/>
+        <circle cx="70" cy="70" r="58" fill="none" stroke="var(--red)" stroke-width="10"
+                stroke-dasharray="364.4" stroke-dashoffset="335.2" stroke-linecap="round"
+                transform="rotate(-90 70 70)" />
+        <text x="70" y="65" text-anchor="middle" fill="#fff" font-size="32" font-weight="800">8</text>
+        <text x="70" y="82" text-anchor="middle" fill="#999" font-size="12">/100</text>
+      </svg>
+      <div class="readiness-gauge-note">Public reference data available as fallback. No company-specific utility rates, equipment specs, or vendor quotes.</div>
+    </div>
+
+    <!-- TCFD Report -->
+    <div class="readiness-gauge">
+      <div class="readiness-gauge-title">TCFD Report</div>
+      <svg width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="58" fill="none" stroke="#222" stroke-width="10"/>
+        <circle cx="70" cy="70" r="58" fill="none" stroke="var(--red)" stroke-width="10"
+                stroke-dasharray="364.4" stroke-dashoffset="320.7" stroke-linecap="round"
+                transform="rotate(-90 70 70)" />
+        <text x="70" y="65" text-anchor="middle" fill="#fff" font-size="32" font-weight="800">12</text>
+        <text x="70" y="82" text-anchor="middle" fill="#999" font-size="12">/100</text>
+      </svg>
+      <div class="readiness-gauge-note">No governance structures, scenario analysis, or framework alignment at any portco.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: DATA SOURCE QUALITY MATRIX                        -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2 class="section-title">Data Source Quality Matrix</h2>
+  </div>
+  <p class="section-subtitle">Financial and climate data availability by company. Green = complete. Yellow = partial. Red = absent or estimated.</p>
+
+  <div class="heatmap-wrap">
+    <table class="heatmap">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Monthly Financials</th>
+          <th>Budget Data</th>
+          <th>KPI Tracking</th>
+          <th>Board Materials</th>
+          <th>Carbon CSV</th>
+          <th>Climate Quest.</th>
+          <th>Facility Energy</th>
+          <th>Fleet Data</th>
+          <th>ESG Scores</th>
+          <th>Scope 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Meridian</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Clearview</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Sterling</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Keystone</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>NovaCare</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Trident</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Patriot</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Pinnacle</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Harvest Ridge</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-green">&#10003;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Ridgeline</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-yellow">Partial</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+          <td class="hm-red">&#10007;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px; font-size:11px; color:var(--text-muted);">
+    Financial columns (Monthly Financials, Budget Data, KPI Tracking, Board Materials) source: Supabase portco_financials (74 rows), portco_kpis (311 rows), portfolio dashboard. Climate columns source: _data/carbon/ facility-level CSVs, climate questionnaires, ESG Supabase tables.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: SUPABASE HEALTH CHECK                             -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <h2 class="section-title">Supabase Health Check</h2>
+  </div>
+  <p class="section-subtitle">17 tables in northwood_capital schema. Status reflects data presence and completeness.</p>
+
+  <div class="db-grid">
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">portfolio_companies</span>
+      <span class="db-count">10 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">portco_financials</span>
+      <span class="db-count">74 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">portco_kpis</span>
+      <span class="db-count">311 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">pipeline_deals</span>
+      <span class="db-count">8 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">fund_performance</span>
+      <span class="db-count">2 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">team_members</span>
+      <span class="db-count">12 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">realized_investments</span>
+      <span class="db-count">2 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">transaction_comps</span>
+      <span class="db-count">45 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">trading_comps</span>
+      <span class="db-count">28 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">firm_config</span>
+      <span class="db-count">3 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">esg_deal_scores</span>
+      <span class="db-count">8 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot live"></div>
+      <span class="db-name">esg_deal_composites</span>
+      <span class="db-count">1 row</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot empty"></div>
+      <span class="db-name">esg_portco_scores</span>
+      <span class="db-count">0 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot empty"></div>
+      <span class="db-name">esg_portco_composites</span>
+      <span class="db-count">0 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot empty"></div>
+      <span class="db-name">esg_climate_risk</span>
+      <span class="db-count">0 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot empty"></div>
+      <span class="db-name">esg_climate_composites</span>
+      <span class="db-count">0 rows</span>
+    </div>
+    <div class="db-row">
+      <div class="db-dot partial"></div>
+      <span class="db-name">process_execution_log</span>
+      <span class="db-count">Active</span>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; display:flex; gap:24px; font-size:11px; color:var(--text-muted);">
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px;vertical-align:middle;"></span>Live &amp; populated</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--yellow);margin-right:6px;vertical-align:middle;"></span>Exists, partial data</span>
+    <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:6px;vertical-align:middle;"></span>Table exists, 0 rows</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: KEY FINDINGS                                      -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">07</span>
+    <h2 class="section-title">Key Findings</h2>
+  </div>
+  <p class="section-subtitle">Top 11 findings ranked by materiality. Financial data findings included alongside climate gaps.</p>
+
+  <ol class="findings-list">
+    <li>
+      <div>
+        <strong>Fund II drawn capital discrepancy: $149M.</strong> Portfolio dashboard reports $754M drawn (69%). Firm overview reports $825M drawn (75%). Both cite the same date (Jan 31, 2026). Remaining capacity diverges accordingly: $346M vs. $275M. Needs reconciliation before LP letter.
+        <span class="finding-severity" style="background:var(--red-bg);color:var(--red);">CRITICAL</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Scope 3 emissions data is absent across the entire portfolio.</strong> Zero companies have any value chain emissions data. For Clearview (environmental services) and Harvest Ridge (food supply chain), Scope 3 likely represents 80%+ of total emissions footprint.
+        <span class="finding-severity" style="background:var(--red-bg);color:var(--red);">CRITICAL</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>MACC curve input data completely absent.</strong> No utility rate schedules, equipment specifications, or vendor quotes exist at any portfolio company. Public benchmarks (EPA, DOE, RS Means) provide &plusmn;30-50% accuracy vs. &plusmn;10-15% with actual data.
+        <span class="finding-severity" style="background:var(--red-bg);color:var(--red);">CRITICAL</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>4 ESG Supabase tables have zero rows.</strong> esg_portco_scores, esg_portco_composites, esg_climate_risk, and esg_climate_composites are defined but empty. The schema exists; the data pipeline to populate them does not.
+        <span class="finding-severity" style="background:var(--red-bg);color:var(--red);">HIGH</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Budget data incomplete for 3 portcos.</strong> Keystone, Pinnacle, and Ridgeline lack budget data in Supabase portco_financials. All three are in 100-day or early integration. Budget vs. actual variance analysis is not possible for these companies.
+        <span class="finding-severity" style="background:var(--orange-bg);color:var(--orange);">HIGH</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Patriot Staffing has worst climate data quality: 4% Grade A facilities.</strong> Patriot is also below plan on financial performance. Climate data collection is not on management's agenda while margin recovery is the priority.
+        <span class="finding-severity" style="background:var(--orange-bg);color:var(--orange);">HIGH</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>40% of facility energy data is estimated, not metered.</strong> Across 47 facilities, approximately 19 rely on spend-based proxies or square-footage estimates rather than utility bill data. This makes any future emissions calculations unreliable without data remediation.
+        <span class="finding-severity" style="background:var(--orange-bg);color:var(--orange);">HIGH</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>No emissions baselines computed for any portco.</strong> Raw energy data exists but has not been converted to tCO2e using GHG Protocol emission factors. The calculation is straightforward once data quality is confirmed.
+        <span class="finding-severity" style="background:var(--orange-bg);color:var(--orange);">MEDIUM</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Meridian exit process may face ESG DD gap.</strong> Exit prep underway with sell-side advisor selection in Q1 2026. Buyers increasingly request climate data in DD. No emissions baseline, no TCFD alignment, no reduction targets.
+        <span class="finding-severity" style="background:var(--orange-bg);color:var(--orange);">MEDIUM</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Fund II EBITDA aggregates show minor discrepancy.</strong> Dashboard shows Fund II EBITDA $139.5M. Firm overview shows $135.8M. Difference of $3.7M. Likely driven by different reporting dates or Harvest Ridge EBITDA ($22.8M vs. $22.0M).
+        <span class="finding-severity" style="background:var(--yellow-bg);color:var(--yellow);">MEDIUM</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>No climate governance structures at any portco.</strong> No board-level climate oversight, no management accountability for emissions, no climate risk in enterprise risk frameworks. Governance is a prerequisite for framework alignment.
+        <span class="finding-severity" style="background:var(--yellow-bg);color:var(--yellow);">MEDIUM</span>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: EMISSIONS CALCULATION METHODOLOGY                 -->
+<!-- ============================================================ -->
+<section class="section emissions-section">
+  <div class="section-header">
+    <span class="section-number">08</span>
+    <h2 class="section-title">Emissions Calculation Methodology</h2>
+  </div>
+  <p class="section-subtitle">Single source of truth for how every emissions number in the deliverable suite was calculated. All figures in metric tonnes CO2 equivalent (mt CO2e).</p>
+
+  <!-- Subsection 1: Emission Factors Used -->
+  <div class="subsection">
+    <div class="subsection-header">8.1 &mdash; Emission Factors Used</div>
+    <div class="emissions-table-wrap">
+      <table class="emissions-table">
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Source</th>
+            <th>Value</th>
+            <th>Applied To</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="company-col">Natural Gas</td>
+            <td>EPA Emission Factors Hub (2024)</td>
+            <td>53.06 kg CO2/MMBtu (5.3 kg CO2/therm)</td>
+            <td>Scope 1 &mdash; all companies</td>
+          </tr>
+          <tr>
+            <td class="company-col">Diesel</td>
+            <td>EPA Mobile Combustion</td>
+            <td>10.21 kg CO2/gallon</td>
+            <td>Scope 1 &mdash; fleet vehicles</td>
+          </tr>
+          <tr>
+            <td class="company-col">Gasoline</td>
+            <td>EPA Mobile Combustion</td>
+            <td>8.78 kg CO2/gallon</td>
+            <td>Scope 1 &mdash; fleet vehicles</td>
+          </tr>
+          <tr>
+            <td class="company-col">Propane</td>
+            <td>EPA Stationary Combustion</td>
+            <td>5.72 kg CO2/gallon</td>
+            <td>Scope 1 &mdash; where applicable</td>
+          </tr>
+          <tr>
+            <td class="company-col">R-22 Refrigerant</td>
+            <td>EPA GWP (AR5)</td>
+            <td>GWP = 1,810</td>
+            <td>Scope 1 &mdash; Sterling Akron</td>
+          </tr>
+          <tr>
+            <td class="company-col">Electricity (Ohio)</td>
+            <td>EPA eGRID 2022 &mdash; RFC East</td>
+            <td>0.386 mt CO2/MWh</td>
+            <td>Scope 2 &mdash; Sterling</td>
+          </tr>
+          <tr>
+            <td class="company-col">Electricity (Multi-state avg)</td>
+            <td>EPA eGRID 2022 &mdash; regional avg</td>
+            <td>0.35&ndash;0.45 mt CO2/MWh</td>
+            <td>Scope 2 &mdash; varies by location</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Subsection 2: Calculation Method by Company -->
+  <div class="subsection">
+    <div class="subsection-header">8.2 &mdash; Calculation Method by Company</div>
+    <div class="emissions-table-wrap">
+      <table class="emissions-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Scope 1 Method</th>
+            <th>Scope 2 Method</th>
+            <th>Scope 3 Method</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="company-col">Sterling Precision</td>
+            <td>Utility bills &times; EPA factors. Gas: actual therms. Fleet: fuel card gallons. R-22: estimated leak rate &times; GWP.</td>
+            <td>kWh from utility bills &times; eGRID RFC East (0.386 mt/MWh)</td>
+            <td>Industry benchmark: mfg Scope 3 = 2&ndash;5x Scope 1+2. Range: 15,000&ndash;35,000 mt.</td>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Clearview Environmental</td>
+            <td>Utility bills + fleet logs &times; EPA factors. Fleet = 72% of Scope 1.</td>
+            <td>kWh from utility bills &times; eGRID regional factor</td>
+            <td>Not estimated</td>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Harvest Ridge Foods</td>
+            <td>Utility bills &times; EPA factors. Includes boiler/steam.</td>
+            <td>kWh from utility bills &times; eGRID Southeast (TVA)</td>
+            <td>Not estimated</td>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Meridian Business Solutions</td>
+            <td>12/16 utility bills &times; EPA factors. 4 facilities from accounting exports (unverified). 2 pro-rata allocations.</td>
+            <td>kWh &times; eGRID regional factors by office location</td>
+            <td>Not estimated</td>
+            <td class="conf-moderate">&plusmn;15&ndash;20%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Trident IT Solutions</td>
+            <td>2/8 utility bills + 6 accounting exports &times; EPA factors</td>
+            <td>kWh &times; eGRID regional</td>
+            <td>Not estimated</td>
+            <td class="conf-low">&plusmn;20&ndash;30%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Pinnacle Testing</td>
+            <td>1/10 utility bills + 8 accounting exports &times; EPA factors</td>
+            <td>kWh &times; eGRID regional</td>
+            <td>Not estimated</td>
+            <td class="conf-low">&plusmn;20&ndash;30%</td>
+          </tr>
+          <tr>
+            <td class="company-col">NovaCare Wellness</td>
+            <td>19/30 utility bills + 11 landlord data &times; EPA factors. 2 facilities incomplete.</td>
+            <td>kWh &times; eGRID regional. Some 0 kWh entries excluded.</td>
+            <td>Not estimated</td>
+            <td class="conf-low">&plusmn;20&ndash;25%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Keystone Behavioral</td>
+            <td>7/22 utility bills + 8 landlord estimates + 6 model estimates &times; EPA factors</td>
+            <td>kWh &times; eGRID PJM. 65% estimated.</td>
+            <td>Not estimated</td>
+            <td class="conf-vlow">&plusmn;25&ndash;30%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Ridgeline Property</td>
+            <td>3/6 utility bills + 3 unclear sources &times; EPA factors</td>
+            <td>kWh &times; eGRID Western</td>
+            <td>Not estimated</td>
+            <td class="conf-vlow">&plusmn;30&ndash;40%</td>
+          </tr>
+          <tr>
+            <td class="company-col">Patriot Staffing</td>
+            <td>1/26 utility bills + 24 landlord &ldquo;low confidence&rdquo; estimates &times; EPA factors</td>
+            <td>kWh &times; eGRID regional. Most data from round figures.</td>
+            <td>Not estimated</td>
+            <td class="conf-vlow">&plusmn;40&ndash;50%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Subsection 3: Confidence Classification -->
+  <div class="subsection">
+    <div class="subsection-header">8.3 &mdash; Confidence Classification</div>
+    <div class="emissions-table-wrap">
+      <table class="emissions-table">
+        <thead>
+          <tr>
+            <th>Confidence Band</th>
+            <th>Meaning</th>
+            <th>Companies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+            <td>High confidence &mdash; direct utility bills, verified data</td>
+            <td>Sterling, Clearview, Harvest Ridge</td>
+          </tr>
+          <tr>
+            <td class="conf-moderate">&plusmn;15&ndash;20%</td>
+            <td>Moderate &mdash; majority utility bills, some accounting exports or allocations</td>
+            <td>Meridian</td>
+          </tr>
+          <tr>
+            <td class="conf-low">&plusmn;20&ndash;30%</td>
+            <td>Low-moderate &mdash; mixed sources, significant estimated portion</td>
+            <td>Trident, Pinnacle, NovaCare</td>
+          </tr>
+          <tr>
+            <td class="conf-vlow">&plusmn;25&ndash;40%</td>
+            <td>Low &mdash; majority estimated, model-based, or landlord data</td>
+            <td>Keystone, Ridgeline</td>
+          </tr>
+          <tr>
+            <td class="conf-vlow">&plusmn;40&ndash;50%</td>
+            <td>Very low &mdash; almost entirely estimated, acknowledged unreliable</td>
+            <td>Patriot</td>
+          </tr>
+          <tr>
+            <td class="conf-benchmark">&plusmn;50&ndash;70%</td>
+            <td>Benchmark only &mdash; no company data, industry ratios applied</td>
+            <td>All Scope 3 estimates</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Subsection 4: Key Assumptions & Limitations -->
+  <div class="subsection">
+    <div class="subsection-header">8.4 &mdash; Key Assumptions &amp; Limitations</div>
+    <ul class="assumptions-list">
+      <li>All Scope 2 uses location-based method (eGRID regional factors). Market-based method not applied (no RECs or PPAs reported).</li>
+      <li>December data for Sterling and Harvest Ridge is annualized from 11 months &mdash; actual Dec bills not yet available.</li>
+      <li>Scope 3 estimates (Sterling only) use EPA EEIO spend-based factors and World Steel Association production factors as cross-check. Range reflects methodology uncertainty.</li>
+      <li>Facilities reporting 0 kWh (NovaCare) excluded from totals rather than assumed zero.</li>
+      <li>Patriot&rsquo;s Evansville and Rockford facilities excluded (no verifiable data).</li>
+      <li>Refrigerant emissions based on estimated annual leak rate (5&ndash;10% of charge), not measured losses.</li>
+      <li>No Scope 3 estimates attempted for companies other than Sterling due to insufficient sector benchmarking data at this stage.</li>
+    </ul>
+  </div>
+
+  <!-- Subsection 5: Portfolio Emissions Summary -->
+  <div class="subsection">
+    <div class="subsection-header">8.5 &mdash; Portfolio Emissions Summary</div>
+    <div class="emissions-table-wrap">
+      <table class="emissions-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Scope 1 (mt)</th>
+            <th>Scope 2 (mt)</th>
+            <th>Total S1+2 (mt)</th>
+            <th>Confidence</th>
+            <th>Scope 3 Est. (mt)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="company-col">Sterling</td>
+            <td>2,074</td>
+            <td>3,970</td>
+            <td style="font-weight:700;">6,044</td>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+            <td>15,000&ndash;35,000</td>
+          </tr>
+          <tr>
+            <td class="company-col">Clearview</td>
+            <td>2,203</td>
+            <td>1,100</td>
+            <td style="font-weight:700;">3,303</td>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Trident</td>
+            <td>~1,800</td>
+            <td>~2,700</td>
+            <td style="font-weight:700;">~4,500</td>
+            <td class="conf-low">&plusmn;20&ndash;30%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Harvest Ridge</td>
+            <td>~1,500</td>
+            <td>~1,700</td>
+            <td style="font-weight:700;">~3,200</td>
+            <td class="conf-high">&plusmn;5&ndash;10%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Patriot</td>
+            <td>~1,100</td>
+            <td>~1,700</td>
+            <td style="font-weight:700;">~2,800</td>
+            <td class="conf-vlow">&plusmn;40&ndash;50%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Pinnacle</td>
+            <td>~800</td>
+            <td>~1,300</td>
+            <td style="font-weight:700;">~2,100</td>
+            <td class="conf-low">&plusmn;20&ndash;30%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Meridian</td>
+            <td>762</td>
+            <td>1,143</td>
+            <td style="font-weight:700;">1,905</td>
+            <td class="conf-moderate">&plusmn;15&ndash;20%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Keystone</td>
+            <td>~639</td>
+            <td>~640</td>
+            <td style="font-weight:700;">~1,279</td>
+            <td class="conf-vlow">&plusmn;25&ndash;30%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">NovaCare</td>
+            <td>~300</td>
+            <td>~500</td>
+            <td style="font-weight:700;">~800</td>
+            <td class="conf-low">&plusmn;20&ndash;25%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr>
+            <td class="company-col">Ridgeline</td>
+            <td>~150</td>
+            <td>~250</td>
+            <td style="font-weight:700;">~400</td>
+            <td class="conf-vlow">&plusmn;30&ndash;40%</td>
+            <td>Not estimated</td>
+          </tr>
+          <tr class="total-row">
+            <td><strong>Portfolio Total</strong></td>
+            <td><strong>~11,328</strong></td>
+            <td><strong>~15,003</strong></td>
+            <td><strong>~26,331</strong></td>
+            <td style="background:rgba(0,229,255,0.08);color:var(--accent);font-weight:700;text-align:center;">&plusmn;15&ndash;20%</td>
+            <td><strong>TBD</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="emissions-note">
+      <strong>Note:</strong> All figures in metric tonnes CO2 equivalent (mt CO2e). ~ indicates estimate based on available data. Portfolio total carries blended &plusmn;15&ndash;20% uncertainty due to mix of Grade A through D data sources.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 9: METHODOLOGY                                       -->
+<!-- ============================================================ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-number">09</span>
+    <h2 class="section-title">Methodology</h2>
+  </div>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <h4>Climate Readiness Grade Definitions</h4>
+      <table>
+        <thead><tr><th>Grade</th><th>Score</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green);font-weight:700;">A</td><td>80&ndash;100</td><td>GHG Protocol compliant. Scope 1+2+3 measured. Targets set. TCFD aligned.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">B</td><td>60&ndash;79</td><td>Scope 1+2 measured from metered data. Governance in place. Scope 3 screening complete.</td></tr>
+          <tr><td style="color:var(--yellow);font-weight:700;">C</td><td>40&ndash;59</td><td>Energy data available. Partial Scope 1+2. No Scope 3. No governance.</td></tr>
+          <tr><td style="color:var(--orange);font-weight:700;">D</td><td>20&ndash;39</td><td>Fragmented data. Significant estimation. No emissions calculations.</td></tr>
+          <tr><td style="color:var(--red);font-weight:700;">F</td><td>0&ndash;19</td><td>Minimal or no data. No systems. No awareness.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="method-card">
+      <h4>Financial Data Grade Definitions</h4>
+      <table>
+        <thead><tr><th>Grade</th><th>Score</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green);font-weight:700;">A</td><td>80&ndash;100</td><td>Full monthly P&amp;L, budget, prior year. KPIs tracked. Board cadence. Supabase populated.</td></tr>
+          <tr><td style="color:var(--finance-blue);font-weight:700;">B</td><td>60&ndash;79</td><td>Monthly financials available. Most budgets. KPI tracking with some gaps.</td></tr>
+          <tr><td style="color:var(--yellow);font-weight:700;">C</td><td>40&ndash;59</td><td>Financials available but incomplete. Budget data missing. KPI gaps.</td></tr>
+          <tr><td style="color:var(--orange);font-weight:700;">D</td><td>20&ndash;39</td><td>Partial financials. Systems still being built. Post-close data transition.</td></tr>
+          <tr><td style="color:var(--red);font-weight:700;">F</td><td>0&ndash;19</td><td>Minimal data. Pre-close systems. No Supabase integration.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="method-card">
+      <h4>Composite Score Methodology</h4>
+      <table>
+        <thead><tr><th>Deliverable</th><th>Dimension</th><th>Weight</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4" style="vertical-align:top;">GHG Baseline (35)</td><td>Financial Data Quality</td><td>N/A (separate track)</td></tr>
+          <tr><td>Operational KPI Coverage</td><td>N/A (separate track)</td></tr>
+          <tr><td>Scope 1+2 Data Quality</td><td>60%</td></tr>
+          <tr><td>Scope 3 Data Coverage</td><td>40%</td></tr>
+          <tr><td>MACC Curve (8)</td><td>MACC Input Data</td><td>100%</td></tr>
+          <tr><td rowspan="2" style="vertical-align:top;">TCFD Report (12)</td><td>Framework Alignment</td><td>55%</td></tr>
+          <tr><td>Reporting Maturity</td><td>45%</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:12px;">
+        GHG Baseline score (35/100) is the weighted average of Scope 1+2 Data Quality and Scope 3 Data Coverage.
+        MACC Curve score (8/100) reflects complete absence of company-specific input data.
+        TCFD Report score (12/100) is the weighted average of Framework Alignment and Reporting Maturity.
+        Financial scores are reported separately as they measure a different maturity track.
+      </p>
+    </div>
+    <div class="method-card">
+      <h4>Data Sources</h4>
+      <table>
+        <thead><tr><th>Source</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>Supabase northwood_capital</td><td>Structured financial, KPI, ESG data</td></tr>
+          <tr><td>portfolio/_portfolio-dashboard.md</td><td>Portfolio performance, fund metrics</td></tr>
+          <tr><td>_reference/firm-overview.md</td><td>Firm context, fund details, team</td></tr>
+          <tr><td>_data/carbon/</td><td>Facility-level energy and emissions CSVs</td></tr>
+          <tr><td>portfolio/*/financial-reporting/</td><td>KPI dashboards, board decks</td></tr>
+          <tr><td>fund/performance/</td><td>Fund returns, NAV, MOIC/IRR</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:12px;">
+        All figures sourced from firm data as of January 31, 2026 unless otherwise noted.
+        Discrepancies between sources flagged in Key Findings.
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                       -->
+<!-- ============================================================ -->
+<footer class="footer">
+<div class="container">
+  <div class="qa-box">
+    <h4>QA Summary &mdash; Four-Check Protocol</h4>
+    <div class="qa-grid">
+      <div class="qa-item">
+        <span class="qa-check">&#10003;</span><span class="qa-label">Source Verification</span>
+        <span class="qa-status">All figures traced to portfolio dashboard, firm overview, or Supabase schema documentation. Two cross-source discrepancies flagged (Fund II drawn capital, Fund II EBITDA). MACC/TCFD scores reflect verified absence of input data. Emissions factors sourced to EPA Emission Factors Hub (2024), EPA eGRID 2022, and EPA GWP tables (AR5).</span>
+      </div>
+      <div class="qa-item">
+        <span class="qa-check">&#10003;</span><span class="qa-label">Structural Consistency</span>
+        <span class="qa-status">Scores consistent across dimensions, company cards, deliverable gauges, and heatmap. Three-deliverable methodology documented. Financial and climate scoring use separate tracks. Emissions summary totals reconcile to individual company calculations.</span>
+      </div>
+      <div class="qa-item">
+        <span class="qa-check">&#10003;</span><span class="qa-label">Adversarial Review</span>
+        <span class="qa-status">Financial data scores reflect actual Supabase population, not management claims. Climate scores assume no credit for planned but unimplemented systems. MACC score of 8/100 reflects complete data void. Discrepancies elevated, not buried. Confidence bands assigned conservatively; facilities with 0 kWh excluded rather than assumed zero.</span>
+      </div>
+      <div class="qa-item">
+        <span class="qa-check">&#10003;</span><span class="qa-label">Assumption Flagging</span>
+        <span class="qa-status">Financial scores: firm estimate based on Supabase row counts and data completeness. GHG Baseline scores: firm estimate based on facility data quality grades and scope coverage. MACC/TCFD scores: firm estimate based on confirmed absence of utility rates, equipment specs, governance structures. Emission factors: hard data (EPA published). Scope 3 range: aspirational benchmark (&plusmn;50&ndash;70%). Confidence bands: firm estimate per data source grading.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-meta">
+    <div>
+      <span class="confidential">Confidential</span>
+      <span style="margin-left:16px;">Prepared by Kith Consulting for Northwood Capital Partners</span>
+    </div>
+    <div>
+      March 2026 &middot; v5
+    </div>
+  </div>
+</div>
+</footer>
+
+</body>
+</html>

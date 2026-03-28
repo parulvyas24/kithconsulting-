@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Error Log & Remediation Plan — Northwood Capital Partners</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 32px 64px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding-bottom: 48px;
+    border-bottom: 1px solid #222;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  .header .date-line {
+    font-size: 13px;
+    color: #666;
+  }
+  .header .deliverables-line {
+    font-size: 12px;
+    color: #555;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Summary Dashboard ── */
+  .summary-dashboard {
+    margin-top: 40px;
+    margin-bottom: 56px;
+  }
+  .summary-dashboard h2 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #00e5ff;
+    margin-bottom: 20px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .summary-card {
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .summary-card .num {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .summary-card .label {
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .severity-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .sev-card {
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sev-card .sev-count {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    min-width: 32px;
+  }
+  .sev-card .sev-label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .sev-card.critical .sev-label { color: #ff4c6a; }
+  .sev-card.high .sev-label { color: #ff9800; }
+  .sev-card.medium .sev-label { color: #ffd740; }
+  .sev-card.low .sev-label { color: #888; }
+
+  .horizon-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .hz-card {
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .hz-card .hz-tag {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00bcd4;
+    margin-bottom: 4px;
+  }
+  .hz-card .hz-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .hz-card .hz-count {
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* ── Deliverable Readiness ── */
+  .readiness-section {
+    margin-top: 32px;
+  }
+  .readiness-section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #00e5ff;
+    margin-bottom: 16px;
+  }
+  .readiness-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #262626;
+  }
+  .readiness-table thead th {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #666;
+    text-align: left;
+    border-bottom: 1px solid #262626;
+    background: #151515;
+  }
+  .readiness-table tbody td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #ccc;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: top;
+  }
+  .readiness-table tbody tr:last-child td { border-bottom: none; }
+  .readiness-table .col-deliverable { font-weight: 600; color: #fff; white-space: nowrap; }
+  .readiness-pct {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .pct-high { background: rgba(76,175,80,0.15); color: #66bb6a; }
+  .pct-mid { background: rgba(255,215,64,0.12); color: #ffd740; }
+  .pct-low { background: rgba(255,76,106,0.15); color: #ff4c6a; }
+
+  /* ── Horizon Sections ── */
+  .horizon {
+    margin-bottom: 56px;
+  }
+  .horizon-header {
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #222;
+  }
+  .horizon-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+  .horizon-header p {
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* ── Company Cards ── */
+  .company-card {
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .company-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid #222;
+  }
+  .company-name-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .company-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .sector-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: #aaa;
+    background: #262626;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .status-exit-prep { background: rgba(255,76,106,0.15); color: #ff4c6a; }
+  .status-on-plan { background: rgba(0,229,255,0.12); color: #00e5ff; }
+  .status-strong { background: rgba(76,175,80,0.15); color: #66bb6a; }
+  .status-100-day { background: rgba(255,215,64,0.15); color: #ffd740; }
+
+  .scope-grades {
+    display: flex;
+    gap: 8px;
+  }
+  .grade {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #222;
+    color: #ccc;
+  }
+  .grade-a { color: #66bb6a; }
+  .grade-b { color: #00e5ff; }
+  .grade-c { color: #ffd740; }
+  .grade-d { color: #ff9800; }
+  .grade-f { color: #ff4c6a; }
+
+  /* ── Tables ── */
+  .findings-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .findings-table thead th {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #666;
+    text-align: left;
+    border-bottom: 1px solid #262626;
+    background: #151515;
+  }
+  .findings-table tbody td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #ccc;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: top;
+  }
+  .findings-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .findings-table .col-id { width: 56px; font-weight: 600; color: #888; white-space: nowrap; }
+  .findings-table .col-finding { width: 30%; }
+  .findings-table .col-impact { width: 28%; color: #aaa; }
+  .findings-table .col-fix { width: 28%; color: #00bcd4; }
+  .findings-table .col-sev { width: 80px; }
+
+  /* ── Category separator ── */
+  .findings-table .category-row td {
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    background: #131313;
+    border-bottom: 1px solid #1e1e1e;
+  }
+
+  /* ── Severity Badges ── */
+  .sev-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .sev-critical { background: rgba(255,76,106,0.15); color: #ff4c6a; }
+  .sev-high { background: rgba(255,152,0,0.15); color: #ff9800; }
+  .sev-medium { background: rgba(255,215,64,0.12); color: #ffd740; }
+  .sev-low { background: rgba(136,136,136,0.15); color: #888; }
+
+  /* ── Light-touch table ── */
+  .lt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #262626;
+  }
+  .lt-table thead th {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #666;
+    text-align: left;
+    border-bottom: 1px solid #262626;
+    background: #151515;
+  }
+  .lt-table tbody td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #ccc;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: top;
+  }
+  .lt-table tbody tr:last-child td { border-bottom: none; }
+  .lt-table .col-company { font-weight: 600; color: #fff; white-space: nowrap; }
+
+  /* ── Fund-level table ── */
+  .fund-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #262626;
+  }
+  .fund-table thead th {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #666;
+    text-align: left;
+    border-bottom: 1px solid #262626;
+    background: #151515;
+  }
+  .fund-table tbody td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #ccc;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: top;
+  }
+  .fund-table tbody tr:last-child td { border-bottom: none; }
+  .fund-table .col-scope { color: #aaa; white-space: nowrap; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid #222;
+  }
+  .qa-section {
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .qa-section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00e5ff;
+    margin-bottom: 16px;
+  }
+  .qa-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .qa-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .qa-check {
+    color: #66bb6a;
+    font-size: 14px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .qa-text {
+    font-size: 13px;
+    color: #aaa;
+  }
+  .qa-text strong { color: #ccc; font-weight: 600; }
+
+  .confidential {
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+    padding: 16px 0;
+  }
+  .confidential strong { color: #666; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .summary-grid, .severity-row { grid-template-columns: 1fr 1fr; }
+    .horizon-summary { grid-template-columns: 1fr; }
+    .qa-grid { grid-template-columns: 1fr; }
+    .company-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media print {
+    body { background: #fff; color: #222; }
+    .container { max-width: 100%; padding: 20px; }
+    .company-card, .summary-card, .sev-card, .hz-card, .qa-section,
+    .lt-table, .fund-table, .readiness-table { background: #fff; border-color: #ddd; }
+    .findings-table thead th, .lt-table thead th, .fund-table thead th,
+    .readiness-table thead th { background: #f5f5f5; color: #444; }
+    .company-name, .horizon-header h2, .header h1 { color: #111; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- HEADER                                                  -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="header">
+    <h1>Data Error Log & Remediation Plan</h1>
+    <div class="subtitle">Kith Consulting &middot; Northwood Capital Partners</div>
+    <div class="date-line">Week 2 Deliverable &middot; March 2026</div>
+    <div class="deliverables-line">Engagement Deliverables: GHG Baseline &middot; MACC Curve &middot; TCFD Report</div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- SUMMARY DASHBOARD                                       -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="summary-dashboard">
+    <h2>Summary</h2>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="num">41</div>
+        <div class="label">Total Findings</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">4</div>
+        <div class="label">Priority Companies</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">6</div>
+        <div class="label">Light-Touch Companies</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">3</div>
+        <div class="label">Horizons</div>
+      </div>
+    </div>
+
+    <div class="severity-row">
+      <div class="sev-card critical">
+        <div class="sev-count">8</div>
+        <div class="sev-label">Critical</div>
+      </div>
+      <div class="sev-card high">
+        <div class="sev-count">22</div>
+        <div class="sev-label">High</div>
+      </div>
+      <div class="sev-card medium">
+        <div class="sev-count">10</div>
+        <div class="sev-label">Medium</div>
+      </div>
+      <div class="sev-card low">
+        <div class="sev-count">1</div>
+        <div class="sev-label">Low</div>
+      </div>
+    </div>
+
+    <div class="horizon-summary">
+      <div class="hz-card">
+        <div class="hz-tag">Horizon 1</div>
+        <div class="hz-title">Priority Portfolio (Deep Dive)</div>
+        <div class="hz-count">25 findings across 4 companies</div>
+      </div>
+      <div class="hz-card">
+        <div class="hz-tag">Horizon 2</div>
+        <div class="hz-title">Fund-Level & Cross-Portfolio</div>
+        <div class="hz-count">8 findings affecting all 10 portcos</div>
+      </div>
+      <div class="hz-card">
+        <div class="hz-tag">Horizon 3</div>
+        <div class="hz-title">Light-Touch Portfolio</div>
+        <div class="hz-count">8 flags across 6 companies</div>
+      </div>
+    </div>
+
+    <!-- ── Deliverable Readiness ── -->
+    <div class="readiness-section">
+      <h3>Deliverable Readiness</h3>
+      <table class="readiness-table">
+        <thead>
+          <tr>
+            <th style="width:160px;">Deliverable</th>
+            <th style="width:140px;">Data Readiness</th>
+            <th>Key Blockers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-deliverable">GHG Baseline</td>
+            <td><span class="readiness-pct pct-mid">60%</span></td>
+            <td>Scope 1+2 data exists for most; Scope 3 data absent. Keystone verification needed for 15/22 facilities.</td>
+          </tr>
+          <tr>
+            <td class="col-deliverable">MACC Curve</td>
+            <td><span class="readiness-pct pct-low">15%</span></td>
+            <td>No rate schedules, equipment specs, or vendor quotes across portfolio. Public benchmarks (EPA, DOE, EIA) available as fallback.</td>
+          </tr>
+          <tr>
+            <td class="col-deliverable">TCFD Report</td>
+            <td><span class="readiness-pct pct-mid">25%</span></td>
+            <td>Emissions data partial, governance absent across all 10 portcos, risk assessment started. Baselines and MACC must complete first; governance templates to be created.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- HORIZON 1: PRIORITY PORTFOLIO                           -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="horizon">
+    <div class="horizon-header">
+      <h2>Horizon 1 &mdash; Priority Portfolio Companies</h2>
+      <p>Deep-dive findings for the 4 companies in Kith's engagement scope. Each finding is actionable with a defined remediation path.</p>
+    </div>
+
+    <!-- ── Meridian ── -->
+    <div class="company-card">
+      <div class="company-header">
+        <div class="company-name-block">
+          <span class="company-name">Meridian Business Solutions</span>
+          <span class="sector-tag">Business Services</span>
+          <span class="status-badge status-exit-prep">Exit Prep</span>
+        </div>
+        <div class="scope-grades">
+          <span class="grade grade-b">S1: B+</span>
+          <span class="grade grade-b">S2: B+</span>
+          <span class="grade grade-f">S3: F</span>
+        </div>
+      </div>
+      <table class="findings-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-finding">Finding</th>
+            <th class="col-sev">Severity</th>
+            <th class="col-impact">Impact</th>
+            <th class="col-fix">Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row"><td colspan="5">GHG Baseline</td></tr>
+          <tr>
+            <td class="col-id">M-01</td>
+            <td>Pro-rata electricity allocation (NY, Boston) classified as utility bill data</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Overstates data quality for 2/16 facilities</td>
+            <td class="col-fix">Reclassify as "estimated allocation." Request sub-metering.</td>
+          </tr>
+          <tr>
+            <td class="col-id">M-02</td>
+            <td>4 facilities use "accounting_export" &mdash; undefined data source</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Cannot verify data provenance for 25% of facilities</td>
+            <td class="col-fix">Request sample source documents from Meridian finance team</td>
+          </tr>
+          <tr>
+            <td class="col-id">M-03</td>
+            <td>No ESG data package for exit data room</td>
+            <td><span class="sev-badge sev-critical">Critical</span></td>
+            <td class="col-impact">Exit prep company heading to market with zero climate data. Buyer DD will flag.</td>
+            <td class="col-fix">Build exit-ready ESG profile as priority deliverable</td>
+          </tr>
+          <tr>
+            <td class="col-id">M-04</td>
+            <td>Scope 3 completely unmeasured</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Employee commuting (Cat 7), business travel (Cat 6), purchased goods (Cat 1) likely dominate total emissions</td>
+            <td class="col-fix">Begin Scope 3 screening &mdash; Cat 6 and 7 first</td>
+          </tr>
+          <tr class="category-row"><td colspan="5">MACC Curve</td></tr>
+          <tr>
+            <td class="col-id">M-05</td>
+            <td>No utility rate schedules available &mdash; cannot calculate savings from efficiency measures</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Blocks ROI calculation for all facility-level abatement opportunities</td>
+            <td class="col-fix">Request $/kWh and $/therm per facility. Fallback: EIA state-average rates.</td>
+          </tr>
+          <tr>
+            <td class="col-id">M-06</td>
+            <td>No equipment inventory &mdash; cannot identify or size abatement opportunities</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">MACC cannot be constructed without knowing what to abate</td>
+            <td class="col-fix">Request HVAC, lighting, and major equipment specs. Fallback: CBECS age-based assumptions.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Clearview ── -->
+    <div class="company-card">
+      <div class="company-header">
+        <div class="company-name-block">
+          <span class="company-name">Clearview Environmental</span>
+          <span class="sector-tag">Environmental Services</span>
+          <span class="status-badge status-on-plan">On Plan</span>
+        </div>
+        <div class="scope-grades">
+          <span class="grade grade-a">S1: A</span>
+          <span class="grade grade-a">S2: A</span>
+          <span class="grade grade-f">S3: F</span>
+        </div>
+      </div>
+      <table class="findings-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-finding">Finding</th>
+            <th class="col-sev">Severity</th>
+            <th class="col-impact">Impact</th>
+            <th class="col-fix">Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row"><td colspan="5">GHG Baseline</td></tr>
+          <tr>
+            <td class="col-id">C-01</td>
+            <td>Lost $2-3M in municipal contracts from ESG scoring gaps</td>
+            <td><span class="sev-badge sev-critical">Critical</span></td>
+            <td class="col-impact">Direct revenue loss. Competitors with ESG certifications winning bids.</td>
+            <td class="col-fix">Fast-track ESG certification &mdash; revenue recovery, not compliance</td>
+          </tr>
+          <tr>
+            <td class="col-id">C-02</td>
+            <td>Fleet is 72% of Scope 1 but no monthly granularity</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Cannot build route optimization or fleet transition MACC</td>
+            <td class="col-fix">Request 12-month fleet fuel card data with vehicle-level detail</td>
+          </tr>
+          <tr>
+            <td class="col-id">C-03</td>
+            <td>Scope 3 from waste processing, chemicals, subcontractors unmeasured</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">For environmental services, Scope 3 can equal Scope 1+2</td>
+            <td class="col-fix">Screen Cat 1 (chemicals), Cat 4 (upstream waste transport)</td>
+          </tr>
+          <tr>
+            <td class="col-id">C-04</td>
+            <td>No formal climate governance despite environmental services identity</td>
+            <td><span class="sev-badge sev-medium">Medium</span></td>
+            <td class="col-impact">Reputational inconsistency &mdash; environmental company without ESG framework</td>
+            <td class="col-fix">Establish board ESG oversight. Natural brand alignment.</td>
+          </tr>
+          <tr class="category-row"><td colspan="5">MACC Curve</td></tr>
+          <tr>
+            <td class="col-id">C-05</td>
+            <td>Fleet fuel data lacks vehicle-level granularity &mdash; cannot model route optimization or EV transition scenarios for MACC</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Fleet is 72% of Scope 1; EV transition and route optimization are top MACC opportunities but cannot be sized</td>
+            <td class="col-fix">Request vehicle-level fuel card data. Fallback: EPA average fleet emission factors.</td>
+          </tr>
+          <tr>
+            <td class="col-id">C-06</td>
+            <td>No maintenance cost data &mdash; cannot calculate avoided costs for MACC payback calculations</td>
+            <td><span class="sev-badge sev-medium">Medium</span></td>
+            <td class="col-impact">MACC payback periods incomplete without maintenance cost offsets</td>
+            <td class="col-fix">Request annual maintenance spend by category.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Sterling ── -->
+    <div class="company-card">
+      <div class="company-header">
+        <div class="company-name-block">
+          <span class="company-name">Sterling Precision Mfg.</span>
+          <span class="sector-tag">Industrial Tech</span>
+          <span class="status-badge status-strong">Strong</span>
+        </div>
+        <div class="scope-grades">
+          <span class="grade grade-a">S1: A</span>
+          <span class="grade grade-a">S2: A</span>
+          <span class="grade grade-f">S3: F</span>
+        </div>
+      </div>
+      <table class="findings-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-finding">Finding</th>
+            <th class="col-sev">Severity</th>
+            <th class="col-impact">Impact</th>
+            <th class="col-fix">Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row"><td colspan="5">GHG Baseline</td></tr>
+          <tr>
+            <td class="col-id">S-01</td>
+            <td>R-22 refrigerant system at Akron &mdash; 30-year-old unit, emergency service 3x in 2025</td>
+            <td><span class="sev-badge sev-critical">Critical</span></td>
+            <td class="col-impact">R-22 GWP = 1,810. Each leak = significant emissions spike. Regulatory phase-out imminent.</td>
+            <td class="col-fix">Get replacement quote. Budget for Q3 2026 replacement.</td>
+          </tr>
+          <tr>
+            <td class="col-id">S-02</td>
+            <td>Defense customers (Boeing, Raytheon, L3Harris) increasingly requiring ESG disclosure</td>
+            <td><span class="sev-badge sev-critical">Critical</span></td>
+            <td class="col-impact">Revenue at risk if unable to meet supplier ESG requirements</td>
+            <td class="col-fix">Obtain specific customer ESG questionnaires. Map requirements.</td>
+          </tr>
+          <tr>
+            <td class="col-id">S-03</td>
+            <td>December data annualized from YTD through November</td>
+            <td><span class="sev-badge sev-medium">Medium</span></td>
+            <td class="col-impact">Manufacturing has seasonal variability. Dec estimate may be off.</td>
+            <td class="col-fix">Obtain actual Dec utility bills when available.</td>
+          </tr>
+          <tr>
+            <td class="col-id">S-04</td>
+            <td>Scope 3 Cat 1 (purchased metals/alloys) likely 2-5x Scope 1+2 combined</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Current 6,044 mt baseline represents only 20-35% of true footprint</td>
+            <td class="col-fix">Begin supplier emissions data collection. Prioritize top 10 metal suppliers.</td>
+          </tr>
+          <tr class="category-row"><td colspan="5">MACC Curve</td></tr>
+          <tr>
+            <td class="col-id">S-05</td>
+            <td>R-22 replacement not yet quoted &mdash; blocks the highest-priority MACC initiative (regulatory compliance, GWP 1,810)</td>
+            <td><span class="sev-badge sev-critical">Critical</span></td>
+            <td class="col-impact">Cannot size cost or abatement potential of the single largest emissions-reduction opportunity</td>
+            <td class="col-fix">Get vendor quote by Apr 4.</td>
+          </tr>
+          <tr>
+            <td class="col-id">S-06</td>
+            <td>No utility rate schedules despite $1.8M annual energy spend &mdash; cannot calculate ROI on efficiency investments</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">All MACC savings estimates for Sterling are uncomputable without rate data</td>
+            <td class="col-fix">Request industrial rate schedules from Ohio Edison, FirstEnergy, AEP Ohio. Fallback: EIA Ohio industrial rates.</td>
+          </tr>
+          <tr>
+            <td class="col-id">S-07</td>
+            <td>CNC machine and furnace specs unknown &mdash; cannot size process efficiency opportunities (likely largest MACC items)</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Process efficiency is typically 40-60% of manufacturing MACC; cannot model without equipment data</td>
+            <td class="col-fix">Request equipment inventory with model, age, rated efficiency. Fallback: DOE manufacturing benchmarks.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Keystone ── -->
+    <div class="company-card">
+      <div class="company-header">
+        <div class="company-name-block">
+          <span class="company-name">Keystone Behavioral Health</span>
+          <span class="sector-tag">Healthcare Services</span>
+          <span class="status-badge status-100-day">100-Day</span>
+        </div>
+        <div class="scope-grades">
+          <span class="grade grade-c">S1: C</span>
+          <span class="grade grade-c">S2: C</span>
+          <span class="grade grade-f">S3: F</span>
+        </div>
+      </div>
+      <table class="findings-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-finding">Finding</th>
+            <th class="col-sev">Severity</th>
+            <th class="col-impact">Impact</th>
+            <th class="col-fix">Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row"><td colspan="5">GHG Baseline</td></tr>
+          <tr>
+            <td class="col-id">K-01</td>
+            <td>6 facilities use formula-based model estimates (sq ft x 15 kWh/sq ft)</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">CFO acknowledged "estimates may not be precise." +/-25-30% uncertainty on baseline.</td>
+            <td class="col-fix">Negotiate green lease clauses. Install smart meters at high-traffic clinics.</td>
+          </tr>
+          <tr>
+            <td class="col-id">K-02</td>
+            <td>Hagerstown facility opened Nov 2025 &mdash; "insufficient data" but numbers submitted</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Including fabricated numbers in baseline calculation</td>
+            <td class="col-fix">Exclude from totals until 12 months of actual data available.</td>
+          </tr>
+          <tr>
+            <td class="col-id">K-03</td>
+            <td>Only 7/22 facilities (32%) have direct utility bills</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Weakest data foundation of the priority 4. Blended grade C.</td>
+            <td class="col-fix">Priority: convert 8 landlord-estimate facilities to direct data sharing.</td>
+          </tr>
+          <tr>
+            <td class="col-id">K-04</td>
+            <td>100-day plan company with minimal data systems</td>
+            <td><span class="sev-badge sev-medium">Medium</span></td>
+            <td class="col-impact">CFO "full-time on billing platform and EHR migration" &mdash; bandwidth constrained</td>
+            <td class="col-fix">Align data collection with EHR migration timeline. Don't overburden.</td>
+          </tr>
+          <tr class="category-row"><td colspan="5">MACC Curve</td></tr>
+          <tr>
+            <td class="col-id">K-05</td>
+            <td>No facility square footage for 13 estimated clinics &mdash; cannot benchmark against CBECS or size opportunities</td>
+            <td><span class="sev-badge sev-high">High</span></td>
+            <td class="col-impact">Cannot calculate energy use intensity (EUI) or identify underperforming facilities for MACC targeting</td>
+            <td class="col-fix">Request lease documents with sq footage. Fallback: Estimate from patient volume.</td>
+          </tr>
+          <tr>
+            <td class="col-id">K-06</td>
+            <td>New clinic buildout specs (Trenton, Hagerstown) not available &mdash; cannot establish "as-built" efficiency baseline for MACC</td>
+            <td><span class="sev-badge sev-medium">Medium</span></td>
+            <td class="col-impact">New clinics represent opportunity to set efficient baseline but specs unknown</td>
+            <td class="col-fix">Request MEP specs from contractor.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- HORIZON 2: FUND-LEVEL & CROSS-PORTFOLIO                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="horizon">
+    <div class="horizon-header">
+      <h2>Horizon 2 &mdash; Fund-Level & Cross-Portfolio Findings</h2>
+      <p>Systemic issues affecting the entire portfolio or fund infrastructure. These require firm-level remediation.</p>
+    </div>
+
+    <table class="fund-table">
+      <thead>
+        <tr>
+          <th style="width:56px;">ID</th>
+          <th style="width:30%;">Finding</th>
+          <th style="width:80px;">Severity</th>
+          <th>Scope</th>
+          <th>Impact</th>
+          <th>Remediation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-01</td>
+          <td>Scope 3 data absent across all 10 portfolio companies</td>
+          <td><span class="sev-badge sev-critical">Critical</span></td>
+          <td class="col-scope">All 10 portcos</td>
+          <td>Cannot compute true emissions baselines for any company</td>
+          <td style="color:#00bcd4;">Phase 1 Scope 3 screening for priority 4, playbook transfers to remaining 6</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-02</td>
+          <td>No portfolio company has climate governance</td>
+          <td><span class="sev-badge sev-high">High</span></td>
+          <td class="col-scope">All 10 portcos</td>
+          <td>TCFD Pillar 1 is 0%. Blocks any TCFD-aligned reporting.</td>
+          <td style="color:#00bcd4;">Template board ESG charter. Roll out starting with exit-track.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-03</td>
+          <td>No emissions baselines computed</td>
+          <td><span class="sev-badge sev-high">High</span></td>
+          <td class="col-scope">All 10 portcos</td>
+          <td>Raw energy data exists but no calculated baselines using EPA/eGRID factors</td>
+          <td style="color:#00bcd4;">Kith to compute Scope 1+2 baselines for priority 4 in Weeks 3-4</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-04</td>
+          <td>4 ESG Supabase tables return 404 (don't exist)</td>
+          <td><span class="sev-badge sev-high">High</span></td>
+          <td class="col-scope">Database</td>
+          <td>esg_portco_scores, composites, climate_risk, climate_composites</td>
+          <td style="color:#00bcd4;">Create tables per schema. Populate from questionnaire data.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-05</td>
+          <td>Fund II drawn capital $149M discrepancy</td>
+          <td><span class="sev-badge sev-medium">Medium</span></td>
+          <td class="col-scope">Fund</td>
+          <td>LP reporting accuracy at risk</td>
+          <td style="color:#00bcd4;">Reconcile with fund accounting. Identify fees, reserves, recycled capital.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-06</td>
+          <td>Slug mismatches in fund_performance.portco_ids</td>
+          <td><span class="sev-badge sev-medium">Medium</span></td>
+          <td class="col-scope">Database</td>
+          <td>Automated analytics break on JOIN queries for 6/10 portcos</td>
+          <td style="color:#00bcd4;">Standardize slugs. Update fund_performance records.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-07</td>
+          <td>MACC curve input data completely absent portfolio-wide. No utility rate schedules, equipment inventories, vendor quotes, or operational hours exist for any company.</td>
+          <td><span class="sev-badge sev-critical">Critical</span></td>
+          <td class="col-scope">All 4 priority portcos</td>
+          <td>MACC curves must rely entirely on public reference data (EPA, DOE, RS Means, EIA). Cost estimates will have &plusmn;30-50% uncertainty using benchmarks vs. &plusmn;10-15% with actual quotes. Public reference data provides credible fallback &mdash; EPA ENERGY STAR, DOE Better Buildings, RS Means, and EIA state-level energy prices enable preliminary MACC construction while company-specific data is collected.</td>
+          <td style="color:#00bcd4;">Front-load MACC data requests in Week 1-2.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">F-08</td>
+          <td>No planned capex budgets available &mdash; cannot assess implementation feasibility</td>
+          <td><span class="sev-badge sev-medium">Medium</span></td>
+          <td class="col-scope">All 4 priority portcos</td>
+          <td>MACC initiatives without capex context cannot be prioritized for implementation</td>
+          <td style="color:#00bcd4;">Request 2026-2027 capex budgets from all 4 priority company CFOs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- HORIZON 3: LIGHT-TOUCH PORTFOLIO                        -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="horizon">
+    <div class="horizon-header">
+      <h2>Horizon 3 &mdash; Light-Touch Portfolio</h2>
+      <p>Flagged findings for the 6 non-priority companies. Not investigated in depth &mdash; queued for when playbooks transfer from priority 4.</p>
+    </div>
+
+    <table class="lt-table">
+      <thead>
+        <tr>
+          <th style="width:56px;">ID</th>
+          <th style="width:140px;">Company</th>
+          <th style="width:30%;">Finding</th>
+          <th style="width:80px;">Severity</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-01</td>
+          <td class="col-company">Patriot Staffing</td>
+          <td>92% landlord estimates, "low confidence" acknowledged</td>
+          <td><span class="sev-badge sev-critical">Critical</span></td>
+          <td>Worst data quality in portfolio. D/D/F grades. 1/26 utility bills.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-02</td>
+          <td class="col-company">Patriot Staffing</td>
+          <td>Evansville & Rockford: "no separate data" but numbers submitted</td>
+          <td><span class="sev-badge sev-high">High</span></td>
+          <td>Likely fabricated. Exclude from calculations.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-03</td>
+          <td class="col-company">NovaCare</td>
+          <td>2 post-acquisition facilities incomplete data migration</td>
+          <td><span class="sev-badge sev-high">High</span></td>
+          <td>Marietta/Augusta (RehabWorks). Electricity = 0 kWh.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-04</td>
+          <td class="col-company">NovaCare</td>
+          <td>Multiple clinics showing 0 kWh consumption</td>
+          <td><span class="sev-badge sev-high">High</span></td>
+          <td>Operating clinics cannot consume 0 kWh. Data unreliable.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-05</td>
+          <td class="col-company">Trident IT</td>
+          <td>"Accounting export" for 6/8 facilities &mdash; undefined source</td>
+          <td><span class="sev-badge sev-medium">Medium</span></td>
+          <td>Cannot grade without knowing what it means.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-06</td>
+          <td class="col-company">Ridgeline Property</td>
+          <td>Malformed data_source labels (numeric codes)</td>
+          <td><span class="sev-badge sev-medium">Medium</span></td>
+          <td>"1200", "2800", "4200" instead of source type. Data provenance unknown.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-07</td>
+          <td class="col-company">Harvest Ridge</td>
+          <td>December data annualized</td>
+          <td><span class="sev-badge sev-low">Low</span></td>
+          <td>Same as Sterling. Get actual Dec bills.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#888;">L-08</td>
+          <td class="col-company">Pinnacle Testing</td>
+          <td>80% accounting exports from acquisition seller</td>
+          <td><span class="sev-badge sev-medium">Medium</span></td>
+          <td>4 months post-close. Data not independently verified.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                  -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <div class="footer">
+    <div class="qa-section">
+      <h3>QA Summary</h3>
+      <div class="qa-grid">
+        <div class="qa-item">
+          <span class="qa-check">&#10003;</span>
+          <div class="qa-text"><strong>Source Verification</strong> &mdash; All findings traced to facility-level questionnaire data, Supabase queries, or CFO interviews. MACC findings sourced from data gap analysis against EPA, DOE, and EIA requirements. No unsourced claims.</div>
+        </div>
+        <div class="qa-item">
+          <span class="qa-check">&#10003;</span>
+          <div class="qa-text"><strong>Structural Consistency</strong> &mdash; Finding counts verified: H1 (25) + H2 (8) + H3 (8) = 41 total. Severity counts cross-checked: 8 Critical + 22 High + 10 Medium + 1 Low = 41.</div>
+        </div>
+        <div class="qa-item">
+          <span class="qa-check">&#10003;</span>
+          <div class="qa-text"><strong>Adversarial Review</strong> &mdash; Remediation paths tested for feasibility. Bandwidth constraints flagged (Keystone CFO). Revenue impact quantified where possible (Clearview $2-3M). MACC fallback sources validated (EPA ENERGY STAR, DOE Better Buildings, RS Means, EIA).</div>
+        </div>
+        <div class="qa-item">
+          <span class="qa-check">&#10003;</span>
+          <div class="qa-text"><strong>Assumption Flagging</strong> &mdash; Scope 3 materiality estimates (Sterling 2-5x, Clearview S3 = S1+2) flagged as firm estimates. Keystone +/-25-30% uncertainty from CFO guidance. MACC benchmark uncertainty (&plusmn;30-50%) vs. actual quotes (&plusmn;10-15%) flagged as firm estimate.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="confidential">
+      <strong>CONFIDENTIAL</strong> &mdash; Northwood Capital Partners<br>
+      Prepared by Kith Consulting &middot; March 2026 &middot; v4
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

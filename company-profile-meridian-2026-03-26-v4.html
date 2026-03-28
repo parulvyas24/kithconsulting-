@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Business Solutions — Climate Data Profile</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a14;
+    --bg-card: #12121f;
+    --bg-card-alt: #181828;
+    --teal: #5fb5a2;
+    --teal-dim: rgba(95,181,162,0.15);
+    --teal-glow: rgba(95,181,162,0.25);
+    --white: #f0f0f5;
+    --gray: #8a8aa0;
+    --gray-dim: #4a4a60;
+    --green: #4caf50;
+    --amber: #ff9800;
+    --red: #ef5350;
+    --red-dim: rgba(239,83,80,0.15);
+    --amber-dim: rgba(255,152,0,0.15);
+    --green-dim: rgba(76,175,80,0.15);
+    --border: #1e1e35;
+    --radius: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 8px var(--teal-glow); }
+    50% { box-shadow: 0 0 20px var(--teal-glow); }
+  }
+  @keyframes barGrow {
+    from { width: 0; }
+  }
+  .animate-in {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+  .delay-1 { animation-delay: 0.05s; }
+  .delay-2 { animation-delay: 0.1s; }
+  .delay-3 { animation-delay: 0.15s; }
+  .delay-4 { animation-delay: 0.2s; }
+  .delay-5 { animation-delay: 0.25s; }
+  .delay-6 { animation-delay: 0.3s; }
+  .delay-7 { animation-delay: 0.35s; }
+  .delay-8 { animation-delay: 0.4s; }
+
+  /* Header */
+  .header {
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .company-name {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--white) 0%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-subtitle {
+    font-size: 13px;
+    color: var(--gray);
+    margin-top: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .report-date {
+    font-size: 12px;
+    color: var(--gray);
+    text-align: right;
+  }
+  .badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .badge {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .badge-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(95,181,162,0.3); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(255,152,0,0.3); }
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(76,175,80,0.3); }
+  .badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,83,80,0.3); }
+
+  /* Scope Grade Cards */
+  .scope-grades {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .scope-grade-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+  .scope-grade-card .sg-letter {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .scope-grade-card .sg-info {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .scope-grade-card .sg-scope {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .scope-grade-card .sg-detail {
+    color: var(--gray);
+  }
+  .sg-green { border-color: rgba(0,200,83,0.3); }
+  .sg-green .sg-letter { color: #00c853; }
+  .sg-green .sg-scope { color: #00c853; }
+  .sg-bplus { border-color: rgba(198,239,206,0.4); }
+  .sg-bplus .sg-letter { color: #c6efce; }
+  .sg-bplus .sg-scope { color: #c6efce; }
+  .sg-red { border-color: rgba(255,23,68,0.3); }
+  .sg-red .sg-letter { color: #ff1744; }
+  .sg-red .sg-scope { color: #ff1744; }
+
+  /* GHG Section Grade Badge (inline) */
+  .grade-badge-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .grade-badge-inline.grade-a {
+    background: rgba(0,200,83,0.15);
+    color: #00c853;
+    border: 1px solid rgba(0,200,83,0.3);
+  }
+  .grade-badge-inline.grade-bplus {
+    background: rgba(198,239,206,0.15);
+    color: #c6efce;
+    border: 1px solid rgba(198,239,206,0.3);
+  }
+  .grade-badge-inline.grade-f {
+    background: rgba(255,23,68,0.15);
+    color: #ff1744;
+    border: 1px solid rgba(255,23,68,0.3);
+  }
+
+  /* KPI Cards */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .kpi-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-alt) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--teal), transparent);
+  }
+  .kpi-label {
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--teal);
+    margin-top: 4px;
+  }
+
+  /* Section */
+  .section {
+    margin-top: 40px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--teal);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-number {
+    background: var(--teal);
+    color: var(--bg);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Cards & Panels */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--gray); }
+  .stat-value { color: var(--white); font-weight: 600; }
+  .stat-value.teal { color: var(--teal); }
+
+  /* Status Indicator */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .status-green {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(76,175,80,0.3);
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulseGlow 2s infinite;
+  }
+
+  /* Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .data-table thead th {
+    background: var(--bg-card-alt);
+    color: var(--teal);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+  }
+  .data-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .data-table tbody tr:hover {
+    background: rgba(95,181,162,0.04);
+  }
+  .data-table td {
+    padding: 10px;
+    color: var(--white);
+    vertical-align: middle;
+  }
+  .data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .data-table tfoot td {
+    font-weight: 700;
+    border-top: 2px solid var(--teal);
+    color: var(--teal);
+    padding: 12px 10px;
+  }
+  .quality-badge {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(76,175,80,0.3);
+  }
+  .quality-badge.quality-bplus {
+    width: auto;
+    padding: 0 6px;
+    background: rgba(198,239,206,0.15);
+    color: #c6efce;
+    border: 1px solid rgba(198,239,206,0.3);
+  }
+  .type-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    background: var(--teal-dim);
+    color: var(--teal);
+  }
+  .type-badge.dist {
+    background: var(--amber-dim);
+    color: var(--amber);
+  }
+  .type-badge.hq {
+    background: rgba(130,100,255,0.15);
+    color: #a78bfa;
+  }
+
+  /* Bar Charts (CSS) */
+  .bar-chart { margin: 16px 0; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .bar-label {
+    width: 200px;
+    font-size: 13px;
+    color: var(--gray);
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .bar-track {
+    flex: 1;
+    height: 28px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bg);
+    animation: barGrow 1s ease-out both;
+    animation-delay: 0.3s;
+  }
+  .bar-fill.teal { background: linear-gradient(90deg, var(--teal), #3d9b87); }
+  .bar-fill.amber { background: linear-gradient(90deg, var(--amber), #e68900); }
+  .bar-fill.green { background: linear-gradient(90deg, var(--green), #388e3c); }
+  .bar-value {
+    width: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+
+  /* Scope 3 Grid */
+  .scope3-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .scope3-cell {
+    border-radius: 6px;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 11px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+  }
+  .scope3-cell:hover { transform: scale(1.05); }
+  .scope3-cell .cat-num {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .scope3-cell .cat-name {
+    font-size: 10px;
+    line-height: 1.3;
+    min-height: 26px;
+  }
+  .scope3-red { background: var(--red-dim); color: var(--red); border-color: rgba(239,83,80,0.2); }
+  .scope3-amber { background: var(--amber-dim); color: var(--amber); border-color: rgba(255,152,0,0.2); }
+  .scope3-green { background: var(--green-dim); color: var(--green); border-color: rgba(76,175,80,0.2); }
+  .scope3-gray { background: rgba(100,100,120,0.1); color: var(--gray-dim); border-color: var(--border); }
+
+  /* Progress Bars */
+  .progress-item {
+    margin-bottom: 16px;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .progress-label { color: var(--white); }
+  .progress-pct { color: var(--teal); font-weight: 700; }
+  .progress-track {
+    height: 10px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--teal), #3d9b87);
+    animation: barGrow 1.2s ease-out both;
+    animation-delay: 0.4s;
+  }
+  .progress-fill.zero {
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Opportunity Cards */
+  .opp-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .opp-card {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .opp-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+  .opp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+  }
+  .opp-num {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--teal-dim);
+    position: absolute;
+    top: 8px;
+    right: 14px;
+  }
+  .opp-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+  .opp-detail {
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .opp-detail span:last-child { color: var(--teal); font-weight: 600; }
+
+  /* Risk Matrix */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2px;
+  }
+  .risk-label-cell {
+    background: var(--bg-card-alt);
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+  }
+  .risk-bar-cell {
+    background: var(--bg-card-alt);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .risk-indicator {
+    height: 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .risk-low { width: 60px; background: var(--green); }
+  .risk-low-med { width: 100px; background: linear-gradient(90deg, var(--green), var(--amber)); }
+  .risk-med { width: 140px; background: var(--amber); }
+  .risk-high { width: 200px; background: var(--red); }
+  .risk-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .risk-tag.low { color: var(--green); }
+  .risk-tag.low-med { color: var(--amber); }
+  .risk-tag.med { color: var(--amber); }
+
+  /* Callout */
+  .callout {
+    background: linear-gradient(135deg, rgba(95,181,162,0.08) 0%, rgba(95,181,162,0.02) 100%);
+    border: 1px solid rgba(95,181,162,0.3);
+    border-left: 4px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 28px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--white);
+  }
+  .callout-title {
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  /* Warning Callout */
+  .callout-warn {
+    background: linear-gradient(135deg, rgba(255,152,0,0.08) 0%, rgba(255,152,0,0.02) 100%);
+    border: 1px solid rgba(255,152,0,0.3);
+    border-left: 4px solid var(--amber);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .callout-warn strong { color: var(--amber); }
+
+  /* TCFD Gauge */
+  .tcfd-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .tcfd-item {
+    text-align: center;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 12px;
+  }
+  .tcfd-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+  .gauge-wrap {
+    position: relative;
+    width: 90px;
+    height: 50px;
+    margin: 0 auto 10px;
+    overflow: hidden;
+  }
+  .gauge-bg {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 8px solid rgba(255,255,255,0.06);
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    transform: rotate(225deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .gauge-fill {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 8px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(225deg);
+  }
+  .tcfd-pct {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  /* Data Request Table */
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .req-table th {
+    background: var(--bg-card-alt);
+    color: var(--teal);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  .req-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--white);
+  }
+  .priority-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .priority-2 { background: var(--amber-dim); color: var(--amber); }
+  .priority-3 { background: rgba(100,100,120,0.15); color: var(--gray); }
+
+  /* SVG donut */
+  .donut-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin: 20px 0;
+  }
+  .donut-legend {
+    font-size: 13px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* Energy cost mini cards */
+  .energy-summary {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .energy-mini {
+    flex: 1;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .energy-mini .em-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .energy-mini .em-label {
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .opp-cards { grid-template-columns: 1fr; }
+    .tcfd-row { grid-template-columns: repeat(2, 1fr); }
+    .scope3-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* No initiative callout */
+  .no-init {
+    text-align: center;
+    padding: 20px;
+    background: var(--red-dim);
+    border: 1px dashed rgba(239,83,80,0.3);
+    border-radius: var(--radius);
+    color: var(--red);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Scope combined bar */
+  .combined-bar {
+    display: flex;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .combined-bar .segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bg);
+  }
+
+  /* Overall score circle */
+  .overall-circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .overall-circle .big-pct {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--red);
+  }
+  .overall-circle .big-label {
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+
+<!-- ========== HEADER ========== -->
+<header class="header animate-in">
+  <div class="header-top">
+    <div>
+      <div class="company-name">Meridian Business Solutions</div>
+      <div class="header-subtitle">Company Climate Data Profile &mdash; Northwood Capital Partners</div>
+    </div>
+    <div class="report-date">
+      Report Date: 26 Mar 2026<br>
+      Prepared by Kith Consulting
+    </div>
+  </div>
+  <div class="badges">
+    <span class="badge badge-teal">Fund I</span>
+    <span class="badge badge-teal">Business Services</span>
+    <span class="badge badge-amber">Exit Prep</span>
+  </div>
+  <div class="scope-grades">
+    <div class="scope-grade-card sg-bplus">
+      <div class="sg-letter">B+</div>
+      <div class="sg-info">
+        <div class="sg-scope">Scope 1</div>
+        <div class="sg-detail">Direct emissions &mdash; blended data sources</div>
+      </div>
+    </div>
+    <div class="scope-grade-card sg-bplus">
+      <div class="sg-letter">B+</div>
+      <div class="sg-info">
+        <div class="sg-scope">Scope 2</div>
+        <div class="sg-detail">Purchased electricity &mdash; 16 facilities</div>
+      </div>
+    </div>
+    <div class="scope-grade-card sg-red">
+      <div class="sg-letter">F</div>
+      <div class="sg-info">
+        <div class="sg-scope">Scope 3</div>
+        <div class="sg-detail">No data &mdash; 0 of 15 categories</div>
+      </div>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card animate-in delay-1">
+      <div class="kpi-label">Revenue</div>
+      <div class="kpi-value">$225.0M</div>
+      <div class="kpi-sub">FY 2025</div>
+    </div>
+    <div class="kpi-card animate-in delay-2">
+      <div class="kpi-label">EBITDA</div>
+      <div class="kpi-value">$38.3M</div>
+      <div class="kpi-sub">17.0% Margin</div>
+    </div>
+    <div class="kpi-card animate-in delay-3">
+      <div class="kpi-label">Employees</div>
+      <div class="kpi-value">580</div>
+      <div class="kpi-sub">16 Locations</div>
+    </div>
+    <div class="kpi-card animate-in delay-4">
+      <div class="kpi-label">Facilities</div>
+      <div class="kpi-value">16</div>
+      <div class="kpi-sub">Scope 1&amp;2: Grade B+ | Scope 3: Grade F</div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== SECTION 1: COMPANY OVERVIEW ========== -->
+<div class="section animate-in delay-2">
+  <div class="section-title"><span class="section-number">1</span> Company Overview</div>
+  <div class="two-col">
+    <div class="card">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Financial &amp; Operational</h3>
+      <div class="stat-row"><span class="stat-label">Entry Date</span><span class="stat-value">Mar 2018</span></div>
+      <div class="stat-row"><span class="stat-label">Entry EV</span><span class="stat-value">$195.0M (9.0x EBITDA)</span></div>
+      <div class="stat-row"><span class="stat-label">Current EV</span><span class="stat-value teal">$363.9M (9.5x exit)</span></div>
+      <div class="stat-row"><span class="stat-label">Debt</span><span class="stat-value">$42.0M <span style="color:var(--green);font-size:11px;">&darr; from $78.0M</span></span></div>
+      <div class="stat-row"><span class="stat-label">Net Leverage</span><span class="stat-value">1.1x</span></div>
+      <div class="stat-row"><span class="stat-label">Gross MOIC</span><span class="stat-value teal">3.0x</span></div>
+      <div class="stat-row"><span class="stat-label">IRR</span><span class="stat-value teal">~22%</span></div>
+      <div class="stat-row"><span class="stat-label">Cumulative Distributions</span><span class="stat-value">$30.0M</span></div>
+      <div class="stat-row"><span class="stat-label">Deal Lead</span><span class="stat-value">Mark Sullivan</span></div>
+      <div class="stat-row"><span class="stat-label">Exit Status</span><span class="stat-value" style="font-size:12px;text-align:right;max-width:55%;">Sell-side advisor RFP in progress; launch H2 2026</span></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Status &amp; Budget</h3>
+      <div style="margin-bottom:16px;">
+        <span class="status-pill status-green"><span class="status-dot"></span> GREEN &mdash; On Plan</span>
+        <span style="font-size:12px;color:var(--gray);margin-left:8px;">Exit prep on track</span>
+      </div>
+      <div style="font-size:12px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700;">2026 Budget</div>
+      <div class="stat-row"><span class="stat-label">Revenue Target</span><span class="stat-value">$243.0M <span style="color:var(--green);font-size:11px;">+9.2%</span></span></div>
+      <div class="stat-row"><span class="stat-label">EBITDA Target</span><span class="stat-value">$42.2M <span style="color:var(--green);font-size:11px;">+11.9%</span></span></div>
+      <div style="font-size:12px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;font-weight:700;">Jan 2026 Actual vs Budget</div>
+      <div class="stat-row"><span class="stat-label">Revenue</span><span class="stat-value">$18.2M <span style="color:var(--green);font-size:11px;">vs $18.0M (+1.1%)</span></span></div>
+      <div class="stat-row"><span class="stat-label">EBITDA</span><span class="stat-value">$3.0M <span style="color:var(--green);font-size:11px;">vs $2.8M (+7.1%)</span></span></div>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+        <div class="stat-row"><span class="stat-label">DSO</span><span class="stat-value">43 days</span></div>
+        <div class="stat-row"><span class="stat-label">Customer Count</span><span class="stat-value">145</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 2: FACILITY MAP / LOCATION TABLE ========== -->
+<div class="section animate-in delay-3">
+  <div class="section-title"><span class="section-number">2</span> Facility Map &amp; Energy Data</div>
+  <div class="card" style="overflow-x:auto;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Facility</th>
+          <th>City, State</th>
+          <th>Type</th>
+          <th class="num">Electricity (kWh)</th>
+          <th class="num">Nat Gas (therms)</th>
+          <th>Data Source</th>
+          <th style="text-align:center;">Quality</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Chicago HQ</td><td>Chicago, IL</td><td><span class="type-badge hq">Corporate HQ</span></td><td class="num">348,500</td><td class="num">24,800</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>2</td><td>Minneapolis</td><td>Minneapolis, MN</td><td><span class="type-badge">Office</span></td><td class="num">172,000</td><td class="num">14,200</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>3</td><td>Detroit</td><td>Detroit, MI</td><td><span class="type-badge">Office</span></td><td class="num">145,000</td><td class="num">12,800</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>4</td><td>St. Louis</td><td>St. Louis, MO</td><td><span class="type-badge">Office</span></td><td class="num">128,000</td><td class="num">9,600</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>5</td><td>New York</td><td>New York, NY</td><td><span class="type-badge">Office</span></td><td class="num">165,000</td><td class="num">11,500</td><td>Utility Bill (pro-rata 60%)</td><td style="text-align:center;"><span class="quality-badge quality-bplus">B+</span></td></tr>
+        <tr><td>6</td><td>Boston</td><td>Boston, MA</td><td><span class="type-badge">Office</span></td><td class="num">152,000</td><td class="num">13,100</td><td>Utility Bill (pro-rata 60%)</td><td style="text-align:center;"><span class="quality-badge quality-bplus">B+</span></td></tr>
+        <tr><td>7</td><td>Philadelphia</td><td>Philadelphia, PA</td><td><span class="type-badge">Office</span></td><td class="num">134,000</td><td class="num">10,400</td><td>Accounting Export</td><td style="text-align:center;"><span class="quality-badge quality-bplus">B+</span></td></tr>
+        <tr><td>8</td><td>Atlanta</td><td>Atlanta, GA</td><td><span class="type-badge">Office</span></td><td class="num">148,000</td><td class="num">5,200</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>9</td><td>Charlotte</td><td>Charlotte, NC</td><td><span class="type-badge">Office</span></td><td class="num">118,000</td><td class="num">6,800</td><td>Accounting Export</td><td style="text-align:center;"><span class="quality-badge quality-bplus">B+</span></td></tr>
+        <tr><td>10</td><td>Miami</td><td>Miami, FL</td><td><span class="type-badge">Office</span></td><td class="num">168,000</td><td class="num">2,100</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>11</td><td>Denver</td><td>Denver, CO</td><td><span class="type-badge">Office</span></td><td class="num">112,000</td><td class="num">9,200</td><td>Accounting Export</td><td style="text-align:center;"><span class="quality-badge quality-bplus">B+</span></td></tr>
+        <tr><td>12</td><td>Phoenix</td><td>Phoenix, AZ</td><td><span class="type-badge">Office</span></td><td class="num">178,000</td><td class="num">2,800</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>13</td><td>Jacksonville DC</td><td>Jacksonville, FL</td><td><span class="type-badge dist">Distribution</span></td><td class="num">238,000</td><td class="num">3,400</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>14</td><td>San Antonio DC</td><td>San Antonio, TX</td><td><span class="type-badge dist">Distribution</span></td><td class="num">215,000</td><td class="num">4,200</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>15</td><td>Dallas</td><td>Dallas, TX</td><td><span class="type-badge">Office</span></td><td class="num">162,000</td><td class="num">3,800</td><td>Utility Bill</td><td style="text-align:center;"><span class="quality-badge">A</span></td></tr>
+        <tr><td>16</td><td>Seattle</td><td>Seattle, WA</td><td><span class="type-badge">Office</span></td><td class="num">98,000</td><td class="num">8,400</td><td>Accounting Export</td><td style="text-align:center;"><span class="quality-badge quality-bplus">B+</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td><td colspan="3">TOTAL</td>
+          <td class="num">2,681,500</td>
+          <td class="num">142,300</td>
+          <td></td><td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="callout-warn" style="margin-top:16px;">
+      <strong>Data Source Note:</strong> 12/16 facilities have direct utility bills (Grade A). 4 facilities (Philadelphia, Charlotte, Denver, Seattle) use accounting exports. 2 offices (New York, Boston) use pro-rata allocation of shared building meters (estimated at 60% of building total). Blended grade: B+.
+    </div>
+    <div class="energy-summary">
+      <div class="energy-mini">
+        <div class="em-val">$590K</div>
+        <div class="em-label">Total Energy Cost / Year</div>
+      </div>
+      <div class="energy-mini">
+        <div class="em-val">$430K</div>
+        <div class="em-label">Electricity</div>
+      </div>
+      <div class="energy-mini">
+        <div class="em-val">$160K</div>
+        <div class="em-label">Natural Gas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 3: GHG SCOPE ANALYSIS ========== -->
+<div class="section animate-in delay-4">
+  <div class="section-title"><span class="section-number">3</span> GHG Scope Analysis</div>
+
+  <!-- Scope 1 & 2 -->
+  <div class="two-col" style="margin-bottom:24px;">
+    <div class="card">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Scope 1 &mdash; Direct Emissions</h3>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Stationary Combustion<br><span style="font-size:10px;color:var(--gray-dim);">142,300 therms</span></div>
+          <div class="bar-track"><div class="bar-fill teal" style="width:100%;">755 mt</div></div>
+          <div class="bar-value">755 mt CO2e</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Mobile Combustion<br><span style="font-size:10px;color:var(--gray-dim);">No company fleet</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--gray-dim);"></div></div>
+          <div class="bar-value" style="color:var(--gray-dim);">N/A</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Fugitive Emissions<br><span style="font-size:10px;color:var(--gray-dim);">No refrigerants</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--gray-dim);"></div></div>
+          <div class="bar-value" style="color:var(--gray-dim);">N/A</div>
+        </div>
+      </div>
+      <div style="text-align:right;margin-top:8px;font-size:14px;font-weight:700;">Total Scope 1: <span style="color:var(--teal);">~755 mt CO2e</span></div>
+      <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end;align-items:center;">
+        <span class="grade-badge-inline grade-bplus">Scope 1 Grade: B+</span>
+        <span style="font-size:10px;color:var(--gray);">Blended sources &mdash; 12 utility bills, 4 accounting exports, 2 pro-rata</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Scope 2 &mdash; Indirect (Electricity)</h3>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Purchased Electricity<br><span style="font-size:10px;color:var(--gray-dim);">2,681,500 kWh</span></div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:100%;">1,150 mt</div></div>
+          <div class="bar-value">1,150 mt CO2e</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;font-size:11px;color:var(--gray);">Varies by eGRID subregion; location-based method used</div>
+      <div style="text-align:right;margin-top:24px;font-size:14px;font-weight:700;">Total Scope 2: <span style="color:var(--amber);">~1,150 mt CO2e</span></div>
+      <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end;align-items:center;">
+        <span class="grade-badge-inline grade-bplus">Scope 2 Grade: B+</span>
+        <span style="font-size:10px;color:var(--gray);">Purchased electricity &mdash; 12 direct bills, 4 accounting exports, 2 pro-rata</span>
+      </div>
+
+      <!-- SVG Donut -->
+      <div class="donut-wrap" style="margin-top:24px;">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
+          <!-- Scope 1: 755/1905 = 39.6% -->
+          <circle cx="55" cy="55" r="45" fill="none" stroke="#5fb5a2" stroke-width="14"
+            stroke-dasharray="112 171" stroke-dashoffset="0"
+            transform="rotate(-90 55 55)" stroke-linecap="round"/>
+          <!-- Scope 2: 1150/1905 = 60.4% -->
+          <circle cx="55" cy="55" r="45" fill="none" stroke="#ff9800" stroke-width="14"
+            stroke-dasharray="171 112" stroke-dashoffset="-112"
+            transform="rotate(-90 55 55)" stroke-linecap="round"/>
+          <text x="55" y="52" text-anchor="middle" fill="white" font-size="16" font-weight="700">1,905</text>
+          <text x="55" y="67" text-anchor="middle" fill="#8a8aa0" font-size="9">mt CO2e</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="legend-item"><div class="legend-swatch" style="background:var(--teal);"></div><span style="color:var(--white);font-size:13px;">Scope 1: 755 mt (40%)</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:var(--amber);"></div><span style="color:var(--white);font-size:13px;">Scope 2: 1,150 mt (60%)</span></div>
+          <div style="margin-top:10px;font-size:12px;color:var(--gray);">Intensity: <span style="color:var(--teal);font-weight:700;">~8.5 mt CO2e / $M revenue</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combined Bar -->
+  <div class="card" style="margin-bottom:24px;">
+    <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Combined Scope 1 + 2</h3>
+    <div class="combined-bar">
+      <div class="segment" style="width:39.6%;background:linear-gradient(90deg,#5fb5a2,#3d9b87);">Scope 1: 755 mt</div>
+      <div class="segment" style="width:60.4%;background:linear-gradient(90deg,#ff9800,#e68900);">Scope 2: 1,150 mt</div>
+    </div>
+    <div style="text-align:center;font-size:20px;font-weight:700;color:var(--white);margin-top:8px;">Total: ~1,905 mt CO2e <span style="font-size:13px;color:var(--gray);font-weight:400;">&nbsp;|&nbsp; ~8.5 mt CO2e per $M revenue</span></div>
+    <div style="margin:16px 0 0;padding:10px 14px;border-left:2px solid #5fb5a2;font-size:11px;color:#8a8aa0;line-height:1.5;background:rgba(95,181,162,0.04);border-radius:0 4px 4px 0;">Emissions calculated using EPA emission factors and eGRID regional grid factors. Scope 1+2 confidence: &plusmn;15-20% (12/16 utility bills, 4 accounting exports). See Quality Scorecard for full methodology.</div>
+  </div>
+
+  <!-- Scope 3 Gap Analysis -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;">Scope 3 &mdash; Value Chain Gap Analysis</h3>
+      <span class="grade-badge-inline grade-f">Scope 3 Grade: F</span>
+    </div>
+    <div style="font-size:12px;color:var(--gray);margin-bottom:16px;">
+      <span style="display:inline-block;width:12px;height:12px;background:var(--green);border-radius:2px;vertical-align:middle;margin-right:4px;"></span> Data Exists &nbsp;
+      <span style="display:inline-block;width:12px;height:12px;background:var(--amber);border-radius:2px;vertical-align:middle;margin-right:4px;"></span> Partial &nbsp;
+      <span style="display:inline-block;width:12px;height:12px;background:var(--red);border-radius:2px;vertical-align:middle;margin-right:4px;"></span> No Data &nbsp;
+      <span style="display:inline-block;width:12px;height:12px;background:var(--gray-dim);border-radius:2px;vertical-align:middle;margin-right:4px;"></span> Not Applicable
+    </div>
+    <div class="scope3-grid">
+      <div class="scope3-cell scope3-red"><div class="cat-num">1</div><div class="cat-name">Purchased Goods &amp; Services</div><div style="font-size:9px;margin-top:4px;">Need: Spend data by category</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">2</div><div class="cat-name">Capital Goods</div><div style="font-size:9px;margin-top:4px;">Need: CapEx breakdown</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">3</div><div class="cat-name">Fuel &amp; Energy (not in 1/2)</div><div style="font-size:9px;margin-top:4px;">Need: T&amp;D loss data</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">4</div><div class="cat-name">Upstream Transport</div><div style="font-size:9px;margin-top:4px;">Need: Shipping logs</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">5</div><div class="cat-name">Waste in Operations</div><div style="font-size:9px;margin-top:4px;">Need: Waste hauler data</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">6</div><div class="cat-name">Business Travel</div><div style="font-size:9px;margin-top:4px;">Need: T&amp;E data</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">7</div><div class="cat-name">Employee Commuting</div><div style="font-size:9px;margin-top:4px;">Need: Headcount by site</div></div>
+      <div class="scope3-cell scope3-amber"><div class="cat-num">8</div><div class="cat-name">Upstream Leased Assets</div><div style="font-size:9px;margin-top:4px;">2 shared-building offices</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">9</div><div class="cat-name">Downstream Transport</div><div style="font-size:9px;margin-top:4px;">Need: Distribution data</div></div>
+      <div class="scope3-cell scope3-gray"><div class="cat-num">10</div><div class="cat-name">Processing of Sold Products</div><div style="font-size:9px;margin-top:4px;">N/A &mdash; Services co.</div></div>
+      <div class="scope3-cell scope3-gray"><div class="cat-num">11</div><div class="cat-name">Use of Sold Products</div><div style="font-size:9px;margin-top:4px;">N/A &mdash; Services co.</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">12</div><div class="cat-name">End-of-Life Treatment</div><div style="font-size:9px;margin-top:4px;">Need: Product lifecycle</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">13</div><div class="cat-name">Downstream Leased Assets</div><div style="font-size:9px;margin-top:4px;">Need: Lease data</div></div>
+      <div class="scope3-cell scope3-gray"><div class="cat-num">14</div><div class="cat-name">Franchises</div><div style="font-size:9px;margin-top:4px;">N/A &mdash; No franchises</div></div>
+      <div class="scope3-cell scope3-red"><div class="cat-num">15</div><div class="cat-name">Investments</div><div style="font-size:9px;margin-top:4px;">Need: Investment data</div></div>
+    </div>
+    <div class="callout-warn" style="margin-top:20px;">
+      <strong>Emissions Visibility Gap:</strong> Overall portfolio emissions visibility is limited. Scope 1 &amp; 2 represent only an estimated 15&ndash;30% of total emissions for a business services company. Scope 3 (employee commuting, purchased goods, business travel) likely dominates. No Scope 3 data has been collected for any of the 15 GHG Protocol categories.
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 4: REDUCTION INITIATIVES ========== -->
+<div class="section animate-in delay-5">
+  <div class="section-title"><span class="section-number">4</span> Current Reduction Initiatives</div>
+  <div class="no-init">
+    <!-- Warning Icon SVG -->
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle;margin-right:6px;">
+      <path d="M10 2L1 18h18L10 2z" fill="none" stroke="#ef5350" stroke-width="1.5"/>
+      <line x1="10" y1="8" x2="10" y2="13" stroke="#ef5350" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="10" cy="15.5" r="0.8" fill="#ef5350"/>
+    </svg>
+    No formal emission reduction initiatives currently in place
+  </div>
+  <div style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;font-weight:700;">Identified Opportunities</div>
+  <div class="opp-cards">
+    <div class="opp-card">
+      <div class="opp-num">01</div>
+      <div class="opp-title">LED Lighting Upgrade</div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:12px;">Distribution Centers (Jacksonville, San Antonio)</div>
+      <div class="opp-detail"><span>Est. Savings</span><span>15-20% DC electricity</span></div>
+      <div class="opp-detail"><span>Investment</span><span>~$45K</span></div>
+      <div class="opp-detail"><span>Payback</span><span>18 months</span></div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-num">02</div>
+      <div class="opp-title">HVAC Optimization</div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:12px;">Chicago HQ (largest facility)</div>
+      <div class="opp-detail"><span>Est. Savings</span><span>10-15% HQ nat gas</span></div>
+      <div class="opp-detail"><span>Investment</span><span>~$25K</span></div>
+      <div class="opp-detail"><span>Payback</span><span>24 months</span></div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-num">03</div>
+      <div class="opp-title">Green Electricity Procurement</div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:12px;">All 16 facilities</div>
+      <div class="opp-detail"><span>Scope 2 Reduction</span><span>Up to 100%</span></div>
+      <div class="opp-detail"><span>Cost Premium</span><span>5-15% above rate</span></div>
+      <div class="opp-detail"><span>Payback</span><span>Immediate exit value</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 5: TRANSITION PLAN DATA NEEDS ========== -->
+<div class="section animate-in delay-5">
+  <div class="section-title"><span class="section-number">5</span> Transition Plan Data Needs</div>
+  <div class="card">
+    <div class="progress-item">
+      <div class="progress-header"><span class="progress-label">Emissions Baseline</span><span class="progress-pct">80%</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:80%;"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">Raw data exists, needs computation into verified baseline</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header"><span class="progress-label">Abatement Opportunity List</span><span class="progress-pct">20%</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:20%;"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">Opportunities identified but not quantified</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header"><span class="progress-label">Abatement Cost Analysis</span><span class="progress-pct" style="color:var(--red);">0%</span></div>
+      <div class="progress-track"><div class="progress-fill zero" style="width:2%;"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">No vendor quotes or engineering assessments</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header"><span class="progress-label">Renewable Energy Analysis</span><span class="progress-pct" style="color:var(--red);">0%</span></div>
+      <div class="progress-track"><div class="progress-fill zero" style="width:2%;"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">No utility rate analysis performed</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header"><span class="progress-label">Science-Based Target</span><span class="progress-pct" style="color:var(--red);">0%</span></div>
+      <div class="progress-track"><div class="progress-fill zero" style="width:2%;"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">No baseline computed yet</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header"><span class="progress-label">MACC Curve</span><span class="progress-pct" style="color:var(--red);">0%</span></div>
+      <div class="progress-track"><div class="progress-fill zero" style="width:2%;"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">Requires all above to be completed</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 6: CLIMATE RISK PROFILE ========== -->
+<div class="section animate-in delay-6">
+  <div class="section-title"><span class="section-number">6</span> Climate Risk Profile</div>
+  <div class="two-col">
+    <div class="card">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Physical Risk</h3>
+      <div class="risk-grid">
+        <div class="risk-label-cell">Heat Stress</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-low"></div><span class="risk-tag low">LOW</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Climate-controlled offices</span></div>
+        <div class="risk-label-cell">Flooding</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-low-med"></div><span class="risk-tag low-med">LOW-MED</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Jacksonville, Miami</span></div>
+        <div class="risk-label-cell">Wildfire</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-low"></div><span class="risk-tag low">LOW</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Phoenix, Denver &mdash; monitor</span></div>
+        <div class="risk-label-cell">Storm / Hurricane</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-med"></div><span class="risk-tag med">MEDIUM</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Miami, Jax, San Antonio</span></div>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--green-dim);border-radius:6px;text-align:center;">
+        <span style="font-size:12px;color:var(--gray);">Overall Physical Risk:</span>
+        <span style="font-size:16px;font-weight:700;color:var(--green);margin-left:8px;">LOW</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;">Transition Risk</h3>
+      <div class="risk-grid">
+        <div class="risk-label-cell">Regulatory</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-low"></div><span class="risk-tag low">LOW</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">No direct regulation</span></div>
+        <div class="risk-label-cell">Market</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-med"></div><span class="risk-tag med">MEDIUM</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Exit buyers value ESG</span></div>
+        <div class="risk-label-cell">Technology</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-low"></div><span class="risk-tag low">LOW</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Not tech-dependent</span></div>
+        <div class="risk-label-cell">Reputation</div>
+        <div class="risk-bar-cell"><div class="risk-indicator risk-med"></div><span class="risk-tag med">MEDIUM</span><span style="font-size:11px;color:var(--gray);margin-left:auto;">Client ESG requests rising</span></div>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--amber-dim);border-radius:6px;text-align:center;">
+        <span style="font-size:12px;color:var(--gray);">Overall Transition Risk:</span>
+        <span style="font-size:16px;font-weight:700;color:var(--amber);margin-left:8px;">MEDIUM</span>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;">Primarily exit-driven</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exit Context Callout -->
+  <div class="callout" style="margin-top:24px;">
+    <div class="callout-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;margin-right:4px;">
+        <circle cx="8" cy="8" r="7" stroke="#5fb5a2" stroke-width="1.5"/>
+        <path d="M8 4v5M8 11v1" stroke="#5fb5a2" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Exit Context &mdash; Critical
+    </div>
+    Meridian is in active exit preparation (H2 2026). ESG readiness directly impacts exit multiple. Buyers &mdash; particularly PE firms with LP ESG commitments &mdash; are increasingly diligencing climate data. A completed emissions baseline and reduction roadmap adds concrete value to the exit package.
+  </div>
+</div>
+
+<!-- ========== SECTION 7: TCFD READINESS ========== -->
+<div class="section animate-in delay-7">
+  <div class="section-title"><span class="section-number">7</span> TCFD Readiness</div>
+  <div class="tcfd-row">
+    <div class="tcfd-item">
+      <div class="tcfd-label">Governance</div>
+      <svg width="100" height="60" viewBox="0 0 100 60">
+        <!-- Background arc -->
+        <path d="M 10 55 A 40 40 0 0 1 90 55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" stroke-linecap="round"/>
+        <!-- Fill arc: 20% of 180deg = 36deg -->
+        <path d="M 10 55 A 40 40 0 0 1 21.2 24.3" fill="none" stroke="var(--red)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="tcfd-pct" style="color:var(--red);">20%</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:4px;">COO handles ESG informally; no board climate agenda</div>
+    </div>
+    <div class="tcfd-item">
+      <div class="tcfd-label">Strategy</div>
+      <svg width="100" height="60" viewBox="0 0 100 60">
+        <path d="M 10 55 A 40 40 0 0 1 90 55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" stroke-linecap="round"/>
+        <!-- 10% of arc -->
+        <path d="M 10 55 A 40 40 0 0 1 14.1 38.5" fill="none" stroke="var(--red)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="tcfd-pct" style="color:var(--red);">10%</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:4px;">No climate scenario analysis</div>
+    </div>
+    <div class="tcfd-item">
+      <div class="tcfd-label">Risk Management</div>
+      <svg width="100" height="60" viewBox="0 0 100 60">
+        <path d="M 10 55 A 40 40 0 0 1 90 55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" stroke-linecap="round"/>
+        <!-- 15% -->
+        <path d="M 10 55 A 40 40 0 0 1 16.8 31" fill="none" stroke="var(--red)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="tcfd-pct" style="color:var(--red);">15%</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:4px;">Protocol exists but not executed</div>
+    </div>
+    <div class="tcfd-item">
+      <div class="tcfd-label">Metrics &amp; Targets</div>
+      <svg width="100" height="60" viewBox="0 0 100 60">
+        <path d="M 10 55 A 40 40 0 0 1 90 55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" stroke-linecap="round"/>
+        <!-- 30% -->
+        <path d="M 10 55 A 40 40 0 0 1 28.2 18.8" fill="none" stroke="var(--amber)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      <div class="tcfd-pct" style="color:var(--amber);">30%</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:4px;">Energy data collected, not computed into emissions</div>
+    </div>
+  </div>
+  <div class="card" style="text-align:center;padding:20px;">
+    <div class="overall-circle">
+      <div class="big-pct" style="color:var(--red);">~19%</div>
+      <div class="big-label">Overall TCFD Readiness</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECTION 8: DATA REQUEST SUMMARY ========== -->
+<div class="section animate-in delay-8">
+  <div class="section-title"><span class="section-number">8</span> Data Request Summary</div>
+  <div class="card" style="overflow-x:auto;">
+    <div style="font-size:12px;color:var(--gray);margin-bottom:14px;">What Kith Consulting needs from Meridian Business Solutions specifically</div>
+    <table class="req-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Data Request</th>
+          <th>Priority</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Utility rate schedules and contract terms</td>
+          <td><span class="priority-badge priority-2">P2</span></td>
+          <td>CFO</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Shared-building allocation details for 2 co-located offices</td>
+          <td><span class="priority-badge priority-2">P2</span></td>
+          <td>Facilities</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Business travel data (2025)</td>
+          <td><span class="priority-badge priority-3">P3</span></td>
+          <td>Finance</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Employee headcount by office location</td>
+          <td><span class="priority-badge priority-3">P3</span></td>
+          <td>HR</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Customer ESG requirements (if any)</td>
+          <td><span class="priority-badge priority-3">P3</span></td>
+          <td>Sales</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+  CONFIDENTIAL &mdash; Northwood Capital Partners &nbsp;|&nbsp; Kith Consulting &nbsp;|&nbsp; kithclimate.com<br>
+  <span style="color:#555;font-size:9px;">v4 &mdash; Methodology footnotes added</span>
+</div>
+
+</div><!-- /dashboard -->
+
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Climate Profile — Keystone Behavioral Health</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a14;color:#e8e8ec;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;padding:24px}
+.wrap{max-width:1400px;margin:0 auto}
+h1{font-size:2.2rem;font-weight:700;color:#fff;margin-bottom:8px}
+h2{font-size:1.35rem;font-weight:600;color:#5fb5a2;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #1e1e2e}
+h3{font-size:1.05rem;font-weight:600;color:#fff;margin:16px 0 8px}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 20px}
+.badge{padding:5px 14px;border-radius:20px;font-size:.78rem;font-weight:600;letter-spacing:.3px}
+.badge-fund{background:#1a1a2e;border:1px solid #5fb5a2;color:#5fb5a2}
+.badge-sector{background:#1a1a2e;border:1px solid #7b8cde;color:#7b8cde}
+.badge-stage{background:#1a1a2e;border:1px solid #e8a838;color:#e8a838}
+.badge-grade{background:#1a1a2e;border:1px solid #d4a05a;color:#d4a05a}
+.badge-grade-c{background:#1a1a2e;border:1px solid #ffc107;color:#ffc107}
+.badge-grade-f{background:#1a1a2e;border:1px solid #ff1744;color:#ff1744}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0 28px}
+.kpi{background:#12121e;border:1px solid #1e1e2e;border-radius:10px;padding:14px 16px;text-align:center}
+.kpi-val{font-size:1.4rem;font-weight:700;color:#fff}
+.kpi-label{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.section{background:#0e0e1a;border:1px solid #1a1a2a;border-radius:12px;padding:28px;margin-bottom:24px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.stat-card{background:#12121e;border:1px solid #1e1e2e;border-radius:8px;padding:16px}
+.stat-card .label{font-size:.75rem;color:#888;text-transform:uppercase;letter-spacing:.4px}
+.stat-card .val{font-size:1.15rem;font-weight:700;color:#fff;margin-top:2px}
+.stat-card .sub{font-size:.8rem;color:#5fb5a2;margin-top:2px}
+.stat-card .sub.neg{color:#e85454}
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:12px}
+th{background:#12121e;color:#5fb5a2;font-weight:600;text-align:left;padding:10px 12px;border-bottom:2px solid #1e1e2e;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid #151520;color:#ccc}
+tr:hover td{background:#14141f}
+tr.total-row td{font-weight:700;color:#fff;border-top:2px solid #5fb5a2;background:#12121e}
+.grade-a{color:#5fb5a2;font-weight:700}
+.grade-b{color:#d4a05a;font-weight:700}
+.grade-c{color:#e8a838;font-weight:700}
+.grade-red{color:#e85454;font-weight:700}
+.insight-box{background:linear-gradient(135deg,#0f1a1a,#0a1418);border:1px solid #2a5a4a;border-left:4px solid #5fb5a2;border-radius:8px;padding:20px;margin:16px 0;font-size:.9rem;line-height:1.7}
+.insight-box.warn{border-left-color:#e8a838;background:linear-gradient(135deg,#1a170f,#18140a);border-color:#3a3020}
+.insight-box.critical{border-left-color:#e85454;background:linear-gradient(135deg,#1a0f0f,#180a0a);border-color:#3a2020}
+.insight-title{font-weight:700;color:#5fb5a2;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.insight-box.warn .insight-title{color:#e8a838}
+.insight-box.critical .insight-title{color:#e85454}
+.progress-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.progress-label{min-width:240px;font-size:.82rem;color:#ccc}
+.progress-bar{flex:1;height:20px;background:#1a1a2a;border-radius:10px;overflow:hidden;position:relative}
+.progress-fill{height:100%;border-radius:10px;transition:width .3s}
+.progress-pct{font-size:.78rem;color:#888;min-width:40px;text-align:right}
+.traffic-grid{display:grid;grid-template-columns:auto 1fr auto;gap:8px 16px;align-items:center;margin:12px 0}
+.light{width:16px;height:16px;border-radius:50%;display:inline-block}
+.light-green{background:#5fb5a2}
+.light-amber{background:#e8a838}
+.light-red{background:#e85454}
+.light-grey{background:#555}
+.opp-card{background:#12121e;border:1px solid #1e1e2e;border-radius:8px;padding:16px;margin:10px 0}
+.opp-title{font-weight:700;color:#fff;font-size:.95rem}
+.opp-detail{font-size:.82rem;color:#aaa;margin-top:6px}
+.opp-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600;margin-top:8px}
+.tag-green{background:#1a2e2a;color:#5fb5a2}
+.tag-amber{background:#2e2a1a;color:#e8a838}
+.tag-blue{background:#1a1a2e;color:#7b8cde}
+.req-table td:first-child{color:#e8a838;font-weight:600;white-space:nowrap}
+.tcfd-bar{display:flex;align-items:center;gap:10px;margin:6px 0}
+.tcfd-label{min-width:140px;font-size:.85rem;color:#ccc}
+.tcfd-track{flex:1;height:14px;background:#1a1a2a;border-radius:7px;overflow:hidden}
+.tcfd-fill{height:100%;border-radius:7px;background:linear-gradient(90deg,#e85454,#e8a838)}
+.tcfd-pct{font-size:.78rem;color:#888;min-width:36px;text-align:right}
+.footer{text-align:center;padding:24px;font-size:.75rem;color:#555;border-top:1px solid #1a1a2a;margin-top:32px}
+.callout-100{background:linear-gradient(135deg,#121225,#0e1a28);border:2px solid #5fb5a2;border-radius:12px;padding:24px;margin:20px 0}
+.callout-100 .callout-header{font-size:1rem;font-weight:700;color:#5fb5a2;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.callout-100 ol{padding-left:20px;font-size:.88rem;color:#ccc}
+.callout-100 ol li{margin:8px 0}
+.callout-100 ol li strong{color:#fff}
+svg text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.risk-card{background:#12121e;border:1px solid #1e1e2e;border-radius:8px;padding:14px}
+.risk-card .risk-type{font-size:.75rem;color:#888;text-transform:uppercase;letter-spacing:.4px}
+.risk-card .risk-level{font-size:1.05rem;font-weight:700;margin-top:4px}
+.risk-low{color:#5fb5a2}
+.risk-med{color:#e8a838}
+.risk-high{color:#e85454}
+.pill{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.72rem;font-weight:600}
+.pill-green{background:#1a2e2a;color:#5fb5a2}
+.pill-amber{background:#2e2a1a;color:#e8a838}
+.pill-red{background:#2e1a1a;color:#e85454}
+.chart-container{margin:16px 0}
+.scope-grade-row{display:flex;gap:12px;margin:12px 0 20px;flex-wrap:wrap}
+.scope-grade{display:flex;align-items:center;gap:8px;background:#12121e;border:1px solid #1e1e2e;border-radius:10px;padding:10px 16px}
+.scope-grade .scope-label{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.4px}
+.scope-grade .scope-val{font-size:1.1rem;font-weight:700}
+.scope-grade .scope-detail{font-size:.7rem;color:#888;margin-top:1px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ===== HEADER ===== -->
+<header style="margin-bottom:32px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+<svg width="36" height="36" viewBox="0 0 36 36"><rect width="36" height="36" rx="8" fill="#5fb5a2"/><path d="M10 18 L18 10 L26 18 L18 26Z" fill="#0a0a14" opacity=".8"/><circle cx="18" cy="18" r="4" fill="#fff"/></svg>
+<h1>Keystone Behavioral Health</h1>
+</div>
+<p style="color:#888;font-size:.9rem;margin-bottom:8px">Company Climate Data Profile &mdash; Northwood Capital Partners</p>
+<div class="badge-row">
+<span class="badge badge-fund">Fund II</span>
+<span class="badge badge-sector">Healthcare Services</span>
+<span class="badge badge-stage">Early / 100-Day Plan</span>
+</div>
+<!-- Scope-specific data quality grades -->
+<div class="scope-grade-row">
+<div class="scope-grade" style="border-color:#ffc107">
+<div>
+<div class="scope-label">Scope 1 Grade</div>
+<div class="scope-val" style="color:#ffc107">C</div>
+<div class="scope-detail">Natural gas &mdash; 7/22 facilities have direct utility bills (32%). 8 facilities use landlord-provided data. 6 facilities use model-based estimates (sq ft &times; 15 kWh/sq ft formula). 1 facility (Hagerstown, opened Nov 2025) has insufficient data. Company acknowledged: &ldquo;estimates may not be precise.&rdquo; 100-day plan company with minimal data systems.</div>
+</div>
+</div>
+<div class="scope-grade" style="border-color:#ffc107">
+<div>
+<div class="scope-label">Scope 2 Grade</div>
+<div class="scope-val" style="color:#ffc107">C</div>
+<div class="scope-detail">Electricity &mdash; 7/22 facilities have direct utility bills (32%). 8 facilities use landlord-provided data. 6 facilities use model-based estimates (sq ft &times; 15 kWh/sq ft formula). 1 facility (Hagerstown, opened Nov 2025) has insufficient data. Company acknowledged: &ldquo;estimates may not be precise.&rdquo; 100-day plan company with minimal data systems.</div>
+</div>
+</div>
+<div class="scope-grade" style="border-color:#ff1744">
+<div>
+<div class="scope-label">Scope 3 Grade</div>
+<div class="scope-val" style="color:#ff1744">F</div>
+<div class="scope-detail">No data collected</div>
+</div>
+</div>
+</div>
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-val">$138.0M</div><div class="kpi-label">Revenue</div></div>
+<div class="kpi"><div class="kpi-val">$24.2M</div><div class="kpi-label">EBITDA (17.5%)</div></div>
+<div class="kpi"><div class="kpi-val">340</div><div class="kpi-label">Employees</div></div>
+<div class="kpi"><div class="kpi-val">20</div><div class="kpi-label">Facilities</div></div>
+<div class="kpi"><div class="kpi-val">1,279</div><div class="kpi-label">mt CO2e (S1+S2)</div></div>
+<div class="kpi"><div class="kpi-val">9.3</div><div class="kpi-label">mt CO2e / $M Rev</div></div>
+</div>
+</header>
+
+<!-- ===== SECTION 1: COMPANY OVERVIEW ===== -->
+<div class="section">
+<h2>1. Company Overview</h2>
+<div class="grid-2">
+<div>
+<h3>Deal Summary</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="stat-card"><div class="label">Entry Date</div><div class="val">Feb 2024</div></div>
+<div class="stat-card"><div class="label">Entry EV</div><div class="val">$200.0M</div><div class="sub">9.0x EBITDA</div></div>
+<div class="stat-card"><div class="label">Current EV</div><div class="val">$242.0M</div><div class="sub">10.0x exit assumption</div></div>
+<div class="stat-card"><div class="label">Debt / Leverage</div><div class="val">$74.0M</div><div class="sub">3.1x</div></div>
+<div class="stat-card"><div class="label">Gross MOIC</div><div class="val">1.4x</div></div>
+<div class="stat-card"><div class="label">IRR</div><div class="val">~12%</div></div>
+<div class="stat-card"><div class="label">Deal Lead</div><div class="val" style="font-size:.95rem">Nadia Fernandez</div></div>
+<div class="stat-card"><div class="label">Operating Partner</div><div class="val" style="font-size:.95rem">Lisa Brennan</div><div class="sub">Healthcare</div></div>
+</div>
+</div>
+<div>
+<h3>Operating Performance</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="stat-card"><div class="label">2026 Budget Revenue</div><div class="val">$152.0M</div><div class="sub">+12.6% YoY</div></div>
+<div class="stat-card"><div class="label">2026 Budget EBITDA</div><div class="val">$27.4M</div><div class="sub">+16.1% YoY</div></div>
+<div class="stat-card"><div class="label">Jan 2026 Revenue</div><div class="val">$11.2M</div><div class="sub neg">-5.1% vs budget</div></div>
+<div class="stat-card"><div class="label">Jan 2026 EBITDA</div><div class="val">$1.8M</div><div class="sub neg">-14.3% vs budget</div></div>
+</div>
+<h3>Clinical Operations</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="stat-card"><div class="label">Active Patients</div><div class="val">1,250</div></div>
+<div class="stat-card"><div class="label">Sessions / Month</div><div class="val">18,200</div></div>
+<div class="stat-card"><div class="label">BCBA Headcount</div><div class="val">85</div><div class="sub">Target 98 (12 open)</div></div>
+<div class="stat-card"><div class="label">Service Mix</div><div class="val" style="font-size:.88rem">65% In-Clinic / 35% In-Home</div></div>
+</div>
+<div class="stat-card" style="margin-top:10px"><div class="label">EHR Migration</div><div class="val" style="font-size:.9rem">Phase 1 at 80% &mdash; Go-Live March 2026</div></div>
+</div>
+</div>
+</div>
+
+<!-- ===== SECTION 2: FACILITY TABLE ===== -->
+<div class="section">
+<h2>2. Facility Energy Data</h2>
+<p style="font-size:.85rem;color:#aaa;margin-bottom:8px">20 clinics across PA, NJ, DE, MD, VA &mdash; healthcare services with relatively low energy intensity</p>
+<div style="display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap">
+<span class="pill pill-green">7 Grade A (Direct Utility Data)</span>
+<span class="pill pill-amber">13 Grade C (Landlord Estimates)</span>
+</div>
+<!-- Scope-specific grades for this section -->
+<div class="scope-grade-row">
+<div class="scope-grade" style="border-color:#ffc107">
+<div>
+<div class="scope-label">Scope 1 Grade</div>
+<div class="scope-val" style="color:#ffc107">C</div>
+<div class="scope-detail">Natural gas &mdash; 7/22 facilities have direct utility bills (32%). 8 facilities use landlord-provided data. 6 facilities use model-based estimates (sq ft &times; 15 kWh/sq ft formula). 1 facility (Hagerstown, opened Nov 2025) has insufficient data. Company acknowledged: &ldquo;estimates may not be precise.&rdquo; 100-day plan company with minimal data systems.</div>
+</div>
+</div>
+<div class="scope-grade" style="border-color:#ffc107">
+<div>
+<div class="scope-label">Scope 2 Grade</div>
+<div class="scope-val" style="color:#ffc107">C</div>
+<div class="scope-detail">Purchased electricity &mdash; 7/22 facilities have direct utility bills (32%). 8 facilities use landlord-provided data. 6 facilities use model-based estimates (sq ft &times; 15 kWh/sq ft formula). 1 facility (Hagerstown, opened Nov 2025) has insufficient data. Company acknowledged: &ldquo;estimates may not be precise.&rdquo; 100-day plan company with minimal data systems.</div>
+</div>
+</div>
+<div class="scope-grade" style="border-color:#ff1744">
+<div>
+<div class="scope-label">Scope 3 Grade</div>
+<div class="scope-val" style="color:#ff1744">F</div>
+<div class="scope-detail">No Scope 3 data. Key categories: medical supplies (Cat 1), employee commuting (Cat 7), patient travel (Cat 9).</div>
+</div>
+</div>
+</div>
+<div style="overflow-x:auto">
+<table>
+<thead>
+<tr><th>#</th><th>Facility</th><th>City, State</th><th style="text-align:right">Electricity (kWh)</th><th style="text-align:right">Nat Gas (therms)</th><th>Data Source</th><th>Grade</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Philadelphia (HQ Clinic)</td><td>Philadelphia, PA</td><td style="text-align:right">142,000</td><td style="text-align:right">11,200</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>2</td><td>Media</td><td>Media, PA</td><td style="text-align:right">68,000</td><td style="text-align:right">5,800</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>3</td><td>West Chester</td><td>West Chester, PA</td><td style="text-align:right">72,000</td><td style="text-align:right">6,200</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>4</td><td>Norristown</td><td>Norristown, PA</td><td style="text-align:right">65,000</td><td style="text-align:right">5,400</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>5</td><td>Doylestown</td><td>Doylestown, PA</td><td style="text-align:right">58,000</td><td style="text-align:right">5,100</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>6</td><td>Reading</td><td>Reading, PA</td><td style="text-align:right">62,000</td><td style="text-align:right">5,600</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>7</td><td>Allentown</td><td>Allentown, PA</td><td style="text-align:right">78,000</td><td style="text-align:right">6,800</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>8</td><td>Scranton</td><td>Scranton, PA</td><td style="text-align:right">55,000</td><td style="text-align:right">6,200</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>9</td><td>Cherry Hill</td><td>Cherry Hill, NJ</td><td style="text-align:right">82,000</td><td style="text-align:right">6,400</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>10</td><td>Marlton</td><td>Marlton, NJ</td><td style="text-align:right">58,000</td><td style="text-align:right">4,800</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>11</td><td>Trenton <span style="color:#5fb5a2;font-size:.7rem">(new 2025)</span></td><td>Trenton, NJ</td><td style="text-align:right">48,000</td><td style="text-align:right">3,600</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>12</td><td>Princeton</td><td>Princeton, NJ</td><td style="text-align:right">62,000</td><td style="text-align:right">5,200</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>13</td><td>Wilmington</td><td>Wilmington, DE</td><td style="text-align:right">72,000</td><td style="text-align:right">6,200</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>14</td><td>Newark</td><td>Newark, DE</td><td style="text-align:right">55,000</td><td style="text-align:right">4,800</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>15</td><td>Baltimore</td><td>Baltimore, MD</td><td style="text-align:right">88,000</td><td style="text-align:right">7,200</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>16</td><td>Towson</td><td>Towson, MD</td><td style="text-align:right">62,000</td><td style="text-align:right">5,400</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>17</td><td>Hagerstown <span style="color:#5fb5a2;font-size:.7rem">(new 2025)</span></td><td>Hagerstown, MD</td><td style="text-align:right">45,000</td><td style="text-align:right">3,800</td><td>Utility Bill</td><td class="grade-a">A</td></tr>
+<tr><td>18</td><td>Arlington</td><td>Arlington, VA</td><td style="text-align:right">78,000</td><td style="text-align:right">5,800</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>19</td><td>Alexandria</td><td>Alexandria, VA</td><td style="text-align:right">68,000</td><td style="text-align:right">5,200</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr><td>20</td><td>Richmond</td><td>Richmond, VA</td><td style="text-align:right">76,000</td><td style="text-align:right">5,600</td><td>Landlord</td><td class="grade-c">C</td></tr>
+<tr class="total-row"><td></td><td>TOTAL</td><td></td><td style="text-align:right">~1,494,000</td><td style="text-align:right">~120,400</td><td></td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="insight-box warn" style="margin-top:20px">
+<div class="insight-title">Data Quality Challenge</div>
+Only <strong style="color:#fff">7 of 20 clinics (35%)</strong> have direct utility data. <strong style="color:#fff">13 clinics (65%)</strong> rely on landlord estimates, creating a &plusmn;25-30% uncertainty band on the emissions baseline. New clinics (Trenton, Hagerstown) built with Energy Star appliances and LED lighting are Grade A.
+</div>
+
+<div class="insight-box critical" style="margin-top:12px">
+<div class="insight-title">Weakest Data Foundation in Priority Group</div>
+Keystone has the weakest data foundation in the priority group. With only 35% of facilities on direct utility data, the current 1,279 mt CO2e baseline has a &plusmn;25-30% confidence interval. Priority action: negotiate green lease clauses requiring utility data sharing for the 13 landlord-estimated facilities.
+</div>
+
+<!-- Data source donut -->
+<div class="chart-container" style="text-align:center">
+<svg width="260" height="180" viewBox="0 0 260 180">
+<text x="130" y="16" text-anchor="middle" fill="#888" font-size="11" font-weight="600">DATA SOURCE BREAKDOWN</text>
+<!-- donut -->
+<g transform="translate(80,100)">
+<circle cx="0" cy="0" r="55" fill="none" stroke="#1e1e2e" stroke-width="20"/>
+<!-- 35% = 126 deg -->
+<circle cx="0" cy="0" r="55" fill="none" stroke="#5fb5a2" stroke-width="20" stroke-dasharray="110 345.6" stroke-dashoffset="86.4" stroke-linecap="round"/>
+<!-- 65% = 234 deg -->
+<circle cx="0" cy="0" r="55" fill="none" stroke="#e8a838" stroke-width="20" stroke-dasharray="224 345.6" stroke-dashoffset="-23.6" stroke-linecap="round"/>
+<text x="0" y="-4" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">20</text>
+<text x="0" y="12" text-anchor="middle" fill="#888" font-size="10">clinics</text>
+</g>
+<g transform="translate(170,70)">
+<rect x="0" y="0" width="10" height="10" rx="2" fill="#5fb5a2"/><text x="16" y="9" fill="#ccc" font-size="11">Utility Bill (7)</text>
+<rect x="0" y="20" width="10" height="10" rx="2" fill="#e8a838"/><text x="16" y="29" fill="#ccc" font-size="11">Landlord (13)</text>
+</g>
+</svg>
+</div>
+</div>
+
+<!-- ===== SECTION 3: GHG SCOPE ANALYSIS ===== -->
+<div class="section">
+<h2>3. GHG Scope Analysis</h2>
+
+<!-- Scope-specific grades in GHG section -->
+<div class="scope-grade-row">
+<div class="scope-grade" style="border-color:#ffc107">
+<div>
+<div class="scope-label">Scope 1 Grade</div>
+<div class="scope-val" style="color:#ffc107">C</div>
+<div class="scope-detail">7/22 facilities have direct utility bills (32%). 8 facilities use landlord-provided data. 6 facilities use model-based estimates (sq ft &times; 15 kWh/sq ft formula). 1 facility (Hagerstown, opened Nov 2025) has insufficient data. Company acknowledged: &ldquo;estimates may not be precise.&rdquo; 100-day plan company with minimal data systems.</div>
+</div>
+</div>
+<div class="scope-grade" style="border-color:#ffc107">
+<div>
+<div class="scope-label">Scope 2 Grade</div>
+<div class="scope-val" style="color:#ffc107">C</div>
+<div class="scope-detail">Same data source breakdown as Scope 1. 7/22 direct utility bills (32%), 8 landlord-provided, 6 model-based estimates, 1 insufficient. Significant uncertainty on 640 mt CO2e.</div>
+</div>
+</div>
+<div class="scope-grade" style="border-color:#ff1744">
+<div>
+<div class="scope-label">Scope 3 Grade</div>
+<div class="scope-val" style="color:#ff1744">F</div>
+<div class="scope-detail">No data collected. Key: medical supplies (Cat 1), commuting (Cat 7), patient travel (Cat 9).</div>
+</div>
+</div>
+</div>
+
+<div class="grid-2">
+<div>
+<h3>Scope 1 &mdash; Direct Emissions</h3>
+<div class="stat-card" style="margin-bottom:10px">
+<div class="label">Stationary Combustion (Natural Gas)</div>
+<div class="val">~639 mt CO2e</div>
+<div class="sub" style="color:#ffc107">Grade C &mdash; Only 35% direct data, 65% landlord estimates (&plusmn;25-30%)</div>
+<div style="font-size:.78rem;color:#888;margin-top:4px">~120,400 therms</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="stat-card"><div class="label">Mobile Combustion</div><div class="val" style="font-size:.9rem;color:#555">N/A</div><div style="font-size:.75rem;color:#888">No company fleet</div></div>
+<div class="stat-card"><div class="label">Fugitive Emissions</div><div class="val" style="font-size:.9rem;color:#888">Minimal</div><div style="font-size:.75rem;color:#ffc107">Grade C</div></div>
+</div>
+<div class="stat-card" style="margin-top:10px;border-color:#2a3a35"><div class="label">Total Scope 1</div><div class="val" style="color:#5fb5a2">~639 mt CO2e</div></div>
+</div>
+<div>
+<h3>Scope 2 &mdash; Indirect Emissions</h3>
+<div class="stat-card" style="margin-bottom:10px">
+<div class="label">Purchased Electricity</div>
+<div class="val">~640 mt CO2e</div>
+<div class="sub" style="color:#ffc107">Grade C &mdash; Only 35% direct data, 65% landlord estimates (&plusmn;25-30%)</div>
+<div style="font-size:.78rem;color:#888;margin-top:4px">~1,494,000 kWh &middot; Mid-Atlantic eGRID</div>
+</div>
+<div class="stat-card" style="border-color:#2a3a35"><div class="label">Total Scope 2</div><div class="val" style="color:#5fb5a2">~640 mt CO2e</div></div>
+
+<div class="stat-card" style="margin-top:16px;background:#0f1a18;border-color:#5fb5a2">
+<div class="label" style="color:#5fb5a2">Total Scope 1 + 2</div>
+<div class="val" style="font-size:1.5rem">~1,279 mt CO2e</div>
+<div style="font-size:.82rem;color:#aaa;margin-top:4px">Intensity: 9.3 mt CO2e per $M revenue</div>
+<div style="font-size:.78rem;color:#e8a838;margin-top:4px">Uncertainty: &plusmn;25-30% due to landlord estimates</div>
+</div>
+</div>
+</div>
+
+<div style="margin:16px 0;padding:10px 14px;border-left:2px solid #5fb5a2;font-size:11px;color:#8a8aa0;line-height:1.5;background:rgba(95,181,162,0.04);border-radius:0 4px 4px 0;">Emissions calculated using EPA emission factors and eGRID PJM grid factor. Scope 1+2 confidence: &plusmn;25-30% (7/22 utility bills, 65% estimated). See Quality Scorecard for full methodology.</div>
+
+<!-- Emissions bar chart with uncertainty band -->
+<div class="chart-container" style="text-align:center;margin-top:20px">
+<svg width="700" height="220" viewBox="0 0 700 220">
+<text x="350" y="20" text-anchor="middle" fill="#888" font-size="12" font-weight="600">SCOPE 1 + 2 EMISSIONS WITH UNCERTAINTY BAND</text>
+<!-- axis -->
+<line x1="80" y1="180" x2="620" y2="180" stroke="#1e1e2e" stroke-width="1"/>
+<!-- uncertainty band -->
+<rect x="120" y="50" width="200" height="110" rx="6" fill="#e8a838" opacity=".08"/>
+<rect x="380" y="50" width="200" height="110" rx="6" fill="#e8a838" opacity=".08"/>
+<!-- uncertainty lines -->
+<line x1="220" y1="55" x2="220" y2="160" stroke="#e8a838" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+<line x1="480" y1="55" x2="480" y2="160" stroke="#e8a838" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+<!-- Scope 1 bar -->
+<rect x="160" y="80" width="120" height="100" rx="4" fill="#5fb5a2" opacity=".85"/>
+<text x="220" y="140" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">639</text>
+<text x="220" y="156" text-anchor="middle" fill="#fff" font-size="10">mt CO2e</text>
+<!-- uncertainty whiskers scope 1 -->
+<line x1="220" y1="65" x2="220" y2="80" stroke="#e8a838" stroke-width="2"/>
+<line x1="210" y1="65" x2="230" y2="65" stroke="#e8a838" stroke-width="2"/>
+<text x="220" y="48" text-anchor="middle" fill="#e8a838" font-size="9">447-831</text>
+<!-- Scope 2 bar -->
+<rect x="420" y="79" width="120" height="101" rx="4" fill="#7b8cde" opacity=".85"/>
+<text x="480" y="140" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">640</text>
+<text x="480" y="156" text-anchor="middle" fill="#fff" font-size="10">mt CO2e</text>
+<!-- uncertainty whiskers scope 2 -->
+<line x1="480" y1="64" x2="480" y2="79" stroke="#e8a838" stroke-width="2"/>
+<line x1="470" y1="64" x2="490" y2="64" stroke="#e8a838" stroke-width="2"/>
+<text x="480" y="48" text-anchor="middle" fill="#e8a838" font-size="9">448-832</text>
+<!-- Labels -->
+<text x="220" y="200" text-anchor="middle" fill="#5fb5a2" font-size="12" font-weight="600">Scope 1 (Nat Gas)</text>
+<text x="480" y="200" text-anchor="middle" fill="#7b8cde" font-size="12" font-weight="600">Scope 2 (Electricity)</text>
+<!-- Split annotation -->
+<text x="350" y="215" text-anchor="middle" fill="#888" font-size="10">50% / 50% split &mdash; shaded bands show &plusmn;30% uncertainty</text>
+</svg>
+</div>
+
+<!-- Scope 3 -->
+<h3 style="margin-top:24px">Scope 3 Gap Analysis &mdash; Healthcare-Specific</h3>
+<div style="display:inline-block;margin:8px 0 4px;padding:4px 12px;border-radius:6px;background:#2e1a1a;border:1px solid #ff1744;font-size:.78rem;font-weight:700;color:#ff1744">SCOPE 3 GRADE: F &mdash; No Data Collected</div>
+<p style="font-size:.82rem;color:#aaa;margin:6px 0 12px">Key missing categories for healthcare services: medical supplies (Cat 1), employee commuting (Cat 7), patient travel (Cat 9).</p>
+<div class="traffic-grid" style="margin-top:12px">
+<span class="light light-amber"></span><div><strong style="color:#fff">Cat 1 &mdash; Purchased Goods &amp; Services</strong><br><span style="font-size:.82rem;color:#aaa">Clinical supplies, assessment materials, sensory equipment</span></div><span class="pill pill-amber">Amber</span>
+<span class="light light-red"></span><div><strong style="color:#fff">Cat 6 &mdash; Business Travel</strong><br><span style="font-size:.82rem;color:#aaa">BCBA training conferences, clinical supervision travel</span></div><span class="pill pill-red">Red</span>
+<span class="light light-red"></span><div><strong style="color:#fff">Cat 7 &mdash; Employee Commuting</strong><br><span style="font-size:.82rem;color:#e85454">SIGNIFICANT &mdash; 35% of services are in-home; therapists drive to patient homes</span></div><span class="pill pill-red">Critical Gap</span>
+<span class="light light-amber"></span><div><strong style="color:#fff">Cat 8 &mdash; Upstream Leased Assets</strong><br><span style="font-size:.82rem;color:#aaa">13 landlord-managed clinics</span></div><span class="pill pill-amber">Amber</span>
+</div>
+
+<div class="insight-box critical" style="margin-top:20px">
+<div class="insight-title">Critical Scope 3 Insight &mdash; In-Home Therapy Commuting</div>
+35% of Keystone's therapy services are delivered in-home. BCBAs drive personal vehicles to patient homes. With 85 BCBAs averaging an estimated 40-60 miles/day, <strong style="color:#fff">employee commuting / business use of personal vehicles is likely Keystone's single largest emission source</strong> &mdash; potentially exceeding Scope 1+2 combined. <strong style="color:#e85454">This data does not exist.</strong>
+</div>
+
+<!-- Scope 3 estimated comparison chart -->
+<div class="chart-container" style="text-align:center">
+<svg width="600" height="180" viewBox="0 0 600 180">
+<text x="300" y="18" text-anchor="middle" fill="#888" font-size="11" font-weight="600">ESTIMATED EMISSIONS SCALE: SCOPE 1+2 vs SCOPE 3 COMMUTING (UNMEASURED)</text>
+<!-- Scope 1+2 -->
+<rect x="60" y="50" width="160" height="50" rx="6" fill="#5fb5a2" opacity=".8"/>
+<text x="140" y="80" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">1,279 mt</text>
+<text x="140" y="120" text-anchor="middle" fill="#5fb5a2" font-size="10" font-weight="600">Scope 1+2 (Measured)</text>
+<!-- Scope 3 estimate -->
+<rect x="260" y="35" width="280" height="80" rx="6" fill="#e85454" opacity=".15" stroke="#e85454" stroke-width="1" stroke-dasharray="6,3"/>
+<text x="400" y="72" text-anchor="middle" fill="#e85454" font-size="14" font-weight="700">~1,400-2,500 mt?</text>
+<text x="400" y="90" text-anchor="middle" fill="#e85454" font-size="10">(estimated range &mdash; no data)</text>
+<text x="400" y="135" text-anchor="middle" fill="#e85454" font-size="10" font-weight="600">Scope 3 Cat 7 Commuting (Unmeasured)</text>
+<!-- question mark -->
+<text x="400" y="155" text-anchor="middle" fill="#555" font-size="9">85 BCBAs &times; 40-60 mi/day &times; 250 days &times; 0.404 kg CO2/mi</text>
+</svg>
+</div>
+</div>
+
+<!-- ===== SECTION 4: REDUCTION INITIATIVES ===== -->
+<div class="section">
+<h2>4. Current Initiatives &amp; Opportunities</h2>
+
+<h3>Current Initiatives</h3>
+<div class="opp-card" style="border-left:3px solid #5fb5a2">
+<div class="opp-title">New Clinic Builds &mdash; Energy Star + LED Standard</div>
+<div class="opp-detail">Trenton (NJ) and Hagerstown (MD) built with Energy Star appliances and full LED lighting.</div>
+<span class="opp-tag tag-green">Implemented</span>
+</div>
+<p style="font-size:.85rem;color:#888;margin:8px 0 20px;font-style:italic">No other formal climate/energy initiatives currently in place.</p>
+
+<h3>Priority Opportunities</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="opp-card" style="border-left:3px solid #5fb5a2">
+<div class="opp-title">1. Telehealth Expansion</div>
+<div class="opp-detail">Currently 0% telehealth. Behavioral health is highly suitable for virtual delivery. Each 10% shift from in-home to telehealth reduces commute emissions by ~10%. EHR platform (Phase 1 go-live March 2026) is already underway.</div>
+<div style="margin-top:8px"><span class="opp-tag tag-green">Emission Reduction</span> <span class="opp-tag tag-blue">Co-benefit: Weather Resilience</span></div>
+</div>
+<div class="opp-card" style="border-left:3px solid #e8a838">
+<div class="opp-title">2. Landlord Energy Negotiations</div>
+<div class="opp-detail">Negotiate utility sub-metering or green lease provisions at next lease renewal for 13 landlord-managed clinics. Minimal investment. Upgrades data quality from Grade C to Grade A.</div>
+<span class="opp-tag tag-amber">Data Quality Upgrade</span>
+</div>
+<div class="opp-card" style="border-left:3px solid #7b8cde">
+<div class="opp-title">3. LED Retrofit at Older Clinics</div>
+<div class="opp-detail">8-10 clinics with older lighting systems. Investment: ~$40K. Payback: 2-3 years.</div>
+<span class="opp-tag tag-blue">Quick Win</span>
+</div>
+<div class="opp-card" style="border-left:3px solid #e85454">
+<div class="opp-title">4. BCBA Mileage Tracking App</div>
+<div class="opp-detail">Track in-home visit mileage for Scope 3 reporting. Investment: ~$5K/year. Captures data for the single largest estimated emission source.</div>
+<span class="opp-tag tag-amber">Data Capture</span>
+</div>
+</div>
+</div>
+
+<!-- ===== SECTION 5: TRANSITION PLAN DATA NEEDS ===== -->
+<div class="section">
+<h2>5. Transition Plan Data Readiness</h2>
+<div style="max-width:800px">
+<div class="progress-row">
+<div class="progress-label">Emissions Baseline (Scope 1+2)</div>
+<div class="progress-bar"><div class="progress-fill" style="width:55%;background:linear-gradient(90deg,#e8a838,#5fb5a2)"></div></div>
+<div class="progress-pct">55%</div>
+</div>
+<div class="progress-row">
+<div class="progress-label">Emissions Baseline (Scope 3)</div>
+<div class="progress-bar"><div class="progress-fill" style="width:10%;background:#e85454"></div></div>
+<div class="progress-pct" style="color:#e85454">10%</div>
+</div>
+<div class="progress-row">
+<div class="progress-label">Abatement Opportunity List</div>
+<div class="progress-bar"><div class="progress-fill" style="width:25%;background:#e8a838"></div></div>
+<div class="progress-pct">25%</div>
+</div>
+<div class="progress-row">
+<div class="progress-label">Abatement Cost Analysis</div>
+<div class="progress-bar"><div class="progress-fill" style="width:5%;background:#e85454"></div></div>
+<div class="progress-pct">5%</div>
+</div>
+<div class="progress-row">
+<div class="progress-label">Telehealth Climate Impact Analysis</div>
+<div class="progress-bar"><div class="progress-fill" style="width:0%;background:#e85454"></div></div>
+<div class="progress-pct" style="color:#e85454">0%</div>
+</div>
+<div class="progress-row">
+<div class="progress-label">Science-Based Target</div>
+<div class="progress-bar"><div class="progress-fill" style="width:0%;background:#e85454"></div></div>
+<div class="progress-pct">0%</div>
+</div>
+<div class="progress-row">
+<div class="progress-label">MACC Curve</div>
+<div class="progress-bar"><div class="progress-fill" style="width:0%;background:#e85454"></div></div>
+<div class="progress-pct">0%</div>
+</div>
+</div>
+</div>
+
+<!-- ===== SECTION 6: CLIMATE RISK PROFILE ===== -->
+<div class="section">
+<h2>6. Climate Risk Profile</h2>
+<div class="grid-2">
+<div>
+<h3>Physical Risk</h3>
+<div class="risk-grid">
+<div class="risk-card"><div class="risk-type">Heat Stress</div><div class="risk-level risk-low">Low</div><div style="font-size:.78rem;color:#888">Indoor clinic-based</div></div>
+<div class="risk-card"><div class="risk-type">Flooding</div><div class="risk-level risk-med">Low-Medium</div><div style="font-size:.78rem;color:#888">Mid-Atlantic coastal exposure</div></div>
+<div class="risk-card"><div class="risk-type">Wildfire</div><div class="risk-level risk-low">Very Low</div></div>
+<div class="risk-card" style="border-color:#3a3020"><div class="risk-type">Storm / Hurricane</div><div class="risk-level risk-med">MEDIUM</div><div style="font-size:.78rem;color:#e8a838">2 hurricane closures (Sep 2025), 1 winter storm (Jan 2025). 15-20% patient regression within 2-3 weeks of disruption.</div></div>
+</div>
+<div class="stat-card" style="margin-top:12px;border-color:#3a3020;background:#18160e">
+<div class="label" style="color:#e8a838">Overall Physical Risk</div>
+<div class="val" style="color:#e8a838">MEDIUM</div>
+<div style="font-size:.82rem;color:#aaa;margin-top:4px">Primary risk is SERVICE CONTINUITY, not facility damage</div>
+</div>
+</div>
+<div>
+<h3>Transition Risk</h3>
+<div class="risk-grid">
+<div class="risk-card"><div class="risk-type">Regulatory</div><div class="risk-level risk-med">Medium</div><div style="font-size:.78rem;color:#888">Healthcare ESG not yet mandated; CMS trending toward quality metrics</div></div>
+<div class="risk-card"><div class="risk-type">Market</div><div class="risk-level risk-low">Low-Medium</div><div style="font-size:.78rem;color:#888">Payor contracts don't yet include ESG</div></div>
+<div class="risk-card" style="border-color:#1e2e1e"><div class="risk-type">Technology</div><div class="risk-level risk-low" style="color:#5fb5a2">OPPORTUNITY</div><div style="font-size:.78rem;color:#5fb5a2">EHR migration enables telehealth = climate resilience</div></div>
+<div class="risk-card"><div class="risk-type">Reputation</div><div class="risk-level risk-low">Low</div></div>
+</div>
+<div class="stat-card" style="margin-top:12px;border-color:#1e2e1e">
+<div class="label">Overall Transition Risk</div>
+<div class="val" style="color:#5fb5a2">LOW-MEDIUM</div>
+</div>
+</div>
+</div>
+
+<div class="insight-box" style="margin-top:20px;border-left-color:#e8a838;border-color:#3a3020;background:linear-gradient(135deg,#1a170f,#18140a)">
+<div class="insight-title" style="color:#e8a838">Healthcare-Specific Climate Risk Insight</div>
+Climate risk for behavioral health is fundamentally different from other sectors. The primary risk is not facility damage &mdash; it's <strong style="color:#fff">service disruption</strong>. When clinics close for weather events, <strong style="color:#e8a838">15-20% of patients experience clinical regression within 2-3 weeks</strong>. This translates to: <strong style="color:#fff">longer treatment courses</strong> (increased cost), <strong style="color:#fff">patient churn</strong> (lost revenue), and <strong style="color:#fff">clinical outcome deterioration</strong> (regulatory/quality risk). Telehealth is both a climate adaptation strategy and an emission reduction strategy.
+</div>
+</div>
+
+<!-- ===== SECTION 7: TCFD READINESS ===== -->
+<div class="section">
+<h2>7. TCFD Readiness</h2>
+<p style="font-size:.85rem;color:#e85454;margin-bottom:16px;font-weight:600">Lowest TCFD readiness among the 4 focus portfolio companies</p>
+<div style="max-width:700px">
+<div class="tcfd-bar"><div class="tcfd-label">Governance</div><div class="tcfd-track"><div class="tcfd-fill" style="width:10%"></div></div><div class="tcfd-pct">10%</div></div>
+<div style="font-size:.78rem;color:#888;margin:-2px 0 8px 152px">100-day plan does not include climate</div>
+<div class="tcfd-bar"><div class="tcfd-label">Strategy</div><div class="tcfd-track"><div class="tcfd-fill" style="width:15%"></div></div><div class="tcfd-pct">15%</div></div>
+<div style="font-size:.78rem;color:#888;margin:-2px 0 8px 152px">Telehealth strategy implicitly climate-relevant</div>
+<div class="tcfd-bar"><div class="tcfd-label">Risk Management</div><div class="tcfd-track"><div class="tcfd-fill" style="width:10%"></div></div><div class="tcfd-pct">10%</div></div>
+<div style="font-size:.78rem;color:#888;margin:-2px 0 8px 152px">Weather disruption not formally in risk register</div>
+<div class="tcfd-bar"><div class="tcfd-label">Metrics &amp; Targets</div><div class="tcfd-track"><div class="tcfd-fill" style="width:20%"></div></div><div class="tcfd-pct">20%</div></div>
+<div style="font-size:.78rem;color:#888;margin:-2px 0 8px 152px">Energy data exists but 65% estimated; no targets</div>
+</div>
+<div class="stat-card" style="max-width:300px;margin-top:16px;background:#1a0f0f;border-color:#3a2020">
+<div class="label" style="color:#e85454">Overall TCFD Readiness</div>
+<div class="val" style="font-size:1.8rem;color:#e85454">~14%</div>
+</div>
+</div>
+
+<!-- ===== SECTION 8: DATA REQUEST ===== -->
+<div class="section">
+<h2>8. Data Request &amp; Next Steps</h2>
+<div style="overflow-x:auto">
+<table class="req-table">
+<thead>
+<tr><th>#</th><th>Data Item</th><th>Priority</th><th>Owner</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Landlord utility allocation methodology for 13 clinics</td><td class="grade-b">P2</td><td>Operations</td></tr>
+<tr><td>2</td><td>BCBA mileage data or average daily driving distance</td><td class="grade-b">P2</td><td>Clinical Operations</td></tr>
+<tr><td>3</td><td>Telehealth session volume (if any pilots exist)</td><td>P3</td><td>Clinical</td></tr>
+<tr><td>4</td><td>Weather-related closure log (2024-2025) with patient impact data</td><td class="grade-b">P2</td><td>Clinical / Ops</td></tr>
+<tr><td>5</td><td>Insurance cost history</td><td class="grade-b">P2</td><td>CFO</td></tr>
+<tr><td>6</td><td>New clinic pipeline (Charlotte, Richmond, Raleigh for 2026-2027)</td><td>P3</td><td>Strategy</td></tr>
+<tr><td>7</td><td>EHR platform telehealth capability specs</td><td>P3</td><td>IT</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 100-day plan callout -->
+<div class="callout-100">
+<div class="callout-header">100-Day Plan Integration &mdash; Act Now</div>
+<p style="font-size:.88rem;color:#ccc;margin-bottom:12px">Keystone is still in its 100-day plan. Climate/ESG considerations should be integrated <strong style="color:#fff">now</strong> rather than bolted on later. Three specific integrations:</p>
+<ol>
+<li><strong>EHR Migration (Phase 1 go-live March 2026)</strong> &mdash; Ensure telehealth capability is included, not just clinical records. Telehealth is both a growth enabler and a climate adaptation/mitigation strategy.</li>
+<li><strong>BCBA Hiring (15 net adds planned)</strong> &mdash; Track commute patterns from day one. Mileage tracking app (~$5K/yr) captures data for the largest estimated emission source.</li>
+<li><strong>New Clinic Builds (Charlotte, Richmond, Raleigh contingent)</strong> &mdash; Apply the Energy Star + LED standard established at Trenton and Hagerstown to all future builds.</li>
+</ol>
+</div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+CONFIDENTIAL &mdash; Northwood Capital Partners &nbsp;|&nbsp; Kith Consulting &nbsp;|&nbsp; kithclimate.com<br>
+<span style="color:#333">Generated 2026-03-26 &nbsp;|&nbsp; v4 &mdash; Methodology footnotes added</span>
+</div>
+
+</div>
+</body>
+</html>

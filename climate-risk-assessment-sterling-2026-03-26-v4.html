@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Risk Assessment — Sterling Precision Manufacturing</title>
+<style>
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-card: #141414;
+    --bg-card-alt: #1e1e1e;
+    --border: #2a2a2a;
+    --border-light: #333;
+    --teal: #00e5ff;
+    --teal-dark: #00bcd4;
+    --teal-muted: #00838f;
+    --teal-glow: rgba(0, 229, 255, 0.15);
+    --teal-glow-strong: rgba(0, 229, 255, 0.3);
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0a0;
+    --text-muted: #707070;
+    --red: #ff4444;
+    --red-muted: #cc3333;
+    --orange: #ff9800;
+    --orange-muted: #e68a00;
+    --yellow: #ffeb3b;
+    --yellow-muted: #e6d435;
+    --green: #4caf50;
+    --green-muted: #388e3c;
+    --purple: #b388ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 48px 40px 40px;
+    background: linear-gradient(180deg, #0d1b1e 0%, var(--bg-primary) 100%);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  .sample-badge {
+    display: inline-block;
+    background: var(--teal-glow);
+    border: 1px solid var(--teal-dark);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 4px;
+    margin-bottom: 28px;
+  }
+  .header-kpis {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .header-kpi {
+    text-align: center;
+  }
+  .header-kpi .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .header-kpi .label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 2px;
+  }
+
+  /* Section Styling */
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--teal-glow);
+    border: 1px solid var(--teal-muted);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-highlight {
+    border-color: var(--teal-muted);
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.03) 0%, var(--bg-card) 100%);
+  }
+  .card-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+  }
+
+  /* Profile Grid */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .profile-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .profile-item .lbl {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .profile-item .val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: right;
+  }
+
+  /* Data Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--bg-card-alt);
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    vertical-align: top;
+  }
+  tbody tr:hover {
+    background: rgba(255,255,255,0.02);
+  }
+
+  /* Risk Cells */
+  .risk-very-low { background: rgba(76, 175, 80, 0.15); color: var(--green); font-weight: 600; text-align: center; border-radius: 4px; }
+  .risk-low { background: rgba(76, 175, 80, 0.1); color: #81c784; font-weight: 600; text-align: center; border-radius: 4px; }
+  .risk-moderate { background: rgba(255, 152, 0, 0.15); color: var(--orange); font-weight: 600; text-align: center; border-radius: 4px; }
+  .risk-high { background: rgba(255, 68, 68, 0.15); color: #ff7777; font-weight: 600; text-align: center; border-radius: 4px; }
+  .risk-significant { background: rgba(255, 68, 68, 0.25); color: var(--red); font-weight: 600; text-align: center; border-radius: 4px; }
+
+  /* Methodology Note */
+  .methodology-note {
+    background: var(--bg-card-alt);
+    border-left: 3px solid var(--teal-muted);
+    padding: 14px 18px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+  }
+
+  /* Rating Badges */
+  .rating-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .rating-moderate { background: rgba(255, 152, 0, 0.2); color: var(--orange); border: 1px solid rgba(255, 152, 0, 0.3); }
+  .rating-high { background: rgba(255, 68, 68, 0.2); color: #ff7777; border: 1px solid rgba(255, 68, 68, 0.3); }
+  .rating-medium { background: rgba(255, 235, 59, 0.15); color: var(--yellow); border: 1px solid rgba(255, 235, 59, 0.3); }
+  .rating-low { background: rgba(76, 175, 80, 0.15); color: var(--green); border: 1px solid rgba(76, 175, 80, 0.3); }
+  .rating-urgent { background: rgba(255, 68, 68, 0.3); color: #ff5555; border: 1px solid rgba(255, 68, 68, 0.5); }
+
+  /* Transition Risk Cards */
+  .risk-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .risk-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+  .risk-card .risk-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  .risk-card .risk-rating {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .risk-card ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .risk-card ul li { margin-bottom: 4px; }
+
+  /* SVG Charts */
+  .chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .chart-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+  .chart-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    margin-top: -8px;
+  }
+
+  /* Key Insight Box */
+  .insight-box {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.08) 0%, rgba(0, 188, 212, 0.03) 100%);
+    border: 1px solid var(--teal-muted);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--text-primary);
+    margin-top: 16px;
+  }
+  .insight-box strong {
+    color: var(--teal);
+  }
+
+  /* Priority Tags */
+  .priority-urgent { color: var(--red); font-weight: 700; }
+  .priority-high { color: var(--orange); font-weight: 700; }
+  .priority-medium { color: var(--yellow); font-weight: 600; }
+  .priority-strategic { color: var(--purple); font-weight: 600; }
+
+  /* Gap Section */
+  .gap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .gap-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .gap-card .gap-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .gap-have {
+    font-size: 12px;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .gap-need {
+    font-size: 12px;
+    color: var(--orange);
+  }
+
+  /* QA Section */
+  .qa-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .qa-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .qa-item .qa-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .qa-item p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .footer .poc-tag {
+    display: inline-block;
+    background: var(--teal-glow);
+    border: 1px solid var(--teal-muted);
+    color: var(--teal);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  /* Radar Chart Styles */
+  .radar-label {
+    font-size: 11px;
+    fill: var(--text-secondary);
+    font-weight: 600;
+  }
+  .radar-value {
+    font-size: 10px;
+    fill: var(--teal);
+    font-weight: 700;
+  }
+
+  /* MACC Bar Chart */
+  .macc-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 20px;
+    position: relative;
+    height: 340px;
+    margin-top: 20px;
+  }
+  .macc-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 120px;
+    position: relative;
+  }
+  .macc-bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+    min-height: 2px;
+    transition: opacity 0.2s;
+  }
+  .macc-bar:hover {
+    opacity: 0.85;
+  }
+  .macc-bar-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1.3;
+  }
+  .macc-bar-value {
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .macc-bar-abatement {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* TCFD Grid */
+  .tcfd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .tcfd-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+  .tcfd-card .tcfd-pillar {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+  .tcfd-row {
+    margin-bottom: 10px;
+  }
+  .tcfd-row-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+  .tcfd-row-content {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Scenario Cards */
+  .scenario-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .scenario-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .scenario-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .scenario-framework {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .scenario-params {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--bg-card-alt);
+    border-radius: 6px;
+  }
+  .scenario-param {
+    font-size: 12px;
+  }
+  .scenario-param .param-label {
+    color: var(--text-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .scenario-param .param-value {
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* Callout box */
+  .callout-box {
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 68, 68, 0.05) 100%);
+    border: 2px solid rgba(255, 152, 0, 0.4);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .callout-box .callout-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  .callout-box p {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.7;
+  }
+
+  /* Source note */
+  .source-note {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .profile-grid, .risk-card-grid, .gap-grid, .qa-grid, .tcfd-grid { grid-template-columns: 1fr; }
+    .header-kpis { gap: 20px; }
+    .page-wrapper { padding: 20px 16px; }
+    .scenario-params { flex-direction: column; gap: 8px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    .card, .risk-card, .gap-card, .qa-item, .chart-container, .tcfd-card, .scenario-card {
+      border-color: #ddd;
+      background: #fafafa;
+    }
+    .section-number { background: #e0f7fa; border-color: #00838f; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Climate Risk Assessment &mdash; Sterling Precision Manufacturing</h1>
+  <div class="subtitle">Proof of Concept &middot; Produced from Existing Data + Public Reference Databases &middot; Kith Consulting &middot; March 2026</div>
+  <div class="sample-badge">Proof of Concept &mdash; Previews all 3 engagement deliverables using existing data + public reference databases</div>
+  <div class="header-kpis">
+    <div class="header-kpi"><div class="value">$168M</div><div class="label">Revenue</div></div>
+    <div class="header-kpi"><div class="value">$30.2M</div><div class="label">EBITDA</div></div>
+    <div class="header-kpi"><div class="value">420</div><div class="label">Employees</div></div>
+    <div class="header-kpi"><div class="value">3</div><div class="label">Facilities</div></div>
+    <div class="header-kpi"><div class="value">6,044</div><div class="label">mt CO2e</div></div>
+  </div>
+</div>
+
+<div class="page-wrapper">
+
+<!-- SECTION 1: Company Climate Profile -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <div class="section-title">Company Climate Profile</div>
+  </div>
+
+  <div class="card card-highlight">
+    <div class="profile-grid">
+      <div>
+        <div class="profile-item"><span class="lbl">Sector</span><span class="val">Industrial Technology &mdash; Precision Manufacturing</span></div>
+        <div class="profile-item"><span class="lbl">Fund</span><span class="val">Fund I &nbsp;|&nbsp; Entry: Jun 2020 &nbsp;|&nbsp; 8.0x entry multiple</span></div>
+        <div class="profile-item"><span class="lbl">Performance</span><span class="val" style="color: var(--green);">Strong (Green RAG) &mdash; 2.9x MOIC, ~24% IRR</span></div>
+        <div class="profile-item"><span class="lbl">Facilities</span><span class="val">3 &mdash; Akron HQ + Plant, Elyria Plant, Canton Warehouse</span></div>
+        <div class="profile-item"><span class="lbl">Geography</span><span class="val">All Northeast Ohio (Cuyahoga River / Great Lakes region)</span></div>
+      </div>
+      <div>
+        <div class="profile-item"><span class="lbl">Annual Energy Spend</span><span class="val">$1.8M ($1.1M electricity, $0.7M natural gas)</span></div>
+        <div class="profile-item"><span class="lbl">Data Quality</span><span class="val">Scope 1: <span style="color:var(--green);">A</span> &nbsp;|&nbsp; Scope 2: <span style="color:var(--green);">A</span> &nbsp;|&nbsp; Scope 3: <span style="color:var(--red);">F</span></span></div>
+        <div class="profile-item"><span class="lbl">Total Emissions (Scope 1+2)</span><span class="val" style="color:var(--teal);">6,044 mt CO2e</span></div>
+        <div class="profile-item"><span class="lbl">Emissions Intensity</span><span class="val">36.0 mt CO2e per $M revenue</span></div>
+        <div class="profile-item"><span class="lbl">Portfolio Rank</span><span class="val" style="color:var(--orange);">Highest emitter in Northwood portfolio</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: Physical Climate Risk Assessment -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <div class="section-title">Physical Climate Risk Assessment</div>
+  </div>
+
+  <div class="methodology-note">
+    Methodology: This assessment uses publicly available climate projection data (NOAA, EPA, FEMA flood maps) for Northeast Ohio. A full assessment would use facility-specific lat/long coordinates with commercial climate risk models (e.g., Moody's RMS, S&P Climanomics, MSCI Climate VaR).
+  </div>
+
+  <!-- Heat Map Table -->
+  <div class="card">
+    <div class="card-header">Physical Hazard Assessment &mdash; All 3 Facilities (Northeast Ohio)</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">Hazard</th>
+          <th style="width:14%;">Current Exposure</th>
+          <th style="width:14%;">2030 Projection</th>
+          <th style="width:14%;">2050 Projection</th>
+          <th>Sterling-Specific Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">Extreme Heat<br><span style="font-size:11px;color:var(--text-muted);">Days &gt;95&deg;F</span></td>
+          <td class="risk-low">5&ndash;8 days/yr</td>
+          <td class="risk-moderate">12&ndash;18 days/yr</td>
+          <td class="risk-high">20&ndash;30 days/yr</td>
+          <td style="font-size:12px;">Manufacturing efficiency drops. HVAC costs increase. Worker safety risk on shop floor. Heat treatment operations have temperature-sensitive quality requirements.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Flooding<br><span style="font-size:11px;color:var(--text-muted);">Riverine</span></td>
+          <td class="risk-moderate">Moderate</td>
+          <td class="risk-moderate">Increasing</td>
+          <td class="risk-high">Significant</td>
+          <td style="font-size:12px;">Akron facility in Cuyahoga River watershed. Heavier precipitation events projected. Supply chain and logistics disruption. No formal flood zone assessment on file.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Winter Storms<br><span style="font-size:11px;color:var(--text-muted);">Great Lakes effect</span></td>
+          <td class="risk-high">High</td>
+          <td class="risk-moderate">Shifting</td>
+          <td class="risk-moderate">More variable</td>
+          <td style="font-size:12px;">Feb 2024 ice storm shut Akron plant for 2 days (~$350K production loss). Plant shutdowns, logistics disruption, energy cost spikes. Great Lakes effect snowfall is variable.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Drought</td>
+          <td class="risk-very-low">Low</td>
+          <td class="risk-low">Low&ndash;Mod</td>
+          <td class="risk-moderate">Moderate</td>
+          <td style="font-size:12px;">Limited direct impact. Machining uses ~2.5M gal/yr in closed-loop coolant systems. Ohio not currently water-stressed. Industrial water supply risk remains low through 2050.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Wildfire</td>
+          <td class="risk-very-low">Very Low</td>
+          <td class="risk-very-low">Very Low</td>
+          <td class="risk-low">Low</td>
+          <td style="font-size:12px;">Minimal for Ohio locations. Air quality events from distant wildfires possible but operationally immaterial.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Overall Physical Risk Rating -->
+  <div class="card" style="text-align:center; padding: 20px;">
+    <span style="font-size:13px; color:var(--text-secondary); margin-right: 12px;">Overall Physical Risk Rating:</span>
+    <span class="rating-badge rating-moderate">MODERATE</span>
+    <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">Primary risks: extreme heat (operational efficiency) and flooding (asset exposure). Winter storms are a known, recurring operational risk.</div>
+  </div>
+
+  <!-- Physical Risk SVG Heat Map -->
+  <div class="chart-container">
+    <div class="chart-title">Physical Risk Trajectory &mdash; Sterling Precision Facilities</div>
+    <svg viewBox="0 0 700 220" style="max-width:700px; width:100%;">
+      <!-- Grid -->
+      <defs>
+        <linearGradient id="heatGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#4caf50;stop-opacity:0.3"/>
+          <stop offset="50%" style="stop-color:#ff9800;stop-opacity:0.3"/>
+          <stop offset="100%" style="stop-color:#ff4444;stop-opacity:0.3"/>
+        </linearGradient>
+      </defs>
+      <rect x="120" y="10" width="560" height="180" rx="4" fill="url(#heatGrad)" opacity="0.15"/>
+
+      <!-- Time axis -->
+      <text x="260" y="205" fill="#707070" font-size="11" text-anchor="middle" font-weight="600">Current</text>
+      <text x="400" y="205" fill="#707070" font-size="11" text-anchor="middle" font-weight="600">2030</text>
+      <text x="540" y="205" fill="#707070" font-size="11" text-anchor="middle" font-weight="600">2050</text>
+
+      <!-- Hazard labels -->
+      <text x="110" y="42" fill="#a0a0a0" font-size="11" text-anchor="end">Extreme Heat</text>
+      <text x="110" y="78" fill="#a0a0a0" font-size="11" text-anchor="end">Flooding</text>
+      <text x="110" y="114" fill="#a0a0a0" font-size="11" text-anchor="end">Winter Storms</text>
+      <text x="110" y="150" fill="#a0a0a0" font-size="11" text-anchor="end">Drought</text>
+      <text x="110" y="182" fill="#a0a0a0" font-size="11" text-anchor="end">Wildfire</text>
+
+      <!-- Heat dots Current -->
+      <circle cx="260" cy="38" r="14" fill="#81c784" opacity="0.8"/><text x="260" y="42" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">LOW</text>
+      <circle cx="260" cy="74" r="14" fill="#ff9800" opacity="0.8"/><text x="260" y="78" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">MOD</text>
+      <circle cx="260" cy="110" r="14" fill="#ff7777" opacity="0.8"/><text x="260" y="114" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">HIGH</text>
+      <circle cx="260" cy="146" r="14" fill="#4caf50" opacity="0.8"/><text x="260" y="150" fill="#0a0a0a" font-size="8" text-anchor="middle" font-weight="700">VLOW</text>
+      <circle cx="260" cy="178" r="14" fill="#4caf50" opacity="0.8"/><text x="260" y="182" fill="#0a0a0a" font-size="8" text-anchor="middle" font-weight="700">VLOW</text>
+
+      <!-- Heat dots 2030 -->
+      <circle cx="400" cy="38" r="14" fill="#ff9800" opacity="0.8"/><text x="400" y="42" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">MOD</text>
+      <circle cx="400" cy="74" r="14" fill="#ff9800" opacity="0.8"/><text x="400" y="78" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">MOD</text>
+      <circle cx="400" cy="110" r="14" fill="#ff9800" opacity="0.8"/><text x="400" y="114" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">MOD</text>
+      <circle cx="400" cy="146" r="14" fill="#81c784" opacity="0.8"/><text x="400" y="150" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">LOW</text>
+      <circle cx="400" cy="178" r="14" fill="#4caf50" opacity="0.8"/><text x="400" y="182" fill="#0a0a0a" font-size="8" text-anchor="middle" font-weight="700">VLOW</text>
+
+      <!-- Heat dots 2050 -->
+      <circle cx="540" cy="38" r="14" fill="#ff4444" opacity="0.8"/><text x="540" y="42" fill="#fff" font-size="9" text-anchor="middle" font-weight="700">HIGH</text>
+      <circle cx="540" cy="74" r="14" fill="#ff7777" opacity="0.8"/><text x="540" y="78" fill="#0a0a0a" font-size="8" text-anchor="middle" font-weight="700">SIG</text>
+      <circle cx="540" cy="110" r="14" fill="#ff9800" opacity="0.8"/><text x="540" y="114" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">MOD</text>
+      <circle cx="540" cy="146" r="14" fill="#ff9800" opacity="0.8"/><text x="540" y="150" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">MOD</text>
+      <circle cx="540" cy="178" r="14" fill="#81c784" opacity="0.8"/><text x="540" y="182" fill="#0a0a0a" font-size="9" text-anchor="middle" font-weight="700">LOW</text>
+
+      <!-- Trend arrows -->
+      <line x1="280" y1="38" x2="380" y2="38" stroke="#ff9800" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowOrange)"/>
+      <line x1="420" y1="38" x2="520" y2="38" stroke="#ff4444" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+      <line x1="280" y1="74" x2="380" y2="74" stroke="#ff9800" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="420" y1="74" x2="520" y2="74" stroke="#ff4444" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+
+      <defs>
+        <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ff9800"/></marker>
+        <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ff4444"/></marker>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<!-- SECTION 3: Transition Risk Assessment -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <div class="section-title">Transition Risk Assessment</div>
+  </div>
+
+  <div class="card" style="text-align:center; padding:16px; margin-bottom:20px;">
+    <span style="font-size:13px; color:var(--text-secondary); margin-right:12px;">Overall Transition Risk:</span>
+    <span class="rating-badge rating-high">HIGH</span>
+    <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">Customer ESG requirements represent the dominant near-term threat to revenue. $25&ndash;42M in annual revenue at risk.</div>
+  </div>
+
+  <div class="risk-card-grid">
+    <!-- Regulatory Risk -->
+    <div class="risk-card" style="border-top: 3px solid var(--orange);">
+      <div class="risk-label" style="color:var(--orange);">Regulatory Risk</div>
+      <div class="risk-rating"><span class="rating-badge rating-moderate">MEDIUM-HIGH</span></div>
+      <ul>
+        <li>EPA emissions reporting thresholds trending downward</li>
+        <li>Ohio EPA industrial emissions monitoring increasing</li>
+        <li>R-22 refrigerant production banned since 2020 &mdash; Akron has 30-year-old unit still using R-22 reclaimed stock</li>
+        <li>Potential federal or state carbon pricing mechanisms</li>
+        <li>RCRA Small Quantity Generator status at Akron and Elyria</li>
+      </ul>
+    </div>
+
+    <!-- Market Risk -->
+    <div class="risk-card" style="border-top: 3px solid var(--red);">
+      <div class="risk-label" style="color:var(--red);">Market Risk</div>
+      <div class="risk-rating"><span class="rating-badge rating-high">HIGH</span></div>
+      <ul>
+        <li><strong style="color:var(--text-primary);">Defense customers (Boeing, Raytheon, L3Harris) rolling out supplier ESG requirements</strong></li>
+        <li>3 RFPs in 2025 included sustainability questionnaires &mdash; Sterling could not fully respond</li>
+        <li>Est. 40&ndash;60% of revenue from customers requiring ESG data within 2 years</li>
+        <li>Boeing: carbon intensity metric mandatory starting 2027</li>
+        <li style="color:var(--red);"><strong>Failure to comply = exclusion from approved supplier lists</strong></li>
+        <li>$25&ndash;42M in potential annual revenue at stake from 3 programs alone</li>
+      </ul>
+    </div>
+
+    <!-- Technology Risk -->
+    <div class="risk-card" style="border-top: 3px solid var(--yellow);">
+      <div class="risk-label" style="color:var(--yellow);">Technology Risk</div>
+      <div class="risk-rating"><span class="rating-badge rating-medium">MEDIUM</span></div>
+      <ul>
+        <li>Manufacturing process electrification opportunities exist</li>
+        <li>CNC machine efficiency improvements available (VFDs on 3 of 34 machines)</li>
+        <li>LED lighting and HVAC upgrades identified, not yet budgeted</li>
+        <li>R-22 to modern refrigerant conversion required &mdash; deferred twice</li>
+        <li>Compressed air system audit found 15&ndash;20% energy waste</li>
+        <li>Heat recovery from furnaces assessed but not pursued ($250K, 3-yr payback)</li>
+      </ul>
+    </div>
+
+    <!-- Reputation Risk -->
+    <div class="risk-card" style="border-top: 3px solid var(--green);">
+      <div class="risk-label" style="color:var(--green);">Reputation Risk</div>
+      <div class="risk-rating"><span class="rating-badge rating-low">LOW-MEDIUM</span></div>
+      <ul>
+        <li>Not consumer-facing &mdash; B2B precision machining</li>
+        <li>Defense contractors increasingly audit supply chains for ESG compliance</li>
+        <li>Competitors with European parent companies already providing sustainability data</li>
+        <li>ESG performance becoming a factor in supplier scoring at prime contractors</li>
+        <li>Positive: award-winning apprenticeship program is a strong "S" narrative</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Transition Risk Radar -->
+  <div class="chart-container" style="margin-top:16px;">
+    <div class="chart-title">Transition Risk Radar &mdash; Sterling Precision Manufacturing</div>
+    <svg viewBox="0 0 400 340" style="max-width:400px; width:100%;">
+      <!-- Background rings -->
+      <circle cx="200" cy="160" r="120" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+      <circle cx="200" cy="160" r="90" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+      <circle cx="200" cy="160" r="60" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+      <circle cx="200" cy="160" r="30" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+
+      <!-- Ring labels -->
+      <text x="325" y="164" fill="#404040" font-size="9">Low</text>
+      <text x="295" y="164" fill="#404040" font-size="9">Med</text>
+      <text x="265" y="164" fill="#404040" font-size="9">High</text>
+      <text x="232" y="164" fill="#404040" font-size="9">Crit</text>
+
+      <!-- Axes -->
+      <line x1="200" y1="40" x2="200" y2="280" stroke="#333" stroke-width="0.5"/>
+      <line x1="80" y1="160" x2="320" y2="160" stroke="#333" stroke-width="0.5"/>
+      <line x1="115" y1="67" x2="285" y2="253" stroke="#333" stroke-width="0.5"/>
+      <line x1="285" y1="67" x2="115" y2="253" stroke="#333" stroke-width="0.5"/>
+
+      <polygon points="200,46 290,160 200,226 158,160"
+        fill="rgba(0,229,255,0.12)" stroke="var(--teal)" stroke-width="2.5"/>
+
+      <!-- Data points -->
+      <circle cx="200" cy="46" r="5" fill="var(--red)" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="290" cy="160" r="5" fill="var(--orange)" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="200" cy="226" r="5" fill="var(--yellow)" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="158" cy="160" r="5" fill="var(--green)" stroke="#0a0a0a" stroke-width="2"/>
+
+      <!-- Labels -->
+      <text x="200" y="30" fill="var(--red)" font-size="12" text-anchor="middle" font-weight="700">Market Risk</text>
+      <text x="200" y="18" fill="#ff7777" font-size="10" text-anchor="middle">HIGH</text>
+      <text x="320" y="164" fill="var(--orange)" font-size="12" text-anchor="start" font-weight="700">Regulatory</text>
+      <text x="320" y="176" fill="#ffb74d" font-size="10" text-anchor="start">MED-HIGH</text>
+      <text x="200" y="248" fill="var(--yellow)" font-size="12" text-anchor="middle" font-weight="700">Technology</text>
+      <text x="200" y="260" fill="#fff176" font-size="10" text-anchor="middle">MEDIUM</text>
+      <text x="80" y="158" fill="var(--green)" font-size="12" text-anchor="end" font-weight="700">Reputation</text>
+      <text x="80" y="170" fill="#81c784" font-size="10" text-anchor="end">LOW-MED</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: Climate Scenario Analysis (NEW IN V4) -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <div class="section-title">Climate Scenario Analysis</div>
+  </div>
+
+  <div class="methodology-note">
+    This analysis models Sterling's exposure under three NGFS climate scenarios, assessing both physical and transition risks with estimated financial impacts. Scenarios are drawn from the NGFS Phase IV (2023) framework, cross-referenced with IEA World Energy Outlook 2023 and IPCC AR6 SSP pathways.
+  </div>
+
+  <!-- Scenario 1: Orderly -->
+  <div class="scenario-card" style="border-left: 4px solid var(--green);">
+    <div class="scenario-header">
+      <div>
+        <div class="scenario-name" style="color:var(--green);">Scenario 1: Orderly Transition &mdash; Net Zero 2050</div>
+        <div class="scenario-framework">NGFS: Net Zero 2050 &nbsp;|&nbsp; IEA: NZE &nbsp;|&nbsp; IPCC: SSP1-1.9</div>
+      </div>
+    </div>
+    <div class="scenario-params">
+      <div class="scenario-param"><div class="param-label">Global Warming</div><div class="param-value" style="color:var(--green);">1.5&deg;C by 2100</div></div>
+      <div class="scenario-param"><div class="param-label">Carbon Pricing</div><div class="param-value">$75/mt by 2030, $250/mt by 2050</div></div>
+      <div class="scenario-param"><div class="param-label">Policy Trajectory</div><div class="param-value">Early, gradual action</div></div>
+      <div class="scenario-param"><div class="param-label">Physical Risk</div><div class="param-value" style="color:var(--green);">LOW</div></div>
+      <div class="scenario-param"><div class="param-label">Transition Risk</div><div class="param-value" style="color:var(--orange);">HIGH but manageable</div></div>
+    </div>
+
+    <div class="card-header">Sterling Financial Impact &mdash; Orderly Transition</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Impact Category</th>
+          <th>2027</th>
+          <th>2030</th>
+          <th>2035</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">Carbon cost (Scope 1+2)</td>
+          <td>$150K<br><span style="font-size:10px;color:var(--text-muted);">$25/mt &times; 6,044</span></td>
+          <td>$450K<br><span style="font-size:10px;color:var(--text-muted);">$75/mt &times; 6,044</span></td>
+          <td>$900K<br><span style="font-size:10px;color:var(--text-muted);">$150/mt &times; 6,044</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Scope 3 carbon exposure<br><span style="font-size:10px;color:var(--text-muted);">Supply chain pass-through</span></td>
+          <td>$75&ndash;200K</td>
+          <td>$375K&ndash;1M</td>
+          <td>$1.5&ndash;3.5M</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Energy cost increase<br><span style="font-size:10px;color:var(--text-muted);">Grid decarbonization surcharge</span></td>
+          <td>+3&ndash;5%<br><span style="font-size:10px;color:var(--text-muted);">$54&ndash;90K</span></td>
+          <td>+8&ndash;12%<br><span style="font-size:10px;color:var(--text-muted);">$144&ndash;216K</span></td>
+          <td>+15&ndash;20%<br><span style="font-size:10px;color:var(--text-muted);">$270&ndash;360K</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Customer ESG compliance cost</td>
+          <td>$50&ndash;100K<br><span style="font-size:10px;color:var(--text-muted);">Reporting systems</span></td>
+          <td>$100&ndash;200K<br><span style="font-size:10px;color:var(--text-muted);">Annual compliance</span></td>
+          <td style="color:var(--text-muted);">Embedded in BAU</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Revenue PROTECTED by early action</td>
+          <td style="color:var(--green);">100% of defense revenue retained</td>
+          <td style="color:var(--green);">100% retained</td>
+          <td style="color:var(--green);">100% retained</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">R-22 replacement<br><span style="font-size:10px;color:var(--text-muted);">Regulatory mandate</span></td>
+          <td>$200K (one-time)</td>
+          <td>&mdash;</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr style="background: rgba(0,229,255,0.05); font-weight:700;">
+          <td style="color:var(--teal);">Net annual impact</td>
+          <td style="color:var(--orange);">-$530K to -$790K</td>
+          <td style="color:var(--orange);">-$1.1M to -$1.9M</td>
+          <td style="color:var(--red);">-$2.7M to -$4.8M</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:16px;">
+      <strong>Key Insight:</strong> Under orderly transition, Sterling's costs are predictable and manageable. Early ESG action (now) locks in defense customer relationships and avoids penalty pricing. The R-22 replacement becomes regulatory necessity regardless.
+    </div>
+  </div>
+
+  <!-- Scenario 2: Disorderly -->
+  <div class="scenario-card" style="border-left: 4px solid var(--red);">
+    <div class="scenario-header">
+      <div>
+        <div class="scenario-name" style="color:var(--red);">Scenario 2: Disorderly Transition &mdash; Delayed Action</div>
+        <div class="scenario-framework">NGFS: Delayed Transition &nbsp;|&nbsp; IEA: APS with late acceleration &nbsp;|&nbsp; IPCC: SSP2-4.5 transitioning</div>
+      </div>
+    </div>
+    <div class="scenario-params">
+      <div class="scenario-param"><div class="param-label">Global Warming</div><div class="param-value" style="color:var(--orange);">1.8&deg;C by 2100 (overshoot)</div></div>
+      <div class="scenario-param"><div class="param-label">Carbon Pricing</div><div class="param-value" style="color:var(--red);">$0&ndash;25/mt until 2028, then SUDDEN jump to $150/mt by 2035</div></div>
+      <div class="scenario-param"><div class="param-label">Policy Trajectory</div><div class="param-value" style="color:var(--red);">Inaction then abrupt correction</div></div>
+      <div class="scenario-param"><div class="param-label">Physical Risk</div><div class="param-value" style="color:var(--orange);">MODERATE</div></div>
+      <div class="scenario-param"><div class="param-label">Transition Risk</div><div class="param-value" style="color:var(--red);">VERY HIGH (abrupt, unpredictable)</div></div>
+    </div>
+
+    <div class="card-header">Sterling Financial Impact &mdash; Disorderly Transition</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Impact Category</th>
+          <th>2027</th>
+          <th>2030</th>
+          <th>2035</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">Carbon cost</td>
+          <td>$0&ndash;50K<br><span style="font-size:10px;color:var(--text-muted);">No pricing yet</span></td>
+          <td>$300&ndash;600K<br><span style="font-size:10px;color:var(--text-muted);">Sudden onset</span></td>
+          <td>$900K&ndash;1.5M<br><span style="font-size:10px;color:var(--text-muted);">Catch-up</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Supply chain shock<br><span style="font-size:10px;color:var(--text-muted);">Supplier carbon costs passed through</span></td>
+          <td style="color:var(--text-muted);">Minimal</td>
+          <td style="color:var(--red); font-weight:600;">$500K&ndash;1.5M (abrupt)</td>
+          <td>$2&ndash;5M</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Defense customer DISRUPTION</td>
+          <td>Low</td>
+          <td style="color:var(--red); font-weight:700;">HIGH &mdash; sudden mandate, 6&ndash;12 month compliance window</td>
+          <td style="color:var(--text-muted);">Embedded</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Revenue at risk<br><span style="font-size:10px;color:var(--text-muted);">Non-compliance penalty</span></td>
+          <td>$0</td>
+          <td style="color:var(--red); font-weight:700;">$8&ndash;17M<br><span style="font-size:10px;">25&ndash;40% of defense revenue if unprepared</span></td>
+          <td style="color:var(--text-muted);">$0 if adapted</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Stranded asset risk<br><span style="font-size:10px;color:var(--text-muted);">R-22 system, inefficient equipment</span></td>
+          <td>Low</td>
+          <td style="color:var(--red); font-weight:600;">HIGH &mdash; regulatory ban with short timeline</td>
+          <td>&mdash;</td>
+        </tr>
+        <tr style="background: rgba(255,68,68,0.08); font-weight:700;">
+          <td style="color:var(--red);">Net annual impact</td>
+          <td>-$50K to -$150K</td>
+          <td style="color:var(--red); font-size:15px;">-$8.8M to -$19.1M (SHOCK)</td>
+          <td style="color:var(--orange);">-$2.9M to -$6.5M</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:16px; border-color:var(--red-muted); background: linear-gradient(135deg, rgba(255,68,68,0.08) 0%, rgba(255,68,68,0.02) 100%);">
+      <strong style="color:var(--red);">Key Insight:</strong> Disorderly transition is Sterling's nightmare scenario. The 2030 shock &mdash; sudden carbon pricing + immediate defense customer mandates &mdash; could wipe $8&ndash;19M in a single year. Current inaction makes Sterling maximally vulnerable to this scenario.
+    </div>
+  </div>
+
+  <!-- Scenario 3: Hot House World -->
+  <div class="scenario-card" style="border-left: 4px solid var(--orange);">
+    <div class="scenario-header">
+      <div>
+        <div class="scenario-name" style="color:var(--orange);">Scenario 3: Hot House World &mdash; Current Policies</div>
+        <div class="scenario-framework">NGFS: Current Policies &nbsp;|&nbsp; IEA: STEPS &nbsp;|&nbsp; IPCC: SSP3-7.0 / SSP5-8.5</div>
+      </div>
+    </div>
+    <div class="scenario-params">
+      <div class="scenario-param"><div class="param-label">Global Warming</div><div class="param-value" style="color:var(--red);">2.5&ndash;4&deg;C by 2100</div></div>
+      <div class="scenario-param"><div class="param-label">Carbon Pricing</div><div class="param-value" style="color:var(--text-muted);">Minimal ($0&ndash;25/mt, fragmented)</div></div>
+      <div class="scenario-param"><div class="param-label">Policy Trajectory</div><div class="param-value" style="color:var(--text-muted);">No meaningful transition</div></div>
+      <div class="scenario-param"><div class="param-label">Physical Risk</div><div class="param-value" style="color:var(--red);">VERY HIGH</div></div>
+      <div class="scenario-param"><div class="param-label">Transition Risk</div><div class="param-value" style="color:var(--green);">LOW</div></div>
+    </div>
+
+    <div class="card-header">Sterling Financial Impact &mdash; Hot House World</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Impact Category</th>
+          <th>2027</th>
+          <th>2030</th>
+          <th>2035</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">Carbon cost</td>
+          <td>Minimal ($0&ndash;25K)</td>
+          <td>Minimal ($0&ndash;50K)</td>
+          <td>$50&ndash;150K<br><span style="font-size:10px;color:var(--text-muted);">Fragmented</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Extreme heat operational disruption</td>
+          <td>1&ndash;2 days lost<br><span style="font-size:10px;color:var(--text-muted);">$50&ndash;100K</span></td>
+          <td>3&ndash;5 days lost<br><span style="font-size:10px;color:var(--text-muted);">$150&ndash;250K</span></td>
+          <td>8&ndash;12 days lost<br><span style="font-size:10px;color:var(--text-muted);">$400&ndash;600K</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Flood risk<br><span style="font-size:10px;color:var(--text-muted);">Akron, Cuyahoga watershed</span></td>
+          <td>Low probability</td>
+          <td>$0&ndash;500K<br><span style="font-size:10px;color:var(--text-muted);">Event-based</span></td>
+          <td>$0&ndash;2M<br><span style="font-size:10px;color:var(--text-muted);">Increasing frequency</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Energy cost volatility<br><span style="font-size:10px;color:var(--text-muted);">Grid stress</span></td>
+          <td>+2&ndash;3%<br><span style="font-size:10px;color:var(--text-muted);">$36&ndash;54K</span></td>
+          <td>+5&ndash;10%<br><span style="font-size:10px;color:var(--text-muted);">$90&ndash;180K</span></td>
+          <td>+10&ndash;20%<br><span style="font-size:10px;color:var(--text-muted);">$180&ndash;360K</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Insurance premium increases</td>
+          <td>+5%<br><span style="font-size:10px;color:var(--text-muted);">$25K</span></td>
+          <td>+15%<br><span style="font-size:10px;color:var(--text-muted);">$75K</span></td>
+          <td>+30&ndash;50%<br><span style="font-size:10px;color:var(--text-muted);">$150&ndash;250K</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Supply chain disruption<br><span style="font-size:10px;color:var(--text-muted);">Supplier facility damage</span></td>
+          <td style="color:var(--text-muted);">Occasional</td>
+          <td>$100&ndash;300K/year</td>
+          <td>$300K&ndash;1M/year</td>
+        </tr>
+        <tr style="background: rgba(255,152,0,0.06); font-weight:700;">
+          <td style="color:var(--orange);">Net annual impact</td>
+          <td>-$110K to -$200K</td>
+          <td style="color:var(--orange);">-$415K to -$1.4M</td>
+          <td style="color:var(--orange);">-$1.1M to -$4.4M</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:16px; border-color:var(--orange-muted); background: linear-gradient(135deg, rgba(255,152,0,0.08) 0%, rgba(255,152,0,0.02) 100%);">
+      <strong style="color:var(--orange);">Key Insight:</strong> Hot house world is slow-burn damage. No single shock event, but compounding physical costs. Sterling's Ohio locations are moderately exposed. The bigger risk is supply chain disruption as supplier facilities in more vulnerable geographies are damaged.
+    </div>
+  </div>
+
+  <!-- Scenario Comparison Chart -->
+  <div class="chart-container" style="margin-top:8px;">
+    <div class="chart-title">Scenario Comparison &mdash; Annual Financial Impact Over Time</div>
+    <div class="chart-subtitle">Midpoint of estimated ranges. Disorderly transition spike at 2030 is the critical risk window.</div>
+
+    <svg viewBox="0 0 800 420" style="max-width:800px; width:100%;">
+      <defs>
+        <linearGradient id="disorderlyGlow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" style="stop-color:#ff4444;stop-opacity:0.25"/>
+          <stop offset="100%" style="stop-color:#ff4444;stop-opacity:0"/>
+        </linearGradient>
+        <linearGradient id="orderlyGlow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" style="stop-color:#4caf50;stop-opacity:0.15"/>
+          <stop offset="100%" style="stop-color:#4caf50;stop-opacity:0"/>
+        </linearGradient>
+        <linearGradient id="hothouseGlow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" style="stop-color:#ff9800;stop-opacity:0.15"/>
+          <stop offset="100%" style="stop-color:#ff9800;stop-opacity:0"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Chart area -->
+      <!-- Y-axis: 0 at y=50, -$20M at y=370 -->
+      <!-- Scale: 1M = 16px -->
+      <rect x="120" y="40" width="580" height="340" rx="4" fill="rgba(255,255,255,0.01)" stroke="#1e1e1e" stroke-width="1"/>
+
+      <!-- Y-axis grid lines and labels -->
+      <line x1="120" y1="50" x2="700" y2="50" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <text x="115" y="54" fill="#555" font-size="10" text-anchor="end">$0</text>
+
+      <line x1="120" y1="130" x2="700" y2="130" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <text x="115" y="134" fill="#555" font-size="10" text-anchor="end">-$5M</text>
+
+      <line x1="120" y1="210" x2="700" y2="210" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <text x="115" y="214" fill="#555" font-size="10" text-anchor="end">-$10M</text>
+
+      <line x1="120" y1="290" x2="700" y2="290" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <text x="115" y="294" fill="#555" font-size="10" text-anchor="end">-$15M</text>
+
+      <line x1="120" y1="370" x2="700" y2="370" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <text x="115" y="374" fill="#555" font-size="10" text-anchor="end">-$20M</text>
+
+      <!-- Y-axis label -->
+      <text x="30" y="210" fill="#707070" font-size="11" text-anchor="middle" transform="rotate(-90,30,210)" font-weight="600">Annual Financial Impact</text>
+
+      <!-- X-axis labels -->
+      <text x="220" y="400" fill="#a0a0a0" font-size="12" text-anchor="middle" font-weight="600">2027</text>
+      <text x="410" y="400" fill="#a0a0a0" font-size="12" text-anchor="middle" font-weight="600">2030</text>
+      <text x="600" y="400" fill="#a0a0a0" font-size="12" text-anchor="middle" font-weight="600">2035</text>
+
+      <!-- Disorderly fill area (dramatic spike) -->
+      <polygon points="220,66 410,326 600,120 600,50 410,50 220,50" fill="url(#disorderlyGlow)"/>
+
+      <!-- Orderly line: 2027=-$0.66M (y=60.6), 2030=-$1.5M (y=74), 2035=-$3.75M (y=110) -->
+      <!-- Scale: y = 50 + (value_in_M * 16) -->
+      <polyline points="220,60.6 410,74 600,110" fill="none" stroke="#4caf50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="220" cy="60.6" r="6" fill="#4caf50" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="410" cy="74" r="6" fill="#4caf50" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="600" cy="110" r="6" fill="#4caf50" stroke="#0a0a0a" stroke-width="2"/>
+      <text x="220" y="82" fill="#4caf50" font-size="10" text-anchor="middle" font-weight="700">-$0.7M</text>
+      <text x="410" y="96" fill="#4caf50" font-size="10" text-anchor="middle" font-weight="700">-$1.5M</text>
+      <text x="600" y="132" fill="#4caf50" font-size="10" text-anchor="middle" font-weight="700">-$3.8M</text>
+
+      <!-- Disorderly line: 2027=-$0.1M (y=51.6), 2030=-$14M (y=274), 2035=-$4.7M (y=125.2) -->
+      <polyline points="220,51.6 410,274 600,125.2" fill="none" stroke="#ff4444" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+      <circle cx="220" cy="51.6" r="6" fill="#ff4444" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="410" cy="274" r="8" fill="#ff4444" stroke="#0a0a0a" stroke-width="2" filter="url(#glow)"/>
+      <circle cx="600" cy="125.2" r="6" fill="#ff4444" stroke="#0a0a0a" stroke-width="2"/>
+      <text x="232" y="46" fill="#ff4444" font-size="10" text-anchor="start" font-weight="700">-$0.1M</text>
+      <text x="430" y="282" fill="#ff4444" font-size="13" text-anchor="start" font-weight="700">-$14.0M</text>
+      <text x="612" y="122" fill="#ff4444" font-size="10" text-anchor="start" font-weight="700">-$4.7M</text>
+
+      <!-- Annotation arrow pointing to the spike -->
+      <line x1="480" y1="310" x2="418" y2="280" stroke="#ff4444" stroke-width="1.5" marker-end="url(#arrowRedSm)"/>
+      <text x="484" y="318" fill="#ff4444" font-size="11" font-weight="700">SHOCK WINDOW</text>
+      <text x="484" y="332" fill="#ff7777" font-size="10">Sudden carbon pricing +</text>
+      <text x="484" y="344" fill="#ff7777" font-size="10">defense customer mandates</text>
+      <defs>
+        <marker id="arrowRedSm" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 6 2.5, 0 5" fill="#ff4444"/></marker>
+      </defs>
+
+      <!-- Hot House line: 2027=-$0.155M (y=52.5), 2030=-$0.9M (y=64.4), 2035=-$2.75M (y=94) -->
+      <polyline points="220,52.5 410,64.4 600,94" fill="none" stroke="#ff9800" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="220" cy="52.5" r="6" fill="#ff9800" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="410" cy="64.4" r="6" fill="#ff9800" stroke="#0a0a0a" stroke-width="2"/>
+      <circle cx="600" cy="94" r="6" fill="#ff9800" stroke="#0a0a0a" stroke-width="2"/>
+      <text x="196" y="68" fill="#ff9800" font-size="10" text-anchor="end" font-weight="700">-$0.2M</text>
+      <text x="388" y="58" fill="#ff9800" font-size="10" text-anchor="end" font-weight="700">-$0.9M</text>
+      <text x="578" y="88" fill="#ff9800" font-size="10" text-anchor="end" font-weight="700">-$2.8M</text>
+
+      <!-- Legend -->
+      <rect x="160" y="408" width="16" height="3" rx="1" fill="#4caf50"/>
+      <text x="180" y="412" fill="#a0a0a0" font-size="10">Orderly (Net Zero 2050)</text>
+      <rect x="340" y="408" width="16" height="3" rx="1" fill="#ff4444"/>
+      <text x="360" y="412" fill="#a0a0a0" font-size="10">Disorderly (Delayed Action)</text>
+      <rect x="540" y="408" width="16" height="3" rx="1" fill="#ff9800"/>
+      <text x="560" y="412" fill="#a0a0a0" font-size="10">Hot House (Current Policies)</text>
+    </svg>
+  </div>
+
+  <!-- Scenario Summary Table -->
+  <div class="card" style="margin-top:8px;">
+    <div class="card-header">Scenario Summary Comparison</div>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th style="color:var(--green);">Orderly (Net Zero)</th>
+          <th style="color:var(--red);">Disorderly (Delayed)</th>
+          <th style="color:var(--orange);">Hot House</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">Peak annual impact</td>
+          <td>$2.7&ndash;4.8M (2035)</td>
+          <td style="color:var(--red); font-weight:700;">$8.8&ndash;19.1M (2030)</td>
+          <td>$1.1&ndash;4.4M (2035)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Primary risk type</td>
+          <td>Transition (gradual)</td>
+          <td style="color:var(--red);">Transition (shock)</td>
+          <td>Physical (compounding)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Defense revenue impact</td>
+          <td style="color:var(--green);">Protected (compliant)</td>
+          <td style="color:var(--red);">At risk 2029&ndash;2031</td>
+          <td>Not affected by policy</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Recommended response</td>
+          <td>Proactive compliance</td>
+          <td style="color:var(--red); font-weight:700;">URGENT preparation</td>
+          <td>Physical resilience</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Carbon price assumption</td>
+          <td>$75&ndash;250/mt</td>
+          <td>$0 &rarr; $150/mt sudden</td>
+          <td>$0&ndash;25/mt</td>
+        </tr>
+        <tr style="background: rgba(0,229,255,0.05);">
+          <td style="font-weight:700; color:var(--teal);">Kith recommendation</td>
+          <td style="color:var(--green); font-weight:700;">THIS IS THE PATH</td>
+          <td style="color:var(--red); font-weight:700;">PREPARE AS IF THIS IS COMING</td>
+          <td style="color:var(--orange); font-weight:700;">INSURE AGAINST</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Callout Box -->
+  <div class="callout-box">
+    <div class="callout-title">Kith Recommendation</div>
+    <p>Prepare for Scenario 2 (Disorderly) while building toward Scenario 1 (Orderly). This means acting NOW &mdash; before the 2030 shock window. The cost of early action ($500K&ndash;800K/year) is a fraction of the disorderly shock ($8&ndash;19M). Sterling's defense customers are already signaling the transition.</p>
+  </div>
+
+  <!-- Source Note -->
+  <div class="source-note">
+    <strong>NGFS/IEA Source Note:</strong> Scenarios based on NGFS Phase IV (2023), IEA World Energy Outlook 2023, and IPCC AR6 Working Group III. Carbon price trajectories from NGFS median estimates. Physical risk projections from NOAA Climate Explorer for Northeast Ohio. Financial impacts are Kith estimates using Sterling's revenue, cost structure, and facility data &mdash; not audited financial projections.
+  </div>
+</div>
+
+<!-- SECTION 5: Emissions Profile -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <div class="section-title">Emissions Profile &mdash; What We Know</div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">Scope 1 &mdash; Direct</div>
+      <div style="font-size:28px; font-weight:700; color:var(--teal);">2,074</div>
+      <div style="font-size:11px; color:var(--text-secondary);">mt CO2e</div>
+      <div style="font-size:10px; color:var(--green); margin-top:4px;">Data Quality: A</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">Scope 2 &mdash; Indirect (Electricity)</div>
+      <div style="font-size:28px; font-weight:700; color:var(--teal);">3,970</div>
+      <div style="font-size:11px; color:var(--text-secondary);">mt CO2e</div>
+      <div style="font-size:10px; color:var(--green); margin-top:4px;">Data Quality: A</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">Scope 3 &mdash; Value Chain</div>
+      <div style="font-size:28px; font-weight:700; color:var(--text-muted);">15,000&ndash;35,000</div>
+      <div style="font-size:11px; color:var(--text-secondary);">mt CO2e (estimated)</div>
+      <div style="font-size:10px; color:var(--red); margin-top:4px;">Data Quality: F &mdash; Not measured</div>
+    </div>
+  </div>
+
+  <!-- Scope 1 Breakdown -->
+  <div class="card">
+    <div class="card-header">Scope 1 Breakdown &mdash; 2,074 mt CO2e</div>
+    <table>
+      <thead><tr><th>Source</th><th>Consumption</th><th>Emissions (mt CO2e)</th><th>% of Scope 1</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Natural gas combustion</td><td>324,300 therms</td><td>~1,724</td><td>83%</td><td>Heat treatment furnaces (primary), building heat, process heating. Akron furnaces run 16&ndash;20 hrs/day.</td></tr>
+        <tr><td>Diesel (on-site equipment)</td><td>14,000 gallons</td><td>~143</td><td>7%</td><td>Forklifts, yard trucks, backup generator</td></tr>
+        <tr><td>Fleet diesel</td><td>12,000 gallons</td><td>~122</td><td>6%</td><td>4 Class 6 distribution trucks, Canton-based</td></tr>
+        <tr><td>Fleet gasoline</td><td>4,500 gallons</td><td>~39</td><td>2%</td><td>6 pickup trucks + 2 sedans (field sales, service, management)</td></tr>
+        <tr><td>Propane</td><td>5,300 gallons</td><td>~32</td><td>2%</td><td>Dock heaters, outdoor process heating, propane forklifts</td></tr>
+        <tr><td style="color:var(--orange);">Refrigerants (R-22)</td><td>~8 lbs recharged (2024)</td><td>~14</td><td>&lt;1%</td><td style="color:var(--orange);">Leak risk = potential emission spike. 50 lbs total charge in 30-yr-old unit. 3 emergency service calls in 2025.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Scope 2 Breakdown -->
+  <div class="card">
+    <div class="card-header">Scope 2 Breakdown &mdash; 3,970 mt CO2e</div>
+    <table>
+      <thead><tr><th>Facility</th><th>Annual kWh</th><th>Emissions (mt CO2e)</th><th>% of Scope 2</th><th>Grid / Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Akron HQ + Plant</td><td>4,185,000</td><td>~2,440</td><td>61%</td><td>Ohio Edison tariff. 22 CNC centers, 3 heat-treat furnaces, compressed air, HVAC. Peak demand charges = 30% of bill.</td></tr>
+        <tr><td>Elyria Plant</td><td>2,815,000</td><td>~1,340</td><td>34%</td><td>FirstEnergy. 12 CNC turning/grinding units, precision tooling ops.</td></tr>
+        <tr><td>Canton Warehouse</td><td>345,000</td><td>~190</td><td>5%</td><td>AEP Ohio. Warehouse lighting, dock equipment, office HVAC.</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">eGRID subregion: RFC East (Ohio). Location-based emission factor: ~0.85 lbs CO2/kWh (EPA eGRID 2023).</div>
+    <div style="margin:16px 0 0;padding:10px 14px;border-left:2px solid #5fb5a2;font-size:11px;color:#8a8aa0;line-height:1.5;background:rgba(95,181,162,0.04);border-radius:0 4px 4px 0;">Scope 1+2 methodology: EPA Emission Factors Hub (nat gas 53.06 kg CO2/MMBtu, diesel 10.21 kg/gal) + eGRID RFC East (0.386 mt/MWh). Confidence: &plusmn;5-10%. Scope 3: EPA EEIO spend-based factors cross-checked with World Steel Association production factors. Confidence: &plusmn;50-70%. See Quality Scorecard for complete methodology and assumptions.</div>
+  </div>
+
+  <!-- Scope 3 Estimates -->
+  <div class="card">
+    <div class="card-header">Scope 3 Estimates &mdash; Industry Benchmarks (Not Measured)</div>
+    <table>
+      <thead><tr><th>Category</th><th>Description</th><th>Estimated Range (mt CO2e)</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Cat. 1 &mdash; Purchased Goods</td><td>Metals, alloys, tooling, consumables</td><td style="font-weight:600; color:var(--orange);">12,000 &ndash; 30,000</td><td>EPA industry benchmarks: 2&ndash;5x Scope 1+2 for metal fabrication. Metals and alloys are the dominant source.</td></tr>
+        <tr><td>Cat. 4 &mdash; Upstream Transport</td><td>Inbound raw materials and supplies</td><td>1,000 &ndash; 3,000</td><td>Industry average for regional supply chains</td></tr>
+        <tr><td>Cat. 9 &mdash; Downstream Transport</td><td>Outbound finished components</td><td>500 &ndash; 1,500</td><td>Regional distribution within 300-mile radius</td></tr>
+        <tr style="font-weight:700;"><td>Total Estimated Scope 3</td><td></td><td style="color:var(--orange);">15,000 &ndash; 35,000</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Emissions Stacked Bar Chart -->
+  <div class="chart-container">
+    <div class="chart-title">Estimated Total Emissions Profile &mdash; Sterling Precision Manufacturing</div>
+    <svg viewBox="0 0 700 300" style="max-width:700px; width:100%;">
+      <!-- Y-axis -->
+      <line x1="80" y1="20" x2="80" y2="240" stroke="#333" stroke-width="1"/>
+      <text x="14" y="140" fill="#707070" font-size="11" text-anchor="middle" transform="rotate(-90,14,140)" font-weight="600">mt CO2e</text>
+      <!-- Y labels -->
+      <text x="75" y="240" fill="#707070" font-size="10" text-anchor="end">0</text>
+      <text x="75" y="196" fill="#707070" font-size="10" text-anchor="end">10K</text>
+      <text x="75" y="152" fill="#707070" font-size="10" text-anchor="end">20K</text>
+      <text x="75" y="108" fill="#707070" font-size="10" text-anchor="end">30K</text>
+      <text x="75" y="64" fill="#707070" font-size="10" text-anchor="end">40K</text>
+      <!-- Grid -->
+      <line x1="80" y1="196" x2="620" y2="196" stroke="#1e1e1e" stroke-width="1"/>
+      <line x1="80" y1="152" x2="620" y2="152" stroke="#1e1e1e" stroke-width="1"/>
+      <line x1="80" y1="108" x2="620" y2="108" stroke="#1e1e1e" stroke-width="1"/>
+      <line x1="80" y1="64" x2="620" y2="64" stroke="#1e1e1e" stroke-width="1"/>
+      <line x1="80" y1="240" x2="620" y2="240" stroke="#333" stroke-width="1"/>
+
+      <!-- Bar 1: Scope 1+2 Known (6,044) -->
+      <rect x="140" y="216.4" width="100" height="23.6" rx="3" fill="var(--teal)" opacity="0.9"/>
+      <rect x="140" y="232" width="100" height="8" rx="0" fill="#00838f" opacity="0.9"/>
+      <text x="190" y="212" fill="var(--teal)" font-size="12" text-anchor="middle" font-weight="700">6,044</text>
+      <text x="190" y="260" fill="#a0a0a0" font-size="11" text-anchor="middle">Scope 1+2</text>
+      <text x="190" y="272" fill="#707070" font-size="10" text-anchor="middle">(measured)</text>
+
+      <!-- Bar 2: Low estimate total (6044+15000=21044) -->
+      <rect x="300" y="157.7" width="100" height="82.3" rx="3" fill="var(--teal)" opacity="0.4"/>
+      <rect x="300" y="216.4" width="100" height="23.6" rx="0" fill="var(--teal)" opacity="0.9"/>
+      <rect x="300" y="232" width="100" height="8" rx="0" fill="#00838f" opacity="0.9"/>
+      <text x="350" y="152" fill="#a0a0a0" font-size="12" text-anchor="middle" font-weight="700">~21,000</text>
+      <text x="350" y="260" fill="#a0a0a0" font-size="11" text-anchor="middle">Low Estimate</text>
+      <text x="350" y="272" fill="#707070" font-size="10" text-anchor="middle">(+Scope 3 min)</text>
+
+      <!-- Bar 3: High estimate total (6044+35000=41044) -->
+      <rect x="460" y="79.4" width="100" height="160.6" rx="3" fill="var(--teal)" opacity="0.25"/>
+      <rect x="460" y="216.4" width="100" height="23.6" rx="0" fill="var(--teal)" opacity="0.9"/>
+      <rect x="460" y="232" width="100" height="8" rx="0" fill="#00838f" opacity="0.9"/>
+      <text x="510" y="74" fill="var(--orange)" font-size="12" text-anchor="middle" font-weight="700">~41,000</text>
+      <text x="510" y="260" fill="#a0a0a0" font-size="11" text-anchor="middle">High Estimate</text>
+      <text x="510" y="272" fill="#707070" font-size="10" text-anchor="middle">(+Scope 3 max)</text>
+
+      <!-- Legend -->
+      <rect x="140" y="290" width="12" height="8" rx="2" fill="var(--teal)" opacity="0.9"/>
+      <text x="156" y="298" fill="#a0a0a0" font-size="10">Scope 1+2 (measured)</text>
+      <rect x="310" y="290" width="12" height="8" rx="2" fill="var(--teal)" opacity="0.3"/>
+      <text x="326" y="298" fill="#a0a0a0" font-size="10">Scope 3 (estimated range)</text>
+    </svg>
+  </div>
+
+  <div class="insight-box">
+    <strong>Key Insight:</strong> Scope 1+2 (6,044 mt) likely represents only 15&ndash;25% of Sterling's true emissions footprint. Purchased metals and alloys (Scope 3, Category 1) are the dominant source. This is typical for precision manufacturing &mdash; the carbon is embedded in the raw materials, not the machining process. A full Scope 3 inventory requires procurement spend data that Sterling does not currently collect.
+  </div>
+</div>
+
+<!-- SECTION 6: Preliminary Opportunity Map -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">6</div>
+    <div class="section-title">Preliminary Opportunity Map</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Quick-Win Opportunities Identifiable from Existing Data</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Opportunity</th>
+          <th>Type</th>
+          <th>Est. Reduction</th>
+          <th>Est. Cost</th>
+          <th>Payback</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">R-22 replacement (Akron)</td>
+          <td>Regulatory compliance</td>
+          <td>74+ mt/yr<br><span style="font-size:10px;color:var(--text-muted);">eliminates leak risk</span></td>
+          <td>$150&ndash;250K</td>
+          <td>3&ndash;5 years</td>
+          <td><span class="priority-urgent">URGENT</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">LED lighting retrofit (Akron + Elyria)</td>
+          <td>Energy efficiency</td>
+          <td>200&ndash;400 mt/yr</td>
+          <td>$80&ndash;150K</td>
+          <td>18 months</td>
+          <td><span class="priority-high">HIGH</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Compressed air system optimization</td>
+          <td>Process efficiency</td>
+          <td>50&ndash;150 mt/yr</td>
+          <td>$80K</td>
+          <td>1&ndash;2 years</td>
+          <td><span class="priority-high">HIGH</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Heat recovery from furnaces (Akron)</td>
+          <td>Energy efficiency</td>
+          <td>100&ndash;200 mt/yr</td>
+          <td>$250K</td>
+          <td>~3 years</td>
+          <td><span class="priority-high">HIGH</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Demand response enrollment</td>
+          <td>Cost reduction</td>
+          <td>N/A (grid benefit)</td>
+          <td>Minimal</td>
+          <td>Immediate</td>
+          <td><span class="priority-medium">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">VFD expansion (remaining CNC machines)</td>
+          <td>Energy efficiency</td>
+          <td>100&ndash;250 mt/yr</td>
+          <td>$150&ndash;300K</td>
+          <td>2&ndash;4 years</td>
+          <td><span class="priority-medium">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">Renewable energy PPA (Akron roof solar)</td>
+          <td>Scope 2 reduction</td>
+          <td>Up to 3,970 mt/yr</td>
+          <td>Varies (PPA)</td>
+          <td>5&ndash;10 years</td>
+          <td><span class="priority-strategic">STRATEGIC</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 7: Preliminary MACC Curve -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">7</div>
+    <div class="section-title">Preliminary MACC Curve &mdash; Built from Public Reference Data</div>
+  </div>
+
+  <div class="methodology-note">
+    Costs and savings estimated using EPA, DOE, RS Means, and EIA Ohio industrial rates. Accuracy: &plusmn;30&ndash;50%. Company-specific data would narrow to &plusmn;10&ndash;15%. Basis: EIA Ohio industrial electricity rate ~$0.08/kWh; EIA Ohio industrial gas rate ~$0.65/therm.
+  </div>
+
+  <div class="card">
+    <div class="card-header">Abatement Opportunities Ordered by $/mt CO2e (Cheapest First)</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:3%;">#</th>
+          <th>Initiative</th>
+          <th>Abatement (mt CO2e/yr)</th>
+          <th>Capex ($K)</th>
+          <th>Annual Savings ($K)</th>
+          <th>$/mt CO2e</th>
+          <th>Payback</th>
+          <th>Data Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">1</td>
+          <td style="font-weight:600;">Compressed air leak audit</td>
+          <td>50&ndash;80</td>
+          <td>$5&ndash;10</td>
+          <td>$8&ndash;15</td>
+          <td style="color:var(--green); font-weight:700;">-$120</td>
+          <td>&lt;1 yr</td>
+          <td style="font-size:11px; color:var(--text-secondary);">DOE Better Buildings</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">2</td>
+          <td style="font-weight:600;">LED lighting retrofit (all 3 facilities)</td>
+          <td>200&ndash;350</td>
+          <td>$80&ndash;150</td>
+          <td>$25&ndash;45</td>
+          <td style="color:var(--green); font-weight:700;">-$75</td>
+          <td>2&ndash;4 yr</td>
+          <td style="font-size:11px; color:var(--text-secondary);">EPA ENERGY STAR</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">3</td>
+          <td style="font-weight:600;">HVAC optimization &amp; controls</td>
+          <td>100&ndash;200</td>
+          <td>$40&ndash;80</td>
+          <td>$15&ndash;25</td>
+          <td style="color:var(--green); font-weight:700;">-$50</td>
+          <td>3&ndash;4 yr</td>
+          <td style="font-size:11px; color:var(--text-secondary);">DOE reference</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">4</td>
+          <td style="font-weight:600;">Variable speed drives on motors</td>
+          <td>150&ndash;250</td>
+          <td>$60&ndash;120</td>
+          <td>$20&ndash;35</td>
+          <td style="color:var(--green); font-weight:700;">-$40</td>
+          <td>3&ndash;4 yr</td>
+          <td style="font-size:11px; color:var(--text-secondary);">DOE AMO benchmarks</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">5</td>
+          <td style="font-weight:600;">Heat recovery from CNC processes</td>
+          <td>80&ndash;150</td>
+          <td>$100&ndash;200</td>
+          <td>$12&ndash;20</td>
+          <td style="color:var(--green); font-weight:700;">-$10</td>
+          <td>5&ndash;8 yr</td>
+          <td style="font-size:11px; color:var(--text-secondary);">Industry case studies</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">6</td>
+          <td style="font-weight:600;">R-22 replacement (Akron)</td>
+          <td>74+ <span style="font-size:10px; color:var(--text-muted);">(eliminates leak risk)</span></td>
+          <td>$150&ndash;250</td>
+          <td>$5&ndash;10</td>
+          <td style="color:var(--orange); font-weight:700;">$50&ndash;100</td>
+          <td>15&ndash;25 yr</td>
+          <td style="font-size:11px; color:var(--text-secondary);">RS Means + EPA GWP</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">7</td>
+          <td style="font-weight:600;">Solar PPA (roof/parking)</td>
+          <td>300&ndash;600</td>
+          <td>$0 (PPA)</td>
+          <td>$15&ndash;30</td>
+          <td style="color:var(--yellow); font-weight:700;">$0&ndash;20</td>
+          <td>Immediate</td>
+          <td style="font-size:11px; color:var(--text-secondary);">NREL PVWatts for Ohio</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">8</td>
+          <td style="font-weight:600;">Renewable energy PPA (off-site)</td>
+          <td>Up to 3,970</td>
+          <td>Varies</td>
+          <td>Varies</td>
+          <td style="color:var(--yellow); font-weight:700;">$10&ndash;30</td>
+          <td>Contract</td>
+          <td style="font-size:11px; color:var(--text-secondary);">Market rates</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MACC Curve CSS Bar Chart -->
+  <div class="chart-container">
+    <div class="chart-title">Marginal Abatement Cost Curve &mdash; Scope 1+2 Opportunities</div>
+    <div class="chart-subtitle">Bars below the zero line = net savers (negative $/mt CO2e). Bars above = net cost. Ordered left to right by cost-effectiveness.</div>
+
+    <svg viewBox="0 0 800 380" style="max-width:800px; width:100%;">
+      <!-- Y-axis -->
+      <line x1="70" y1="20" x2="70" y2="300" stroke="#555" stroke-width="1"/>
+      <!-- Zero line -->
+      <line x1="70" y1="180" x2="760" y2="180" stroke="#555" stroke-width="1.5"/>
+      <!-- Grid lines -->
+      <line x1="70" y1="60" x2="760" y2="60" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <line x1="70" y1="120" x2="760" y2="120" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <line x1="70" y1="240" x2="760" y2="240" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+      <line x1="70" y1="300" x2="760" y2="300" stroke="#1e1e1e" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+      <!-- Y-axis labels -->
+      <text x="10" y="165" fill="#707070" font-size="10" text-anchor="start" transform="rotate(-90,10,165)" font-weight="600">$/mt CO2e</text>
+      <text x="65" y="184" fill="#888" font-size="9" text-anchor="end">$0</text>
+      <text x="65" y="64" fill="#888" font-size="9" text-anchor="end">+$100</text>
+      <text x="65" y="124" fill="#888" font-size="9" text-anchor="end">+$50</text>
+      <text x="65" y="244" fill="#888" font-size="9" text-anchor="end">-$50</text>
+      <text x="65" y="304" fill="#888" font-size="9" text-anchor="end">-$100</text>
+
+      <!-- X-axis label -->
+      <text x="415" y="370" fill="#707070" font-size="10" text-anchor="middle" font-weight="600">Cumulative Abatement (mt CO2e/yr) &rarr;</text>
+
+      <!-- Bar 1: Compressed Air Leak Audit -->
+      <rect x="80" y="180" width="50" height="120" rx="2" fill="#4caf50" opacity="0.8"/>
+      <text x="105" y="175" fill="#4caf50" font-size="9" text-anchor="middle" font-weight="700">-$120</text>
+      <text x="105" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">Compressed</text>
+      <text x="105" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">Air Audit</text>
+      <text x="105" y="338" fill="#707070" font-size="8" text-anchor="middle">50-80 mt</text>
+
+      <!-- Bar 2: LED Lighting -->
+      <rect x="140" y="180" width="110" height="90" rx="2" fill="#4caf50" opacity="0.7"/>
+      <text x="195" y="175" fill="#4caf50" font-size="9" text-anchor="middle" font-weight="700">-$75</text>
+      <text x="195" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">LED Lighting</text>
+      <text x="195" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">(All 3 Facilities)</text>
+      <text x="195" y="338" fill="#707070" font-size="8" text-anchor="middle">200-350 mt</text>
+
+      <!-- Bar 3: HVAC Optimization -->
+      <rect x="260" y="180" width="65" height="60" rx="2" fill="#4caf50" opacity="0.6"/>
+      <text x="292" y="175" fill="#4caf50" font-size="9" text-anchor="middle" font-weight="700">-$50</text>
+      <text x="292" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">HVAC</text>
+      <text x="292" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">Optimization</text>
+      <text x="292" y="338" fill="#707070" font-size="8" text-anchor="middle">100-200 mt</text>
+
+      <!-- Bar 4: VSD on Motors -->
+      <rect x="335" y="180" width="80" height="48" rx="2" fill="#4caf50" opacity="0.5"/>
+      <text x="375" y="175" fill="#4caf50" font-size="9" text-anchor="middle" font-weight="700">-$40</text>
+      <text x="375" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">Variable Speed</text>
+      <text x="375" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">Drives</text>
+      <text x="375" y="338" fill="#707070" font-size="8" text-anchor="middle">150-250 mt</text>
+
+      <!-- Bar 5: Heat Recovery -->
+      <rect x="425" y="180" width="55" height="12" rx="2" fill="#00bcd4" opacity="0.6"/>
+      <text x="452" y="175" fill="#00bcd4" font-size="9" text-anchor="middle" font-weight="700">-$10</text>
+      <text x="452" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">Heat</text>
+      <text x="452" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">Recovery</text>
+      <text x="452" y="338" fill="#707070" font-size="8" text-anchor="middle">80-150 mt</text>
+
+      <!-- Bar 6: Solar PPA -->
+      <rect x="490" y="168" width="55" height="12" rx="2" fill="#b388ff" opacity="0.5"/>
+      <text x="517" y="163" fill="#b388ff" font-size="9" text-anchor="middle" font-weight="700">$0-20</text>
+      <text x="517" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">Solar PPA</text>
+      <text x="517" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">(Roof/Parking)</text>
+      <text x="517" y="338" fill="#707070" font-size="8" text-anchor="middle">300-600 mt</text>
+
+      <!-- Bar 7: Renewable PPA -->
+      <rect x="555" y="156" width="80" height="24" rx="2" fill="#b388ff" opacity="0.4"/>
+      <text x="595" y="151" fill="#b388ff" font-size="9" text-anchor="middle" font-weight="700">$10-30</text>
+      <text x="595" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">Renewable PPA</text>
+      <text x="595" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">(Off-site)</text>
+      <text x="595" y="338" fill="#707070" font-size="8" text-anchor="middle">Up to 3,970 mt</text>
+
+      <!-- Bar 8: R-22 Replacement -->
+      <rect x="645" y="90" width="45" height="90" rx="2" fill="#ff9800" opacity="0.6"/>
+      <text x="667" y="84" fill="#ff9800" font-size="9" text-anchor="middle" font-weight="700">$50-100</text>
+      <text x="667" y="315" fill="#a0a0a0" font-size="8" text-anchor="middle">R-22</text>
+      <text x="667" y="325" fill="#a0a0a0" font-size="8" text-anchor="middle">Replacement</text>
+      <text x="667" y="338" fill="#707070" font-size="8" text-anchor="middle">74+ mt</text>
+
+      <!-- Annotations -->
+      <text x="250" y="352" fill="#4caf50" font-size="9" text-anchor="middle" font-weight="600">Net cost savings (negative $/mt)</text>
+      <line x1="80" y1="346" x2="480" y2="346" stroke="#4caf50" stroke-width="1.5"/>
+      <text x="630" y="352" fill="var(--orange)" font-size="9" text-anchor="middle" font-weight="600">Net cost / regulatory</text>
+      <line x1="490" y1="346" x2="760" y2="346" stroke="var(--orange)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="insight-box">
+    <strong>Total addressable abatement from Scope 1+2 measures: 1,000&ndash;2,500 mt CO2e/yr (17&ndash;41% reduction).</strong> R-22 replacement is not cost-effective on energy savings alone but is a regulatory compliance necessity. Initiatives #1&ndash;5 are net savers &mdash; they reduce both emissions and operating costs.
+  </div>
+
+  <div class="insight-box" style="margin-top:12px;">
+    <strong>Public data vs. company-specific data:</strong> With company-specific data (actual utility rates, equipment specs, vendor quotes), these ranges narrow by 60&ndash;70%. The preliminary MACC built from public data provides directional guidance for capital planning. Final MACC accuracy improves from &plusmn;30&ndash;50% to &plusmn;10&ndash;15% with Sterling-specific inputs.
+  </div>
+</div>
+
+<!-- SECTION 8: TCFD Report Preview -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">8</div>
+    <div class="section-title">TCFD Report Preview</div>
+  </div>
+
+  <div class="methodology-note">
+    The Task Force on Climate-related Financial Disclosures (TCFD) framework requires reporting across 4 pillars. This section maps Sterling's current data availability to each pillar and previews what the final TCFD report will include.
+  </div>
+
+  <div class="tcfd-grid">
+    <!-- Governance -->
+    <div class="tcfd-card" style="border-top: 3px solid var(--red);">
+      <div class="tcfd-pillar" style="color:var(--red);">Governance</div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--orange);">What We Have</div>
+        <div class="tcfd-row-content">No formal climate governance structure in place. ESG topics not currently on board agenda.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--teal);">What the Final Report Will Include</div>
+        <div class="tcfd-row-content">Board ESG charter (Kith template), management roles and responsibilities, reporting cadence and escalation protocols.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--text-muted);">Data Gap</div>
+        <div class="tcfd-row-content" style="color:var(--orange);">Need: org chart, board minutes, committee structure documentation.</div>
+      </div>
+    </div>
+
+    <!-- Strategy -->
+    <div class="tcfd-card" style="border-top: 3px solid var(--green);">
+      <div class="tcfd-pillar" style="color:var(--green);">Strategy</div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--green);">What We Have</div>
+        <div class="tcfd-row-content">Customer pressure identified (defense OEMs requiring ESG data). Three-scenario analysis completed (Orderly/Disorderly/Hot House) with financial impact modeling through 2035. See Section 4.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--teal);">What the Final Report Will Include</div>
+        <div class="tcfd-row-content">Refined scenario analysis with company-specific inputs, transition pathway modeling, business resilience assessment under each scenario.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--text-muted);">Data Gap</div>
+        <div class="tcfd-row-content" style="color:var(--orange);">Need: revenue by customer, risk register, contract renewal dates, capex planning horizon.</div>
+      </div>
+    </div>
+
+    <!-- Risk Management -->
+    <div class="tcfd-card" style="border-top: 3px solid var(--yellow);">
+      <div class="tcfd-pillar" style="color:var(--yellow);">Risk Management</div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--orange);">What We Have</div>
+        <div class="tcfd-row-content">Physical risk assessed (Section 2). Transition risk identified qualitatively (Section 3). Scenario analysis quantifies financial exposure (Section 4). No integrated framework.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--teal);">What the Final Report Will Include</div>
+        <div class="tcfd-row-content">Integrated climate risk framework, quantitative risk scoring methodology, mitigation strategies with ownership and timelines.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--text-muted);">Data Gap</div>
+        <div class="tcfd-row-content" style="color:var(--orange);">Need: insurance history, detailed asset register, facility engineering data, maintenance records.</div>
+      </div>
+    </div>
+
+    <!-- Metrics & Targets -->
+    <div class="tcfd-card" style="border-top: 3px solid var(--green);">
+      <div class="tcfd-pillar" style="color:var(--green);">Metrics &amp; Targets</div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--orange);">What We Have</div>
+        <div class="tcfd-row-content">Scope 1+2 baseline complete (6,044 mt CO2e). Scope 3 estimated from industry benchmarks. Preliminary MACC curve built from public data.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--teal);">What the Final Report Will Include</div>
+        <div class="tcfd-row-content">Verified GHG baseline (all scopes), SBTi-aligned reduction targets, reduction roadmap with MACC-prioritized initiatives and milestones.</div>
+      </div>
+      <div class="tcfd-row">
+        <div class="tcfd-row-label" style="color:var(--text-muted);">Data Gap</div>
+        <div class="tcfd-row-content" style="color:var(--orange);">Need: procurement data for actual Scope 3 measurement, vendor quotes for MACC refinement, SBTi target-setting methodology inputs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box" style="margin-top:16px;">
+    <strong>TCFD readiness:</strong> Sterling now has partial coverage in Strategy (scenario analysis complete), Risk Management, and Metrics &amp; Targets pillars. Governance requires the most work. The Kith engagement will produce a TCFD-aligned report that satisfies defense OEM supplier requirements (Boeing 2027 mandate) and positions Sterling for proactive disclosure.
+  </div>
+</div>
+
+<!-- SECTION 9: Gap to Full Assessment -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">9</div>
+    <div class="section-title">Gap to Full Assessment &mdash; Mapped to 3 Engagement Deliverables</div>
+  </div>
+
+  <div class="methodology-note">
+    Each engagement deliverable is mapped below: what already exists from this proof of concept, what company-specific data is needed, and whether public reference databases provide a usable fallback.
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Deliverable</th>
+          <th style="width:28%;">What Exists</th>
+          <th style="width:28%;">What's Needed</th>
+          <th style="width:26%;">Public Fallback Available?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">GHG Baseline</td>
+          <td>Scope 1+2 from utility bills (6,044 mt CO2e). Scope 3 not measured &mdash; industry benchmark estimate only (15,000&ndash;35,000 mt).</td>
+          <td style="color:var(--orange);">Procurement data (metals, alloys), shipping records, employee commuting survey, waste disposal records.</td>
+          <td><span style="color:var(--green); font-weight:600;">Yes</span> &mdash; DEFRA spend-based emission factors, World Steel Association intensity factors, EPA GHGP Category 1 guidance.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">MACC Curve</td>
+          <td>Preliminary curve from public data (&plusmn;30&ndash;50% accuracy). 8 opportunities identified and sized using DOE, EPA, EIA Ohio rates.</td>
+          <td style="color:var(--orange);">Utility rate schedules and tariff structures, equipment inventory with nameplate data, vendor quotes for retrofit projects, capex budget and approval process.</td>
+          <td><span style="color:var(--green); font-weight:600;">Yes</span> &mdash; EIA industrial rates, DOE Better Buildings benchmarks, RS Means cost database, NREL PVWatts.</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:var(--teal);">TCFD Report</td>
+          <td>Physical + transition risk assessed (Sections 2&ndash;3). Scenario analysis completed (Section 4). No governance structure, no formal targets.</td>
+          <td style="color:var(--orange);">Board charter and ESG governance docs, refined scenario analysis inputs (revenue by customer, risk register), SBTi target-setting methodology inputs.</td>
+          <td><span style="color:var(--yellow); font-weight:600;">Partial</span> &mdash; Kith provides governance templates and scenario methodology. Company-specific strategy and governance inputs cannot be substituted.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight-box" style="margin-top:16px;">
+    <strong>The bottom line:</strong> This proof of concept was built entirely from data already in the Northwood Capital operating environment plus publicly available reference databases (EPA, DOE, EIA, NOAA, FEMA). The GHG Baseline and MACC Curve deliverables can be substantially advanced with public data alone. The TCFD Report requires company-specific governance and strategy inputs that have no public substitute. All three deliverables improve materially with Sterling-specific data &mdash; the engagement's data mobilization plan specifies exactly what is needed.
+  </div>
+</div>
+
+<!-- SECTION 10: QA Summary -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <div class="section-title">QA Summary</div>
+  </div>
+
+  <div class="qa-grid">
+    <div class="qa-item">
+      <div class="qa-label">1. Source Verification</div>
+      <p>All Scope 1 and Scope 2 emissions data sourced from <code>carbon-collection-template-2025-submitted.csv</code> (facility-level energy consumption). Physical risk hazard ratings derived from publicly available NOAA climate projections and FEMA flood maps for Summit, Lorain, and Stark Counties (Ohio). Scope 3 estimates based on EPA industry benchmarks for metal fabrication (GHGP Scope 3 Category 1 guidance). MACC curve economics sourced from EIA Ohio industrial rates ($0.08/kWh electricity, $0.65/therm gas), DOE Better Buildings program data, EPA ENERGY STAR benchmarks, DOE AMO motor system benchmarks, RS Means construction cost database, and NREL PVWatts for Ohio solar output. Financial metrics sourced from <code>portfolio/_portfolio-dashboard.md</code> and <code>sterling-precision-manufacturing/portco-status.md</code>. Customer ESG requirements sourced from Sterling climate questionnaire (December 2025, submitted by COO Derek Williams). Scenario analysis carbon price trajectories from NGFS Phase IV (2023) median estimates. Physical risk projections from NOAA Climate Explorer for Northeast Ohio. IEA World Energy Outlook 2023 and IPCC AR6 Working Group III cross-referenced for scenario framing.</p>
+    </div>
+    <div class="qa-item">
+      <div class="qa-label">2. Structural Consistency</div>
+      <p>Scope 1 (2,074 mt) + Scope 2 (3,970 mt) = 6,044 mt total, consistent across all sections including MACC curve, scenario analysis carbon cost calculations, and TCFD preview. Revenue ($168M), EBITDA ($30.2M), headcount (420), and facility count (3) match portfolio dashboard values. Emissions intensity (36.0 mt/$M) = 6,044 / 168. MACC curve total addressable abatement (1,000&ndash;2,500 mt) is consistent with sum of individual initiative ranges for Scope 1+2 measures. Scenario analysis carbon costs calculated as stated price &times; 6,044 mt, verified across all three scenarios. Section numbers updated to reflect insertion of Section 4 (Climate Scenario Analysis). Deliverable gap table references match section numbers throughout.</p>
+    </div>
+    <div class="qa-item">
+      <div class="qa-label">3. Adversarial Review</div>
+      <p>Scope 3 estimates carry significant uncertainty (2&ndash;5x range reflects genuine methodological uncertainty for metal fabrication without procurement data). MACC curve accuracy explicitly flagged as &plusmn;30&ndash;50% from public reference data; company-specific data would improve to &plusmn;10&ndash;15%. R-22 refrigerant emissions are understated if a catastrophic leak occurs (50 lbs R-22 = ~88 mt CO2e if fully released). TCFD governance and strategy pillars identified as having no public data fallback. Customer revenue-at-risk figure ($25&ndash;42M) is Sterling management's estimate, not independently verified. EIA Ohio industrial rates used as proxy; Sterling's actual tariff may differ. Scenario analysis financial impact estimates are directional (&plusmn;30&ndash;40%) and based on Sterling's current cost structure; not audited financial projections. Disorderly scenario revenue-at-risk ($8&ndash;17M) assumes 25&ndash;40% of defense revenue ($63.8M) is at risk if unprepared, consistent with management's estimate of programs requiring ESG compliance.</p>
+    </div>
+    <div class="qa-item">
+      <div class="qa-label">4. Assumption Flagging</div>
+      <p><strong>Hard data:</strong> Scope 1+2 emissions (from utility bills via carbon CSV), financial metrics (from Northwood portfolio data), facility locations and characteristics. <strong>Public reference data:</strong> EIA Ohio industrial electricity ($0.08/kWh) and gas ($0.65/therm) rates, DOE efficiency benchmarks, EPA emission factors, NOAA/FEMA physical risk projections, RS Means cost estimates, NREL PVWatts solar output, NGFS Phase IV carbon price trajectories, IEA WEO 2023 scenario parameters, IPCC AR6 SSP pathway definitions. <strong>Management guidance:</strong> Energy costs ($1.8M), R-22 replacement cost range, customer ESG requirement timelines, revenue at risk. <strong>Firm/consultant estimate:</strong> Scope 3 range (EPA benchmarks), MACC savings calculations, physical risk trajectory, scenario analysis financial impact ranges (&plusmn;30&ndash;40% directional estimates based on Sterling's current cost structure). <strong>All Scope 3 figures, MACC economics, and scenario financial impacts are explicitly flagged as estimates, not measured or audited values.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="poc-tag">Proof of Concept &mdash; Previews All 3 Engagement Deliverables Using Existing Data + Public Reference Databases</div>
+  <div>Full assessment requires additional company-specific data per Kith Consulting Data Mobilization Plan</div>
+  <div style="margin-top:8px;">Confidential &mdash; Northwood Capital Partners</div>
+  <div>Prepared by Kith Consulting &middot; March 2026</div>
+  <div style="margin-top:4px;font-size:10px;color:#555;">v4 &mdash; NGFS/IEA climate scenario analysis with financial impact modeling added</div>
+</div>
+
+</div><!-- end page-wrapper -->
+
+</body>
+</html>

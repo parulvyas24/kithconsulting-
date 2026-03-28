@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clearview Environmental Services — Climate Data Profile</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a14;
+    color: #e8e8ec;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    padding: 32px 20px 60px;
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    border-bottom: 2px solid #5fb5a2;
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+  .header h1 { font-size: 2.2rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+  .header-date { color: #8a8a9a; font-size: 0.85rem; margin-top: 4px; }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .badge-fund { background: #1a2a40; color: #6ab4f7; border: 1px solid #2a4060; }
+  .badge-sector { background: #1a3028; color: #5fb5a2; border: 1px solid #2a5040; }
+  .badge-status { background: #1a3020; color: #6bd68a; border: 1px solid #2a5038; }
+  .badge-grade { background: #2a2040; color: #b48af7; border: 1px solid #3a3060; }
+  .badge-grade-a { background: #0a2e14; color: #00c853; border: 1px solid #1a4e28; }
+  .badge-grade-f { background: #2e0a14; color: #ff1744; border: 1px solid #4e1a28; }
+  .scope-grade-card {
+    background: #12121e;
+    border: 1px solid #1e1e30;
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: center;
+  }
+  .scope-grade-card .sg-grade { font-size: 1.8rem; font-weight: 700; }
+  .scope-grade-card .sg-label { font-size: 0.72rem; color: #8a8a9a; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .scope-grade-card .sg-detail { font-size: 0.68rem; color: #6a6a7a; margin-top: 3px; }
+  .scope-grade-card.grade-a { border-color: #00c853; }
+  .scope-grade-card.grade-a .sg-grade { color: #00c853; }
+  .scope-grade-card.grade-f { border-color: #ff1744; }
+  .scope-grade-card.grade-f .sg-grade { color: #ff1744; }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+  }
+  .kpi-card {
+    background: #12121e;
+    border: 1px solid #1e1e30;
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: center;
+  }
+  .kpi-card .kpi-val { font-size: 1.5rem; font-weight: 700; color: #fff; }
+  .kpi-card .kpi-label { font-size: 0.75rem; color: #8a8a9a; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .kpi-card .kpi-sub { font-size: 0.72rem; color: #6a6a7a; margin-top: 2px; }
+
+  /* Sections */
+  .section {
+    background: #0e0e1a;
+    border: 1px solid #1a1a2e;
+    border-radius: 14px;
+    padding: 28px 30px;
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #5fb5a2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1a1a2e;
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+  .data-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #14141f; font-size: 0.88rem; }
+  .data-row .label { color: #8a8a9a; }
+  .data-row .value { color: #e8e8ec; font-weight: 600; text-align: right; }
+  .data-row .value.green { color: #6bd68a; }
+  .data-row .value.amber { color: #f5b942; }
+  .data-row .value.red { color: #f06060; }
+  .data-row .value.teal { color: #5fb5a2; }
+
+  .sub-heading { font-size: 0.82rem; font-weight: 700; color: #5fb5a2; text-transform: uppercase; letter-spacing: 0.5px; margin: 18px 0 8px; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  thead th {
+    background: #14141f;
+    color: #5fb5a2;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    padding: 10px 10px;
+    text-align: left;
+    border-bottom: 2px solid #1e1e30;
+    white-space: nowrap;
+  }
+  thead th.num { text-align: right; }
+  tbody td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #14141f;
+    color: #c8c8d4;
+  }
+  tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: #16162a; }
+  tbody tr.total-row td { font-weight: 700; color: #fff; border-top: 2px solid #5fb5a2; background: #12121e; }
+  .grade-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: #1a3028;
+    color: #5fb5a2;
+  }
+
+  /* Charts & Visuals */
+  .chart-container { display: flex; justify-content: center; padding: 16px 0; }
+  .donut-legend { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin-top: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #c8c8d4; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+  /* Progress bars */
+  .progress-item { margin-bottom: 14px; }
+  .progress-header { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 5px; }
+  .progress-header .pct { color: #5fb5a2; font-weight: 700; }
+  .progress-track { height: 10px; background: #1a1a2e; border-radius: 5px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #5fb5a2, #3d8a78); transition: width 0.5s; }
+
+  /* Traffic light */
+  .traffic-grid { display: grid; grid-template-columns: 1fr auto; gap: 6px 20px; font-size: 0.82rem; }
+  .traffic-grid .cat-name { color: #c8c8d4; padding: 5px 0; }
+  .traffic-grid .cat-status { padding: 5px 0; font-weight: 700; }
+  .traffic-grid .cat-status.green { color: #6bd68a; }
+  .traffic-grid .cat-status.amber { color: #f5b942; }
+  .traffic-grid .cat-status.red { color: #f06060; }
+
+  /* Callout */
+  .callout {
+    background: linear-gradient(135deg, #1a1028, #14102a);
+    border-left: 4px solid #f5b942;
+    border-radius: 0 10px 10px 0;
+    padding: 22px 26px;
+    margin: 24px 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #e0d8f0;
+  }
+  .callout-title { font-weight: 700; color: #f5b942; margin-bottom: 8px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .callout-revenue {
+    background: linear-gradient(135deg, #2a1018, #1a0a14);
+    border-left: 4px solid #f06060;
+    border-radius: 0 10px 10px 0;
+    padding: 22px 26px;
+    margin: 24px 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #f0d0d0;
+  }
+  .callout-revenue .callout-title { color: #f06060; }
+
+  /* Risk matrix */
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 800px) { .risk-grid { grid-template-columns: 1fr; } }
+  .risk-card {
+    background: #12121e;
+    border: 1px solid #1e1e30;
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .risk-card-title { font-size: 0.82rem; font-weight: 700; color: #8a8a9a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .risk-level {
+    display: inline-block;
+    padding: 3px 14px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .risk-low { background: #122a1a; color: #6bd68a; }
+  .risk-med { background: #2a2a10; color: #f5b942; }
+  .risk-high { background: #2a1218; color: #f06060; }
+
+  /* Opportunity cards */
+  .opp-card {
+    background: #12121e;
+    border: 1px solid #1e1e30;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+  .opp-num {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #1a2e28; color: #5fb5a2; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.88rem;
+  }
+  .opp-content { }
+  .opp-title { font-weight: 700; color: #e8e8ec; font-size: 0.92rem; }
+  .opp-detail { font-size: 0.78rem; color: #8a8a9a; margin-top: 3px; }
+  .opp-metrics { text-align: right; font-size: 0.78rem; }
+  .opp-metrics .reduction { color: #5fb5a2; font-weight: 700; font-size: 0.88rem; }
+  .opp-metrics .payback { color: #8a8a9a; margin-top: 3px; }
+
+  /* TCFD bars */
+  .tcfd-item { margin-bottom: 16px; }
+  .tcfd-bar-container { display: flex; align-items: center; gap: 14px; }
+  .tcfd-label { width: 140px; font-size: 0.82rem; color: #c8c8d4; flex-shrink: 0; }
+  .tcfd-bar { flex: 1; height: 22px; background: #1a1a2e; border-radius: 4px; overflow: hidden; position: relative; }
+  .tcfd-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #5fb5a2, #3d8a78); }
+  .tcfd-pct { width: 45px; text-align: right; font-size: 0.82rem; font-weight: 700; color: #5fb5a2; }
+
+  /* Data request table */
+  .req-table { width: 100%; }
+  .req-table td { vertical-align: top; }
+  .priority-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  .p2 { background: #2a2a10; color: #f5b942; }
+  .p3 { background: #1a1a2e; color: #8a8a9a; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 0 10px;
+    color: #4a4a5a;
+    font-size: 0.75rem;
+    border-top: 1px solid #14141f;
+    margin-top: 40px;
+  }
+
+  /* Horizontal bar chart */
+  .h-bar-group { margin-bottom: 10px; }
+  .h-bar-label { font-size: 0.8rem; color: #c8c8d4; margin-bottom: 3px; display: flex; justify-content: space-between; }
+  .h-bar-track { height: 24px; background: #1a1a2e; border-radius: 4px; overflow: hidden; position: relative; }
+  .h-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 0.72rem; font-weight: 700; color: #fff; min-width: 40px; }
+
+  .fleet-highlight {
+    background: linear-gradient(135deg, #1a2018, #0e1a14);
+    border: 1px solid #2a4038;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .fleet-highlight .fh-title { color: #f5b942; font-weight: 700; font-size: 0.88rem; margin-bottom: 6px; }
+  .fleet-highlight .fh-text { color: #c8c8d4; font-size: 0.84rem; }
+
+  .scope-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .scope-box {
+    background: #12121e;
+    border: 1px solid #1e1e30;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .scope-box .sb-val { font-size: 1.6rem; font-weight: 700; color: #fff; }
+  .scope-box .sb-label { font-size: 0.72rem; color: #8a8a9a; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+  .scope-box .sb-sub { font-size: 0.72rem; color: #5fb5a2; margin-top: 4px; }
+  .scope-box.total { border-color: #5fb5a2; }
+  .scope-box.total .sb-val { color: #5fb5a2; }
+
+  .perf-dot {
+    display: inline-block;
+    width: 10px; height: 10px; border-radius: 50%;
+    margin-right: 6px;
+  }
+  .perf-dot.green { background: #6bd68a; }
+
+  /* Grade justification note */
+  .grade-justification {
+    margin-top: 14px;
+    padding: 12px 18px;
+    background: #12121e;
+    border: 1px solid #1e1e30;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    color: #8a8a9a;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Clearview Environmental Services</h1>
+      <div class="header-date">Company Climate Data Profile &mdash; March 26, 2026 (v4) &mdash; Prepared by Kith Consulting for Northwood Capital Partners</div>
+    </div>
+  </div>
+  <div class="badges">
+    <span class="badge badge-fund">Fund II</span>
+    <span class="badge badge-sector">Environmental Services</span>
+    <span class="badge badge-status">On Plan</span>
+    <span class="badge badge-grade-a">Scope 1: A</span>
+    <span class="badge badge-grade-a">Scope 2: A</span>
+    <span class="badge badge-grade-f">Scope 3: F</span>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-val">$195.0M</div>
+      <div class="kpi-label">Revenue</div>
+      <div class="kpi-sub">LTM</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val">$31.2M</div>
+      <div class="kpi-label">EBITDA</div>
+      <div class="kpi-sub">16.0% margin</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val">505</div>
+      <div class="kpi-label">Employees</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val">11</div>
+      <div class="kpi-label">Facilities</div>
+    </div>
+    <div class="scope-grade-card grade-a">
+      <div class="sg-grade">A</div>
+      <div class="sg-label">Scope 1 Data</div>
+      <div class="sg-detail">Fleet fuel, nat gas, refrigerants</div>
+    </div>
+    <div class="scope-grade-card grade-a">
+      <div class="sg-grade">A</div>
+      <div class="sg-label">Scope 2 Data</div>
+      <div class="sg-detail">Purchased electricity</div>
+    </div>
+    <div class="scope-grade-card grade-f">
+      <div class="sg-grade">F</div>
+      <div class="sg-label">Scope 3 Data</div>
+      <div class="sg-detail">No data collected</div>
+    </div>
+  </div>
+  <div class="grade-justification">
+    <strong style="color:#5fb5a2;">Grade Justification:</strong> 9/12 facilities have direct utility bill data. 3 facilities tracked via fleet fuel logs. As an environmental services company, Clearview has above-average data quality due to existing hazardous waste tracking and environmental compliance systems.
+  </div>
+</div>
+
+<!-- SECTION 1: Company Overview -->
+<div class="section">
+  <div class="section-title">1. Company Overview</div>
+  <div class="two-col">
+    <div>
+      <div class="sub-heading">Investment Summary</div>
+      <div class="data-row"><span class="label">Entry Date</span><span class="value">Mar 2023</span></div>
+      <div class="data-row"><span class="label">Entry EV</span><span class="value">$230.0M</span></div>
+      <div class="data-row"><span class="label">Entry Multiple</span><span class="value">9.0x EBITDA</span></div>
+      <div class="data-row"><span class="label">Current EV</span><span class="value">$296.4M</span></div>
+      <div class="data-row"><span class="label">Exit Assumption</span><span class="value">9.5x EBITDA</span></div>
+      <div class="data-row"><span class="label">Net Debt</span><span class="value">$78.0M</span></div>
+      <div class="data-row"><span class="label">Leverage</span><span class="value">2.5x</span></div>
+      <div class="data-row"><span class="label">Gross MOIC</span><span class="value teal">1.6x</span></div>
+      <div class="data-row"><span class="label">IRR</span><span class="value teal">~15%</span></div>
+      <div class="data-row"><span class="label">Deal Lead</span><span class="value">Catherine Zhao (Board)</span></div>
+
+      <div class="sub-heading">2026 Budget</div>
+      <div class="data-row"><span class="label">Budget Revenue</span><span class="value">$213.0M <span style="color:#6bd68a;font-size:0.78rem;">(+12.4%)</span></span></div>
+      <div class="data-row"><span class="label">Budget EBITDA</span><span class="value">$35.5M <span style="color:#6bd68a;font-size:0.78rem;">(+16.4%)</span></span></div>
+
+      <div class="sub-heading">Jan 2026 Actual vs. Budget</div>
+      <div class="data-row"><span class="label">Revenue</span><span class="value green">$14.8M (+2.1% vs budget)</span></div>
+      <div class="data-row"><span class="label">EBITDA</span><span class="value green">$2.2M (+4.8% vs budget)</span></div>
+    </div>
+    <div>
+      <div class="sub-heading">Operating Performance</div>
+      <div class="data-row"><span class="label">Performance Status</span><span class="value"><span class="perf-dot green"></span>GREEN</span></div>
+      <div class="data-row"><span class="label">PFAS Testing Revenue</span><span class="value teal">$2.7M/month</span></div>
+      <div class="data-row"><span class="label">PFAS % of Revenue</span><span class="value teal">18.2%</span></div>
+      <div class="data-row"><span class="label">Backlog</span><span class="value">$42.0M</span></div>
+      <div class="data-row"><span class="label">Field Tech Utilization</span><span class="value">71%</span></div>
+      <div class="data-row"><span class="label">DSO</span><span class="value">52 days</span></div>
+      <div class="data-row"><span class="label">Headcount</span><span class="value">505</span></div>
+
+      <div class="callout" style="margin-top:24px;">
+        <div class="callout-title">High-Growth Segment</div>
+        PFAS testing revenue is growing rapidly at $2.7M/month (18.2% of total revenue), driven by expanding regulatory requirements. Backlog of $42.0M provides strong revenue visibility.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: Facility Table -->
+<div class="section">
+  <div class="section-title">2. Facility Energy Data</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Facility</th>
+          <th>City, State</th>
+          <th>Type</th>
+          <th class="num">Electricity (kWh)</th>
+          <th class="num">Nat Gas (therms)</th>
+          <th class="num">Fleet Diesel (gal)</th>
+          <th class="num">Fleet Gasoline (gal)</th>
+          <th>Data Source</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td>Indianapolis HQ</td><td>Indianapolis, IN</td><td>HQ / Office</td>
+          <td class="num">198,000</td><td class="num">14,800</td><td class="num">18,000</td><td class="num">12,000</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>2</td><td style="color:#5fb5a2;font-weight:600;">Cincinnati Lab</td><td>Cincinnati, OH</td><td>Accredited Lab</td>
+          <td class="num" style="color:#5fb5a2;font-weight:600;">602,000</td><td class="num">20,200</td><td class="num">&mdash;</td><td class="num">&mdash;</td>
+          <td>Utility</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>3</td><td style="color:#5fb5a2;font-weight:600;">Pittsburgh Lab</td><td>Pittsburgh, PA</td><td>Accredited Lab</td>
+          <td class="num" style="color:#5fb5a2;font-weight:600;">522,000</td><td class="num">18,200</td><td class="num">&mdash;</td><td class="num">&mdash;</td>
+          <td>Utility</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>4</td><td>Columbus Field Ops</td><td>Columbus, OH</td><td>Field Office</td>
+          <td class="num">105,000</td><td class="num">6,800</td><td class="num">10,500</td><td class="num">6,200</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>5</td><td>Baltimore Field Ops</td><td>Baltimore, MD</td><td>Field Office</td>
+          <td class="num">98,000</td><td class="num">6,200</td><td class="num">9,800</td><td class="num">5,800</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>6</td><td>Philadelphia Field Ops</td><td>Philadelphia, PA</td><td>Field Office</td>
+          <td class="num">115,000</td><td class="num">7,400</td><td class="num">11,200</td><td class="num">7,200</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>7</td><td>Hartford Field Ops</td><td>Hartford, CT</td><td>Field Office</td>
+          <td class="num">88,000</td><td class="num">7,800</td><td class="num">8,500</td><td class="num">5,400</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>8</td><td>Charleston Field Ops</td><td>Charleston, SC</td><td>Field Office</td>
+          <td class="num">118,000</td><td class="num">5,200</td><td class="num">9,200</td><td class="num">6,800</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>9</td><td>Dayton Equipment Yard</td><td>Dayton, OH</td><td>Equipment / Fleet</td>
+          <td class="num">45,000</td><td class="num">2,800</td><td class="num">15,000</td><td class="num">&mdash;</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>10</td><td>Richmond Field Ops</td><td>Richmond, VA</td><td>Field Office</td>
+          <td class="num">92,000</td><td class="num">5,800</td><td class="num">8,800</td><td class="num">5,600</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr>
+          <td>11</td><td>Raleigh Field Ops</td><td>Raleigh, NC</td><td>Field Office</td>
+          <td class="num">108,000</td><td class="num">4,400</td><td class="num">9,500</td><td class="num">6,400</td>
+          <td>Utility + Fleet</td><td><span class="grade-badge">A</span></td>
+        </tr>
+        <tr class="total-row">
+          <td></td><td>TOTAL</td><td></td><td></td>
+          <td class="num">2,569,000</td><td class="num">115,400</td><td class="num">100,500</td><td class="num">55,400</td>
+          <td></td><td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fleet-highlight" style="margin-top:18px;">
+    <div class="fh-title">Fleet Profile: 85 Vehicles</div>
+    <div class="fh-text">Pickups, equipment haulers, and sample transport vehicles. GPS telematics installed on all 85 trucks. Current average idle time: <strong style="color:#f5b942;">18%</strong> &mdash; a significant reduction opportunity.</div>
+  </div>
+</div>
+
+<!-- SECTION 3: GHG Scope Analysis -->
+<div class="section">
+  <div class="section-title">3. GHG Emissions Analysis</div>
+
+  <div class="scope-summary">
+    <div class="scope-box">
+      <div class="sb-val">2,203</div>
+      <div class="sb-label">Scope 1 (mt CO2e)</div>
+      <div class="sb-sub">Combustion + Fleet</div>
+      <div style="margin-top:8px;"><span style="display:inline-block;padding:3px 12px;border-radius:12px;font-size:0.72rem;font-weight:700;background:#0a2e14;color:#00c853;border:1px solid #1a4e28;">DATA GRADE: A</span></div>
+      <div style="font-size:0.66rem;color:#6a6a7a;margin-top:4px;">Utility + fuel card data, 11 facilities</div>
+    </div>
+    <div class="scope-box">
+      <div class="sb-val">1,100</div>
+      <div class="sb-label">Scope 2 (mt CO2e)</div>
+      <div class="sb-sub">Purchased Electricity</div>
+      <div style="margin-top:8px;"><span style="display:inline-block;padding:3px 12px;border-radius:12px;font-size:0.72rem;font-weight:700;background:#0a2e14;color:#00c853;border:1px solid #1a4e28;">DATA GRADE: A</span></div>
+      <div style="font-size:0.66rem;color:#6a6a7a;margin-top:4px;">Utility bill data available</div>
+    </div>
+    <div class="scope-box" style="border-color:#ff1744;">
+      <div class="sb-val" style="color:#ff1744;">N/A</div>
+      <div class="sb-label">Scope 3 (mt CO2e)</div>
+      <div class="sb-sub" style="color:#ff1744;">Not Measured</div>
+      <div style="margin-top:8px;"><span style="display:inline-block;padding:3px 12px;border-radius:12px;font-size:0.72rem;font-weight:700;background:#2e0a14;color:#ff1744;border:1px solid #4e1a28;">DATA GRADE: F</span></div>
+      <div style="font-size:0.66rem;color:#6a6a7a;margin-top:4px;">No Scope 3 data collected</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr;gap:0;margin-top:16px;">
+    <div class="scope-box total" style="text-align:center;">
+      <div class="sb-val">3,303</div>
+      <div class="sb-label">Total Scope 1+2</div>
+      <div class="sb-sub">16.9 mt CO2e / $M Revenue</div>
+    </div>
+  </div>
+
+  <div style="margin:16px 0;padding:10px 14px;border-left:2px solid #5fb5a2;font-size:11px;color:#8a8aa0;line-height:1.5;background:rgba(95,181,162,0.04);border-radius:0 4px 4px 0;">Emissions calculated using EPA emission factors and eGRID regional grid factors. Scope 1+2 confidence: &plusmn;5-10% (9/12 utility bills, 3 fleet logs). See Quality Scorecard for full methodology.</div>
+
+  <div class="callout-revenue" style="margin-top:18px;">
+    <div class="callout-title">Scope 3 Coverage Gap &mdash; Material Risk</div>
+    For environmental services companies, Scope 3 emissions from waste processing, subcontractor operations, and chemical procurement can equal or exceed Scope 1+2. Current visibility covers an estimated 40&ndash;50% of total emissions footprint.
+  </div>
+
+  <div class="two-col" style="margin-top:28px;">
+    <div>
+      <div class="sub-heading">Scope 1 Breakdown</div>
+      <div class="data-row"><span class="label">Stationary Combustion (Nat Gas)</span><span class="value">613 mt CO2e <span class="grade-badge" style="margin-left:8px;">A</span></span></div>
+      <div class="data-row"><span class="label">Mobile Combustion (Fleet)</span><span class="value" style="color:#f5b942;font-weight:700;">1,590 mt CO2e <span class="grade-badge" style="margin-left:8px;">A</span></span></div>
+      <div class="data-row"><span class="label">Fugitive Emissions (HVAC)</span><span class="value">Minimal <span class="grade-badge" style="margin-left:8px;background:#2a2a10;color:#f5b942;">B</span></span></div>
+      <div class="data-row" style="border-bottom:2px solid #5fb5a2;"><span class="label" style="font-weight:700;color:#e8e8ec;">Total Scope 1</span><span class="value" style="font-size:1rem;">2,203 mt CO2e</span></div>
+
+      <!-- Scope 1 visual breakdown -->
+      <div style="margin-top:18px;">
+        <div class="h-bar-group">
+          <div class="h-bar-label"><span>Fleet (Mobile Combustion)</span><span style="color:#f5b942;font-weight:700;">72%</span></div>
+          <div class="h-bar-track"><div class="h-bar-fill" style="width:72%;background:linear-gradient(90deg,#f5b942,#e09830);">1,590 mt</div></div>
+        </div>
+        <div class="h-bar-group">
+          <div class="h-bar-label"><span>Natural Gas (Stationary)</span><span>28%</span></div>
+          <div class="h-bar-track"><div class="h-bar-fill" style="width:28%;background:linear-gradient(90deg,#5fb5a2,#3d8a78);">613 mt</div></div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:16px;">
+        <div class="callout-title">Key Insight: Fleet-Dominated Emissions</div>
+        Fleet mobile combustion accounts for 72% of Scope 1 and 48% of total emissions. This is the primary decarbonization lever for Clearview.
+      </div>
+    </div>
+    <div>
+      <div class="sub-heading">Scope 2 Breakdown</div>
+      <div class="data-row"><span class="label">Purchased Electricity</span><span class="value">1,100 mt CO2e <span class="grade-badge" style="margin-left:8px;">A</span></span></div>
+      <div class="data-row"><span class="label">Labs (Cincinnati + Pittsburgh)</span><span class="value teal">1,124,000 kWh (65%)</span></div>
+      <div class="data-row" style="border-bottom:2px solid #5fb5a2;"><span class="label" style="font-weight:700;color:#e8e8ec;">Total Scope 2</span><span class="value" style="font-size:1rem;">1,100 mt CO2e</span></div>
+
+      <!-- Emissions composition donut as SVG -->
+      <div style="margin-top:22px;text-align:center;">
+        <div style="font-size:0.82rem;color:#8a8a9a;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;font-weight:700;">Total Emissions Composition</div>
+        <svg viewBox="0 0 200 200" width="220" height="220" style="display:block;margin:0 auto;">
+          <!-- Fleet 48% = 172.8deg -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#f5b942" stroke-width="28"
+            stroke-dasharray="211 439" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+          <!-- Labs/Electricity 33% = 118.8deg -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#5fb5a2" stroke-width="28"
+            stroke-dasharray="145 505" stroke-dashoffset="-211" transform="rotate(-90 100 100)"/>
+          <!-- Nat Gas 19% = 68.4deg -->
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#6a6aaa" stroke-width="28"
+            stroke-dasharray="84 566" stroke-dashoffset="-356" transform="rotate(-90 100 100)"/>
+          <!-- Center -->
+          <circle cx="100" cy="100" r="52" fill="#0e0e1a"/>
+          <text x="100" y="94" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">3,303</text>
+          <text x="100" y="112" text-anchor="middle" fill="#8a8a9a" font-size="9">mt CO2e</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#f5b942;"></div>Fleet &mdash; 48%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#5fb5a2;"></div>Labs / Electricity &mdash; 33%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#6a6aaa;"></div>Natural Gas &mdash; 19%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scope 3 Gap Analysis -->
+  <div class="sub-heading" style="margin-top:30px;">Scope 3 Gap Analysis</div>
+  <div class="traffic-grid">
+    <div class="cat-name">1. Purchased Goods &amp; Services</div><div class="cat-status red">No Data</div>
+    <div class="cat-name">2. Capital Goods</div><div class="cat-status red">No Data</div>
+    <div class="cat-name">3. Fuel- &amp; Energy-Related Activities</div><div class="cat-status amber">Calculable</div>
+    <div class="cat-name">4. Upstream Transportation &amp; Distribution</div><div class="cat-status red">No Data</div>
+    <div class="cat-name">5. Waste Generated in Operations</div><div class="cat-status red">No Data</div>
+    <div class="cat-name">6. Business Travel</div><div class="cat-status red">No Data</div>
+    <div class="cat-name">7. Employee Commuting</div><div class="cat-status amber">Estimable</div>
+    <div class="cat-name">8. Upstream Leased Assets</div><div class="cat-status red">No Data</div>
+    <div class="cat-name">9. Downstream Transportation &amp; Distribution</div><div class="cat-status red">N/A</div>
+    <div class="cat-name">10. Processing of Sold Products</div><div class="cat-status red">N/A</div>
+    <div class="cat-name">11. Use of Sold Products</div><div class="cat-status red">N/A</div>
+    <div class="cat-name">12. End-of-Life Treatment</div><div class="cat-status red">N/A</div>
+    <div class="cat-name">13. Downstream Leased Assets</div><div class="cat-status red">N/A</div>
+    <div class="cat-name">14. Franchises</div><div class="cat-status red">N/A</div>
+    <div class="cat-name">15. Investments</div><div class="cat-status red">N/A</div>
+  </div>
+  <div style="margin-top:12px;font-size:0.82rem;color:#8a8a9a;">
+    <strong style="color:#f5b942;">Notable:</strong> Category 1 (Purchased Goods) could be significant &mdash; lab chemicals, reagents, and sampling equipment represent material procurement spend.
+  </div>
+</div>
+
+<!-- SECTION 4: Reduction Initiatives -->
+<div class="section">
+  <div class="section-title">4. Current Initiatives &amp; Reduction Opportunities</div>
+
+  <div class="fleet-highlight">
+    <div class="fh-title">Current Initiative: GPS Telematics (All 85 Vehicles)</div>
+    <div class="fh-text">
+      Telematics installed on entire fleet. <strong style="color:#f5b942;">18% average idle time identified.</strong>
+      If reduced to 5%, estimated fuel savings of ~13% of fleet fuel &rarr; <strong>~$35K/year</strong> savings + <strong style="color:#5fb5a2;">~207 mt CO2e reduction</strong>.
+      <br><span style="color:#f06060;font-weight:600;">Status: Installed, but anti-idle policy not yet enforced.</span>
+    </div>
+  </div>
+
+  <div class="sub-heading">Ranked Opportunities</div>
+
+  <div class="opp-card">
+    <div class="opp-num">1</div>
+    <div class="opp-content">
+      <div class="opp-title">Fleet Anti-Idle Policy</div>
+      <div class="opp-detail">Enforce anti-idle rules using existing telematics. Policy-only intervention &mdash; zero capital cost.</div>
+    </div>
+    <div class="opp-metrics">
+      <div class="reduction">&minus;207 mt CO2e</div>
+      <div class="payback">6.3% of total | Payback: Immediate</div>
+    </div>
+  </div>
+  <div class="opp-card">
+    <div class="opp-num">2</div>
+    <div class="opp-content">
+      <div class="opp-title">Route Optimization Software</div>
+      <div class="opp-detail">Software-driven route planning to reduce fleet miles. ~$15K investment.</div>
+    </div>
+    <div class="opp-metrics">
+      <div class="reduction">5&ndash;10% fleet fuel</div>
+      <div class="payback">~$15K | Payback: 6 months</div>
+    </div>
+  </div>
+  <div class="opp-card">
+    <div class="opp-num">3</div>
+    <div class="opp-content">
+      <div class="opp-title">Lab Energy Efficiency</div>
+      <div class="opp-detail">Fume hood upgrades, VFD on HVAC systems at Cincinnati and Pittsburgh labs.</div>
+    </div>
+    <div class="opp-metrics">
+      <div class="reduction">10&ndash;15% lab electricity</div>
+      <div class="payback">$80&ndash;120K | Payback: 3&ndash;4 years</div>
+    </div>
+  </div>
+  <div class="opp-card">
+    <div class="opp-num">4</div>
+    <div class="opp-content">
+      <div class="opp-title">Fleet Electrification Pilot</div>
+      <div class="opp-detail">Replace 10 light-duty pickup trucks with EVs. Test operational viability.</div>
+    </div>
+    <div class="opp-metrics">
+      <div class="reduction">&minus;120 mt CO2e/yr</div>
+      <div class="payback">~$400K | Payback: 5&ndash;7 years</div>
+    </div>
+  </div>
+  <div class="opp-card">
+    <div class="opp-num">5</div>
+    <div class="opp-content">
+      <div class="opp-title">PFAS Lab Expansion at Existing Facilities</div>
+      <div class="opp-detail">Expand PFAS testing capacity within current labs rather than new builds. Reduces incremental emissions from growth.</div>
+    </div>
+    <div class="opp-metrics">
+      <div class="reduction">Avoidance</div>
+      <div class="payback">Lower capex vs. greenfield</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: Transition Plan Data Needs -->
+<div class="section">
+  <div class="section-title">5. Transition Plan Data Completeness</div>
+  <div class="progress-item">
+    <div class="progress-header"><span>Emissions Baseline</span><span class="pct">85%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:85%;"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-header"><span>Abatement Opportunity List</span><span class="pct">40%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:40%;"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-header"><span>Abatement Cost Analysis</span><span class="pct">15%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:15%;"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-header"><span>Renewable Energy Analysis</span><span class="pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:0%;"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-header"><span>Fleet Electrification Study</span><span class="pct">10%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:10%;"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-header"><span>Science-Based Target</span><span class="pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:0%;"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-header"><span>MACC Curve</span><span class="pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:0%;"></div></div>
+  </div>
+</div>
+
+<!-- SECTION 6: Climate Risk -->
+<div class="section">
+  <div class="section-title">6. Climate Risk Profile</div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-card-title">Physical Risk</div>
+      <div style="margin-bottom:14px;"><span class="risk-level risk-low">LOW</span></div>
+      <div class="data-row"><span class="label">Heat Stress</span><span class="value"><span class="risk-level risk-med" style="font-size:0.68rem;padding:2px 10px;">LOW-MED</span></span></div>
+      <div class="data-row"><span class="label">Flooding</span><span class="value"><span class="risk-level risk-low" style="font-size:0.68rem;padding:2px 10px;">LOW</span></span></div>
+      <div class="data-row"><span class="label">Wildfire</span><span class="value"><span class="risk-level risk-low" style="font-size:0.68rem;padding:2px 10px;">LOW</span></span></div>
+      <div class="data-row"><span class="label">Storm</span><span class="value"><span class="risk-level risk-med" style="font-size:0.68rem;padding:2px 10px;">LOW-MED</span></span></div>
+      <div style="font-size:0.78rem;color:#8a8a9a;margin-top:10px;">Field workers exposed to summer heat in Midwest/Mid-Atlantic. Charleston has some storm exposure. No coastal facilities.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-card-title">Transition Risk</div>
+      <div style="margin-bottom:14px;"><span class="risk-level risk-high">HIGH</span></div>
+      <div class="data-row"><span class="label">Regulatory</span><span class="value"><span class="risk-level risk-high" style="font-size:0.68rem;padding:2px 10px;">HIGH</span></span></div>
+      <div class="data-row"><span class="label">Market</span><span class="value"><span class="risk-level risk-high" style="font-size:0.68rem;padding:2px 10px;">HIGH</span></span></div>
+      <div class="data-row"><span class="label">Technology</span><span class="value"><span class="risk-level risk-med" style="font-size:0.68rem;padding:2px 10px;">MEDIUM</span></span></div>
+      <div class="data-row"><span class="label">Reputation</span><span class="value"><span class="risk-level risk-high" style="font-size:0.68rem;padding:2px 10px;">HIGH</span></span></div>
+      <div style="font-size:0.78rem;color:#8a8a9a;margin-top:10px;">High transition risk is primarily <strong style="color:#f5b942;">opportunity risk</strong>, not downside. PFAS regulations drive revenue growth. Better ESG positioning wins contracts.</div>
+    </div>
+  </div>
+
+  <div class="callout-revenue" style="margin-top:24px;">
+    <div class="callout-title">Revenue Risk &mdash; Critical Finding</div>
+    Clearview lost an estimated <strong style="color:#fff;">$2&ndash;3M in contract value</strong> in 2025 due to poor ESG scores on competitive RFPs. Five RFPs included ESG scoring criteria where Clearview was outscored by competitors with formal climate programs.<br><br>
+    As an environmental services company, Clearview faces <strong>asymmetric reputational risk</strong> &mdash; clients expect their environmental consultant to have its own house in order. Completing the emissions baseline and setting reduction targets is not just good practice; it is <strong style="color:#fff;">directly revenue-protective</strong>.
+  </div>
+</div>
+
+<!-- SECTION 7: TCFD Readiness -->
+<div class="section">
+  <div class="section-title">7. TCFD Readiness Assessment</div>
+  <div style="max-width:700px;">
+    <div class="tcfd-item">
+      <div class="tcfd-bar-container">
+        <div class="tcfd-label">Governance</div>
+        <div class="tcfd-bar"><div class="tcfd-fill" style="width:15%;"></div></div>
+        <div class="tcfd-pct">15%</div>
+      </div>
+    </div>
+    <div class="tcfd-item">
+      <div class="tcfd-bar-container">
+        <div class="tcfd-label">Strategy</div>
+        <div class="tcfd-bar"><div class="tcfd-fill" style="width:20%;"></div></div>
+        <div class="tcfd-pct">20%</div>
+      </div>
+    </div>
+    <div class="tcfd-item">
+      <div class="tcfd-bar-container">
+        <div class="tcfd-label">Risk Management</div>
+        <div class="tcfd-bar"><div class="tcfd-fill" style="width:20%;"></div></div>
+        <div class="tcfd-pct">20%</div>
+      </div>
+    </div>
+    <div class="tcfd-item">
+      <div class="tcfd-bar-container">
+        <div class="tcfd-label">Metrics &amp; Targets</div>
+        <div class="tcfd-bar"><div class="tcfd-fill" style="width:35%;"></div></div>
+        <div class="tcfd-pct">35%</div>
+      </div>
+    </div>
+    <div class="tcfd-item" style="margin-top:8px;border-top:1px solid #1e1e30;padding-top:12px;">
+      <div class="tcfd-bar-container">
+        <div class="tcfd-label" style="font-weight:700;color:#5fb5a2;">Overall</div>
+        <div class="tcfd-bar" style="border:1px solid #2a4040;"><div class="tcfd-fill" style="width:23%;background:linear-gradient(90deg,#5fb5a2,#3d8a78);"></div></div>
+        <div class="tcfd-pct" style="font-size:0.92rem;">23%</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:16px;font-size:0.82rem;color:#8a8a9a;">
+    <strong style="color:#5fb5a2;">Strengths:</strong> Best raw energy data in the portfolio (fleet telematics operational, all utility data collected). PFAS growth strategy is implicitly climate-aligned. Internal environmental expertise exists.
+    <br><strong style="color:#f5b942;">Gaps:</strong> No formal governance structure, no published targets, no TCFD-aligned reporting.
+  </div>
+</div>
+
+<!-- SECTION 8: Data Request -->
+<div class="section">
+  <div class="section-title">8. Outstanding Data Requests</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Data Item</th>
+          <th>Priority</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td>Utility rate schedules (all facilities)</td>
+          <td><span class="priority-badge p2">P2</span></td><td>CFO</td>
+        </tr>
+        <tr>
+          <td>2</td><td>Lab equipment inventory (fume hoods, HVAC specs, GC-MS runtime hours)</td>
+          <td><span class="priority-badge p2">P2</span></td><td>Lab Directors</td>
+        </tr>
+        <tr>
+          <td>3</td><td>Fleet vehicle inventory (make / model / year / mileage per vehicle)</td>
+          <td><span class="priority-badge p2">P2</span></td><td>Fleet Manager</td>
+        </tr>
+        <tr>
+          <td>4</td><td>RFP ESG scoring criteria from lost bids</td>
+          <td><span class="priority-badge p2">P2</span></td><td>Sales</td>
+        </tr>
+        <tr>
+          <td>5</td><td>Business travel data (flights, hotels, rental cars)</td>
+          <td><span class="priority-badge p3">P3</span></td><td>Finance</td>
+        </tr>
+        <tr>
+          <td>6</td><td>Lab chemical / reagent procurement spend</td>
+          <td><span class="priority-badge p3">P3</span></td><td>Procurement</td>
+        </tr>
+        <tr>
+          <td>7</td><td>Waste disposal records (hazardous waste from labs)</td>
+          <td><span class="priority-badge p3">P3</span></td><td>EHS</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  CONFIDENTIAL &mdash; Northwood Capital Partners &nbsp;|&nbsp; Kith Consulting &nbsp;|&nbsp; kithclimate.com<br>
+  <span style="color:#555;font-size:9px;">v4 &mdash; Methodology footnotes added</span>
+</div>
+
+</div>
+</body>
+</html>

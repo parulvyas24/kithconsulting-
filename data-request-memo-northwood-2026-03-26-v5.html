@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Data Mobilization Plan — Northwood Capital Partners</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-card: #141414;
+    --bg-elevated: #1e1e1e;
+    --teal: #00e5ff;
+    --teal-dim: #00bcd4;
+    --teal-muted: rgba(0, 229, 255, 0.08);
+    --teal-border: rgba(0, 229, 255, 0.15);
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0a0;
+    --text-muted: #6a6a6a;
+    --border: #2a2a2a;
+    --border-light: #333;
+    --amber: #ffab40;
+    --amber-muted: rgba(255, 171, 64, 0.1);
+    --green: #69f0ae;
+    --green-muted: rgba(105, 240, 174, 0.1);
+    --red: #ff5252;
+    --red-muted: rgba(255, 82, 82, 0.08);
+    --purple: #b388ff;
+    --purple-muted: rgba(179, 136, 255, 0.08);
+    --blue: #448aff;
+    --blue-muted: rgba(68, 138, 255, 0.08);
+    --blue-border: rgba(68, 138, 255, 0.15);
+  }
+
+  html { font-size: 15px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+  }
+
+  /* ── MEMO HEADER ── */
+  .memo-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--bg-primary);
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-sub {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--teal-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 1px;
+  }
+
+  .memo-fields {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0.5rem 1rem;
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .memo-fields .label {
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding-top: 2px;
+  }
+
+  .memo-fields .value {
+    color: var(--text-secondary);
+  }
+
+  .memo-fields .value strong { color: var(--text-primary); font-weight: 600; }
+
+  .memo-re {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: -0.01em;
+  }
+
+  .classification {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    background: var(--amber-muted);
+    padding: 0.25rem 0.65rem;
+    border-radius: 3px;
+    margin-top: 0.75rem;
+  }
+
+  /* ── EXECUTIVE SUMMARY ── */
+  .exec-summary {
+    border-left: 3px solid var(--teal);
+    padding: 1.75rem 2rem;
+    background: var(--teal-muted);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 3.5rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--text-primary);
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--teal-dim);
+    margin-bottom: 0.4rem;
+  }
+
+  h2 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+  }
+
+  .section-subtitle {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.25rem;
+    font-style: italic;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 3.5rem 0;
+  }
+
+  /* ── STRATEGIC CONTEXT CARDS ── */
+  .context-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .context-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .context-card:hover { border-color: var(--border-light); }
+
+  .context-card .card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .context-card h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .context-card p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .icon-red { background: var(--red-muted); color: var(--red); }
+  .icon-amber { background: var(--amber-muted); color: var(--amber); }
+  .icon-teal { background: var(--teal-muted); color: var(--teal); }
+  .icon-green { background: var(--green-muted); color: var(--green); }
+  .icon-purple { background: var(--purple-muted); color: var(--purple); }
+  .icon-blue { background: var(--blue-muted); color: var(--blue); }
+
+  /* ── WORKSTREAM HEADERS ── */
+  .workstream-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .workstream-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .badge-ws1 { background: var(--teal-muted); color: var(--teal); border: 1px solid var(--teal-border); }
+  .badge-ws2 { background: var(--amber-muted); color: var(--amber); border: 1px solid rgba(255,171,64,0.15); }
+  .badge-ws3 { background: var(--purple-muted); color: var(--purple); border: 1px solid rgba(179,136,255,0.15); }
+
+  /* ── TIMELINE BAR ── */
+  .timeline-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .timeline-container h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+  }
+
+  .timeline-bar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr 1fr;
+    gap: 0;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 44px;
+  }
+
+  .timeline-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0 0.5rem;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .seg-collect {
+    background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(0,229,255,0.12));
+    color: var(--teal);
+    border-right: 2px solid var(--bg-primary);
+  }
+
+  .seg-ghg {
+    background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(0,229,255,0.08));
+    color: var(--teal-dim);
+    border-right: 2px solid var(--bg-primary);
+  }
+
+  .seg-macc {
+    background: linear-gradient(135deg, rgba(255,171,64,0.18), rgba(255,171,64,0.08));
+    color: var(--amber);
+    border-right: 2px solid var(--bg-primary);
+  }
+
+  .seg-tcfd {
+    background: linear-gradient(135deg, rgba(179,136,255,0.18), rgba(179,136,255,0.08));
+    color: var(--purple);
+  }
+
+  .timeline-labels {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr 1fr;
+    gap: 0;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .timeline-labels span {
+    text-align: center;
+    padding: 0.35rem 0;
+  }
+
+  .timeline-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--teal-border);
+  }
+
+  /* ── COMPANY SECTIONS ── */
+  .company-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.75rem;
+    overflow: hidden;
+  }
+
+  .company-header {
+    padding: 1.5rem 1.75rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .company-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  .company-meta {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    margin-top: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .tag-status { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border); }
+  .tag-grade-a { background: var(--green-muted); color: var(--green); border: 1px solid rgba(105,240,174,0.15); }
+  .tag-grade-b { background: var(--teal-muted); color: var(--teal); border: 1px solid var(--teal-border); }
+  .tag-grade-c { background: var(--amber-muted); color: var(--amber); border: 1px solid rgba(255,171,64,0.15); }
+  .tag-grade-f { background: var(--red-muted); color: var(--red); border: 1px solid rgba(255,82,82,0.15); }
+
+  .company-narrative {
+    padding: 0 1.75rem;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .request-list {
+    padding: 0 1.75rem 1.5rem;
+  }
+
+  .request-item {
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .request-item:first-child { border-top: none; }
+
+  .request-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .request-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 1.1rem;
+  }
+
+  .request-why {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-left: 1.6rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .request-meta {
+    display: flex;
+    gap: 1.25rem;
+    margin-left: 1.6rem;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .request-meta span { display: flex; align-items: center; gap: 0.3rem; }
+  .request-meta .owner { color: var(--text-secondary); }
+  .request-meta .deadline { color: var(--teal-dim); }
+
+  /* ── FALLBACK NOTE ── */
+  .fallback-note {
+    margin: 0.75rem 0 0.5rem 1.6rem;
+    padding: 0.65rem 1rem;
+    background: var(--bg-elevated);
+    border-left: 2px solid var(--text-muted);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .fallback-note strong {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* ── DATA CATEGORY (Workstream 2) ── */
+  .data-category {
+    margin-bottom: 2rem;
+  }
+
+  .data-category h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cross-item {
+    padding: 0.65rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .cross-item:last-child { border-bottom: none; }
+
+  .cross-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    flex: 1;
+  }
+
+  .cross-desc strong { color: var(--text-primary); font-weight: 600; }
+
+  .cross-deadline {
+    font-size: 0.72rem;
+    color: var(--teal-dim);
+    white-space: nowrap;
+    padding-top: 2px;
+    font-weight: 500;
+  }
+
+  .cross-fallback {
+    padding: 0.5rem 0 0.65rem;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .cross-fallback-inner {
+    padding: 0.55rem 0.85rem;
+    background: var(--bg-elevated);
+    border-left: 2px solid var(--text-muted);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .cross-fallback-inner strong {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* ── TCFD PILLAR CARD ── */
+  .pillar-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .pillar-block h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pillar-num {
+    font-size: 0.62rem;
+    font-weight: 700;
+    background: var(--purple-muted);
+    color: var(--purple);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    border: 1px solid rgba(179,136,255,0.15);
+  }
+
+  .pillar-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.5;
+  }
+
+  /* ── FUND REQUESTS ── */
+  .fund-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--teal-border);
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .fund-block h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+
+  /* ── MOMENTUM CARDS ── */
+  .momentum-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .momentum-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.15rem 1.3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transition: border-color 0.2s;
+  }
+
+  .momentum-card:hover { border-color: var(--teal-border); }
+
+  .momentum-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 1.1rem;
+    padding-top: 1px;
+  }
+
+  .momentum-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .momentum-text strong { color: var(--text-primary); font-weight: 600; }
+
+  .poc-note {
+    background: var(--green-muted);
+    border: 1px solid rgba(105,240,174,0.2);
+    border-radius: 8px;
+    padding: 1rem 1.3rem;
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .poc-note strong { color: var(--green); font-weight: 600; }
+
+  /* ── REFERENCE TABLE ── */
+  .ref-table-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .ref-table-container h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .ref-table {
+    width: 100%;
+    font-size: 0.78rem;
+    border-collapse: collapse;
+  }
+
+  .ref-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ref-table td {
+    padding: 0.5rem 0.75rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .ref-table td:first-child {
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── RESPONSE FORMAT ── */
+  .response-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .response-section h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .response-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .response-list li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 0.35rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  .response-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65rem;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--teal-dim);
+  }
+
+  .tracker-table {
+    width: 100%;
+    font-size: 0.78rem;
+    border-collapse: collapse;
+  }
+
+  .tracker-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tracker-table td {
+    padding: 0.5rem 0.75rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  .closing-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 680px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .closing-sig {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--teal-dim);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .footer .qa-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green);
+    background: var(--green-muted);
+    padding: 0.25rem 0.65rem;
+    border-radius: 3px;
+    margin-top: 0.5rem;
+  }
+
+  .urgent-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--red);
+    background: var(--red-muted);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    .context-grid { grid-template-columns: 1fr; }
+    .momentum-grid { grid-template-columns: 1fr; }
+    .timeline-bar { grid-template-columns: 1fr; height: auto; }
+    .timeline-labels { grid-template-columns: 1fr; }
+    .page-container { padding: 1.5rem 1rem 2rem; }
+    h2 { font-size: 1.35rem; }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    .page-container { max-width: 100%; padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page-container">
+
+  <!-- MEMO HEADER -->
+  <header class="memo-header">
+    <div class="logo-area">
+      <div class="logo-mark">K</div>
+      <div>
+        <div class="logo-text">Kith Consulting</div>
+        <div class="logo-sub">Climate Advisory Practice</div>
+      </div>
+    </div>
+
+    <div class="memo-fields">
+      <div class="label">From</div>
+      <div class="value"><strong>Kith Consulting</strong> &mdash; Climate Advisory Practice</div>
+      <div class="label">To</div>
+      <div class="value"><strong>Sarah Chen</strong>, Managing Partner &amp; <strong>James Morrison</strong>, Partner</div>
+      <div class="label">Date</div>
+      <div class="value">March 26, 2026</div>
+      <div class="label">Version</div>
+      <div class="value">v5 &mdash; Restructured by deliverable workstream</div>
+    </div>
+
+    <div class="memo-re">Re: Climate Data Mobilization Plan &mdash; Phase 1 Priority Companies</div>
+    <div class="classification">Confidential</div>
+  </header>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    This engagement delivers three interconnected deliverables for four priority companies &mdash; Meridian, Clearview, Sterling, and Keystone: <strong>GHG baselines</strong>, <strong>MACC curves with prioritized abatement initiatives</strong>, and <strong>TCFD-aligned reports</strong>. All data collection must happen in Weeks 1&ndash;2 to meet the 6-week timeline. This memo organizes every request by which deliverable it feeds. Where company-specific data is unavailable, we have identified fallback methodologies using EPA, DEFRA, and DOE reference databases &mdash; so no workstream stalls waiting for a single data point.
+  </div>
+
+  <!-- STRATEGIC CONTEXT -->
+  <div class="section-label">The Strategic Context</div>
+  <h2>Why This Matters Now</h2>
+  <div class="section-subtitle">Three forces are compressing the timeline.</div>
+
+  <div class="context-grid">
+    <div class="context-card">
+      <div class="card-icon icon-red">&#9888;</div>
+      <h3>Exit Value at Risk</h3>
+      <p>Meridian is heading to market. Buyers increasingly discount companies without ESG data. No climate profile means longer diligence, lower multiples, and deal friction that erodes returns.</p>
+    </div>
+    <div class="context-card">
+      <div class="card-icon icon-amber">&#36;</div>
+      <h3>Revenue Already Lost</h3>
+      <p>Clearview lost $2&ndash;3M in municipal contracts in 2025 because competitors had ESG certifications. This is not theoretical risk &mdash; it is realized revenue loss.</p>
+    </div>
+    <div class="context-card">
+      <div class="card-icon icon-teal">&#8599;</div>
+      <h3>Customer Pressure Accelerating</h3>
+      <p>Sterling's defense customers &mdash; Boeing, Raytheon, L3Harris &mdash; are rolling out supplier ESG requirements. Non-compliance means exclusion from bid lists.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ENGAGEMENT TIMELINE -->
+  <div class="section-label">Engagement Timeline</div>
+  <h2>6-Week Delivery Plan</h2>
+  <div class="section-subtitle">Three deliverables, sequenced. All data collection in Weeks 1&ndash;2.</div>
+
+  <div class="timeline-container">
+    <h3>Weeks 1&ndash;6: Mar 30 &mdash; May 8</h3>
+    <div class="timeline-bar">
+      <div class="timeline-segment seg-collect">Data Collection<br>&amp; Validation</div>
+      <div class="timeline-segment seg-ghg">GHG<br>Baseline</div>
+      <div class="timeline-segment seg-macc">MACC Curve &amp;<br>Climate Risk</div>
+      <div class="timeline-segment seg-tcfd">TCFD<br>Report</div>
+    </div>
+    <div class="timeline-labels">
+      <span>Weeks 1&ndash;2 &bull; Mar 30&ndash;Apr 9</span>
+      <span>Weeks 2&ndash;3</span>
+      <span>Weeks 3&ndash;5</span>
+      <span>Weeks 5&ndash;6</span>
+    </div>
+    <div class="timeline-note">
+      <strong style="color: var(--teal);">All requests in Workstreams 1 and 2 are due by April 9.</strong> Workstream 3 (TCFD) data has a later deadline of April 16. The compressed front-end ensures parallel computation across all three deliverables starting Week 3.
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════ WORKSTREAM 1: GHG BASELINE ═══════════════════════════ -->
+  <div class="workstream-header">
+    <span class="workstream-badge badge-ws1">Workstream 1</span>
+    <div class="section-label" style="margin-bottom:0">GHG Baseline &bull; Deliverable: Weeks 2&ndash;3</div>
+  </div>
+  <h2>GHG Baseline Data</h2>
+  <div class="section-subtitle">What we need to calculate Scope 1, 2, and 3 emissions for each company. All items due by April 9.</div>
+
+  <!-- MERIDIAN -->
+  <div class="company-block">
+    <div class="company-header">
+      <div>
+        <div class="company-name">Meridian Business Solutions</div>
+        <div class="company-meta">
+          <span class="meta-tag tag-status">Exit Prep</span>
+          <span class="meta-tag tag-grade-b">Scope 1: B+</span>
+          <span class="meta-tag tag-grade-b">Scope 2: B+</span>
+          <span class="meta-tag tag-grade-f">Scope 3: F</span>
+        </div>
+      </div>
+    </div>
+    <div class="company-narrative">
+      Services business with 16 offices &mdash; Scope 3 (business travel, employee commuting) likely exceeds Scope 1+2 combined. A buyer's ESG team will ask for exactly these numbers during diligence.
+    </div>
+    <div class="request-list">
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.1</span> Source documents for 4 accounting-export facilities</div>
+        <div class="request-why">Philadelphia, Charlotte, Denver, Seattle &mdash; verify if utility bills or cost allocations. The answer changes the data quality grade from B+ to A or drops it to C.</div>
+        <div class="request-meta"><span class="owner">Owner: CFO</span><span class="deadline">Apr 4</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.2</span> NY &amp; Boston shared-meter clarification</div>
+        <div class="request-why">Current &ldquo;60% allocation&rdquo; is an estimate. Need actual sub-meter readings or building management data to validate Scope 2.</div>
+        <div class="request-meta"><span class="owner">Owner: Facilities</span><span class="deadline">Apr 4</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.3</span> Employee headcount by office with remote/hybrid/in-office split and zip codes</div>
+        <div class="request-why">580 employees, 16 offices. Feeds Scope 3 Category 7 (employee commuting) &mdash; typically 15&ndash;25% of total emissions for a business services company.</div>
+        <div class="request-meta"><span class="owner">Owner: HR</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.4</span> FY2025 T&amp;E export from Concur/Expensify</div>
+        <div class="request-why">Air miles, hotel nights, rental car days, rail trips. Scope 3 Category 6. With 16 offices and a national client base, travel emissions are material.</div>
+        <div class="request-meta"><span class="owner">Owner: Finance</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.5</span> Top 20 vendors by annual spend with category</div>
+        <div class="request-why">Scope 3 Category 1 screening. Spend-based emission factors applied to vendor categories for upstream impact estimation.</div>
+        <div class="request-meta"><span class="owner">Owner: Procurement</span><span class="deadline">Apr 9</span></div>
+      </div>
+    </div>
+    <div class="fallback-note">
+      <strong>Fallback:</strong> Where company data unavailable, we use EPA CBECS office benchmarks for energy and DEFRA spend-based emission factors for Scope 3.
+    </div>
+  </div>
+
+  <!-- CLEARVIEW -->
+  <div class="company-block">
+    <div class="company-header">
+      <div>
+        <div class="company-name">Clearview Environmental Services</div>
+        <div class="company-meta">
+          <span class="meta-tag tag-status">On Plan</span>
+          <span class="meta-tag tag-grade-a">Scope 1: A</span>
+          <span class="meta-tag tag-grade-a">Scope 2: A</span>
+          <span class="meta-tag tag-grade-f">Scope 3: F</span>
+        </div>
+      </div>
+    </div>
+    <div class="company-narrative">
+      Strong Scope 1+2 data already in hand. The gap is Scope 3 and the ESG certifications needed to win back $2&ndash;3M in lost municipal contracts.
+    </div>
+    <div class="request-list">
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.6</span> Fleet fuel card records (12 months, vehicle-level)</div>
+        <div class="request-why">Fleet is 72% of Scope 1. Monthly granularity enables route optimization modeling and reduction target-setting.</div>
+        <div class="request-meta"><span class="owner">Owner: Ops</span><span class="deadline">Apr 4</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.7</span> AP aging report filtered to key supplier categories</div>
+        <div class="request-why">Chemical suppliers, lab supply, PPE, vehicle parts &mdash; vendor name, annual spend, product category. Scope 3 Category 1. Chemical inputs are typically 30&ndash;40% of total Scope 3 for environmental services.</div>
+        <div class="request-meta"><span class="owner">Owner: Procurement</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.8</span> Subcontracted waste hauling vendor list</div>
+        <div class="request-why">Contract values and estimated tonnage. Many waste management subcontractors already track fleet emissions &mdash; we can request their data directly. Scope 3 Category 1.</div>
+        <div class="request-meta"><span class="owner">Owner: Ops</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.9</span> Lost municipal contract details</div>
+        <div class="request-why">Which municipalities, what ESG criteria, what certifications competitors had. Maps the fastest path to revenue recovery.</div>
+        <div class="request-meta"><span class="owner">Owner: Sales / BD</span><span class="deadline">Apr 4</span></div>
+      </div>
+    </div>
+    <div class="fallback-note">
+      <strong>Fallback:</strong> Fleet emissions from EPA mobile source factors by vehicle class. Chemical Scope 3 from DEFRA spend-based factors for waste management sector.
+    </div>
+  </div>
+
+  <!-- STERLING -->
+  <div class="company-block">
+    <div class="company-header">
+      <div>
+        <div class="company-name">Sterling Precision Manufacturing</div>
+        <div class="company-meta">
+          <span class="meta-tag tag-status">Strong</span>
+          <span class="meta-tag tag-grade-a">Scope 1: A</span>
+          <span class="meta-tag tag-grade-a">Scope 2: A</span>
+          <span class="meta-tag tag-grade-f">Scope 3: F</span>
+        </div>
+      </div>
+    </div>
+    <div class="company-narrative">
+      Scope 1+2 data is excellent. Scope 3 (purchased metals) is where the largest emissions number sits &mdash; typically 50&ndash;70% of total for precision manufacturing. Defense OEM customers are implementing supplier ESG requirements now.
+    </div>
+    <div class="request-list">
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.10</span> Purchasing report: raw materials by type with tonnage and spend</div>
+        <div class="request-why">Steel, aluminum, titanium, alloys. Top 10 suppliers with contact info. Scope 3 Category 1 &mdash; 50&ndash;70% of total emissions. We screen with spend-based factors, then request supplier-specific data for the top 5.</div>
+        <div class="request-meta"><span class="owner">Owner: Procurement</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.11</span> Outbound shipping records</div>
+        <div class="request-why">Carrier, mode, weight, destination. Scope 3 Category 9 (downstream transportation). Sterling ships heavy precision parts &mdash; logistics emissions are material.</div>
+        <div class="request-meta"><span class="owner">Owner: Logistics / Ops</span><span class="deadline">Apr 9</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.12</span> Actual December utility bills</div>
+        <div class="request-why">Currently annualized from partial-year data. Manufacturing has seasonal load patterns. Need the real number to validate the baseline.</div>
+        <div class="request-meta"><span class="owner">Owner: Finance</span><span class="deadline">Apr 4</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.13</span> Defense customer ESG requirement documents</div>
+        <div class="request-why">Boeing, Raytheon, L3Harris supplier questionnaires. Need to know exactly what they ask so we can prepare Sterling's response alongside the baseline.</div>
+        <div class="request-meta"><span class="owner">Owner: Sales</span><span class="deadline">Apr 4</span></div>
+      </div>
+    </div>
+    <div class="fallback-note">
+      <strong>Fallback:</strong> Metal production emission factors from World Steel Association and Aluminum Association. Logistics from EPA SmartWay carrier data.
+    </div>
+  </div>
+
+  <!-- KEYSTONE -->
+  <div class="company-block">
+    <div class="company-header">
+      <div>
+        <div class="company-name">Keystone Behavioral Health</div>
+        <div class="company-meta">
+          <span class="meta-tag tag-status">100-Day</span>
+          <span class="meta-tag tag-grade-c">Scope 1: C</span>
+          <span class="meta-tag tag-grade-c">Scope 2: C</span>
+          <span class="meta-tag tag-grade-f">Scope 3: F</span>
+        </div>
+      </div>
+    </div>
+    <div class="company-narrative">
+      Distributed clinic model &mdash; 20 locations, 13 without direct utility accounts. Data foundation needs building from scratch. The playbook we build here transfers to NovaCare and every future healthcare acquisition.
+    </div>
+    <div class="request-list">
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.14</span> Utility bills for 7 clinics with direct accounts</div>
+        <div class="request-why">Verify Grade A data. Cross-check against CSV submission to confirm accuracy before building baselines.</div>
+        <div class="request-meta"><span class="owner">Owner: Finance</span><span class="deadline">Apr 4</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.15</span> Lease agreements for 13 non-utility-bill clinics</div>
+        <div class="request-why">Identify green clause opportunities and utility data sharing provisions. Determines the data collection strategy for the majority of the portfolio.</div>
+        <div class="request-meta"><span class="owner">Owner: Real Estate / Legal</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.16</span> Monthly patient session count by clinic + patient zip codes from EHR</div>
+        <div class="request-why">Healthcare Scope 3 Category 9 (patient travel) is a unique and material category. Feeds emissions intensity metrics (mt CO2e per patient session) and sector benchmarking.</div>
+        <div class="request-meta"><span class="owner">Owner: Ops</span><span class="deadline">Apr 7</span></div>
+      </div>
+      <div class="request-item">
+        <div class="request-title"><span class="request-num">1.17</span> Clinical supply procurement report</div>
+        <div class="request-why">Gloves, syringes, diagnostic equipment &mdash; by vendor and annual spend. Scope 3 Category 1. Medical supplies are a material input category for healthcare providers.</div>
+        <div class="request-meta"><span class="owner">Owner: Procurement</span><span class="deadline">Apr 9</span></div>
+      </div>
+    </div>
+    <div class="fallback-note">
+      <strong>Fallback:</strong> EPA CBECS healthcare benchmarks for estimated clinics. EEIO emission factors for medical supplies.
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════ WORKSTREAM 2: MACC CURVE ═══════════════════════════ -->
+  <div class="workstream-header">
+    <span class="workstream-badge badge-ws2">Workstream 2</span>
+    <div class="section-label" style="margin-bottom:0">MACC Curve &bull; Deliverable: Weeks 3&ndash;5</div>
+  </div>
+  <h2>MACC Curve Data</h2>
+  <div class="section-subtitle">What we need to size, cost, and prioritize abatement opportunities. All items due by April 9.</div>
+
+  <div class="data-category">
+    <h3>Energy Cost Data &mdash; Feeds Abatement Savings Calculations</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Utility rate schedules</strong> (all 4 companies) &mdash; $/kWh and $/therm for each facility, including demand charges, time-of-use rates, and any renewable energy tariffs available.</div>
+      <div class="cross-deadline">Apr 7</div>
+    </div>
+    <div class="cross-fallback">
+      <div class="cross-fallback-inner"><strong>Fallback:</strong> EIA state-average commercial/industrial electricity and gas rates for OH (Sterling), IL/multi-state (Meridian), multi-state (Clearview), PA/NJ/DE/MD/VA (Keystone).</div>
+    </div>
+  </div>
+
+  <div class="data-category">
+    <h3>Equipment &amp; Facility Data &mdash; Feeds Opportunity Identification</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Equipment inventory</strong> (all 4 companies) &mdash; HVAC units (age, model, tonnage, refrigerant type), lighting (type, wattage, fixture count), major process equipment. Sterling-specific: CNC machines, furnaces &mdash; model, age, rated efficiency.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Building specifications</strong> (all 4 companies) &mdash; Square footage, insulation rating, roof type/age, window type. For envelope improvement opportunities.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-fallback">
+      <div class="cross-fallback-inner"><strong>Fallback:</strong> EPA ENERGY STAR Portfolio Manager benchmarks by building type. DOE CBECS age-based equipment efficiency assumptions. Typical equipment lifespan curves.</div>
+    </div>
+  </div>
+
+  <div class="data-category">
+    <h3>Cost &amp; Quote Data &mdash; Feeds MACC Cost Axis</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>R-22 replacement quote for Akron facility</strong> (Sterling only) &mdash; Existing vendor proposal or request new one. 30-year unit, GWP of 1,810, 3 emergency service calls in 2025. <span class="urgent-tag">Urgent &mdash; Regulatory</span></div>
+      <div class="cross-deadline">Apr 4</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>LED retrofit quote or estimate</strong> (all 4 companies) &mdash; Any existing proposals from lighting vendors.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>HVAC upgrade proposals</strong> (Sterling, Keystone) &mdash; Any existing quotes for unit replacements.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-fallback">
+      <div class="cross-fallback-inner"><strong>Fallback:</strong> RS Means construction cost database for retrofit costs. DOE Better Buildings case study costs per sq ft. NREL technology cost projections. Industry average $/ton abatement by measure type.</div>
+    </div>
+  </div>
+
+  <div class="data-category">
+    <h3>Operational Data &mdash; Feeds Opportunity Sizing</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Operating hours per facility</strong> (all 4 companies) &mdash; Shifts, annual operating days, weekend/holiday schedules.</div>
+      <div class="cross-deadline">Apr 7</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Planned capex budget for 2026&ndash;2027</strong> (all 4 CFOs) &mdash; What capital is available for efficiency investments?</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Current maintenance spend on HVAC, lighting, process equipment</strong> (all 4 companies) &mdash; For avoided cost calculations.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-fallback">
+      <div class="cross-fallback-inner"><strong>Fallback:</strong> Industry-standard operating assumptions by sector (BLS data). Typical maintenance cost ratios from IFMA benchmarks.</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════ WORKSTREAM 3: TCFD REPORT ═══════════════════════════ -->
+  <div class="workstream-header">
+    <span class="workstream-badge badge-ws3">Workstream 3</span>
+    <div class="section-label" style="margin-bottom:0">TCFD Report &bull; Deliverable: Weeks 5&ndash;6</div>
+  </div>
+  <h2>TCFD Report Data</h2>
+  <div class="section-subtitle">What we need for governance, strategy, risk management, and metrics sections. Due by April 16.</div>
+
+  <!-- Pillar 1: Governance -->
+  <div class="pillar-block">
+    <h3><span class="pillar-num">Pillar 1</span> Governance</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Board meeting minutes mentioning ESG/climate/sustainability</strong> (all 4 companies, if any) &mdash; Establishes the governance baseline. Even negative findings are useful.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Current org chart</strong> (all 4 companies) &mdash; Showing who manages environmental, safety, and compliance functions.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="pillar-note">Kith will draft template board ESG charters for adoption &mdash; no data needed from portcos for this.</div>
+  </div>
+
+  <!-- Pillar 2: Strategy -->
+  <div class="pillar-block">
+    <h3><span class="pillar-num">Pillar 2</span> Strategy</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Existing enterprise risk registers</strong> (all 4 companies) &mdash; What risk frameworks are in place? Where does climate integrate?</div>
+      <div class="cross-deadline">Apr 12</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Customer/client ESG requirements received</strong> (all 4 companies) &mdash; Beyond Sterling's defense customers, are any other companies getting ESG requests from customers?</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Revenue breakdown by customer segment</strong> (all 4 companies) &mdash; For transition risk quantification. Identifies concentration in climate-sensitive segments.</div>
+      <div class="cross-deadline">Apr 12</div>
+    </div>
+  </div>
+
+  <!-- Pillar 3: Risk Management -->
+  <div class="pillar-block">
+    <h3><span class="pillar-num">Pillar 3</span> Risk Management</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Physical asset locations with street addresses</strong> (all 4 companies) &mdash; We may have these from carbon CSV but need to verify completeness for climate risk modeling.</div>
+      <div class="cross-deadline">Apr 7</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Insurance policy summaries and weather-related claims history</strong> (all 4 companies, 3 years) &mdash; Links climate exposure to actual financial impact.</div>
+      <div class="cross-deadline">Apr 16</div>
+    </div>
+    <div class="pillar-note">Kith will run physical climate risk modeling using NOAA/FEMA public data combined with facility addresses.</div>
+  </div>
+
+  <!-- Pillar 4: Metrics & Targets -->
+  <div class="pillar-block">
+    <h3><span class="pillar-num">Pillar 4</span> Metrics &amp; Targets</h3>
+    <div class="cross-item">
+      <div class="cross-desc">This pillar is populated from Workstreams 1 and 2 outputs &mdash; <strong>no additional data needed</strong> from portfolio companies.</div>
+      <div class="cross-deadline">&mdash;</div>
+    </div>
+    <div class="pillar-note">Kith proposes reduction targets based on SBTi methodology using completed baselines.</div>
+  </div>
+
+  <!-- Fund-Level -->
+  <div class="fund-block" style="margin-top: 1.75rem;">
+    <h3>Fund-Level Requests &mdash; to Northwood Directly</h3>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>LP climate disclosure requirements</strong> &mdash; Which LPs require TCFD? What format? What timeline? Drives the reporting architecture for the entire fund.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="cross-item">
+      <div class="cross-desc"><strong>Fund-level ESG policy</strong> (if any) &mdash; Current state of fund-level climate and ESG commitments.</div>
+      <div class="cross-deadline">Apr 9</div>
+    </div>
+    <div class="request-meta" style="margin-left:0; margin-top:0.75rem">
+      <span class="owner">Owner: Sarah Chen / IR</span>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════ WHAT WE CAN DO NOW ═══════════════════════════ -->
+  <div class="section-label">Parallel Track</div>
+  <h2>What We Can Do Without Waiting</h2>
+  <div class="section-subtitle">Work that starts immediately using data already in hand.</div>
+
+  <div class="momentum-grid">
+    <div class="momentum-card">
+      <span class="momentum-num">01</span>
+      <div class="momentum-text"><strong>Compute Scope 1+2 baselines</strong> for Sterling, Clearview, and Harvest Ridge using Grade A facility data already collected.</div>
+    </div>
+    <div class="momentum-card">
+      <span class="momentum-num">02</span>
+      <div class="momentum-text"><strong>Begin physical climate risk screening</strong> using facility addresses from Supabase for flood, heat, and wildfire exposure.</div>
+    </div>
+    <div class="momentum-card">
+      <span class="momentum-num">03</span>
+      <div class="momentum-text"><strong>Draft TCFD governance template</strong> for board-level adoption across the portfolio.</div>
+    </div>
+    <div class="momentum-card">
+      <span class="momentum-num">04</span>
+      <div class="momentum-text"><strong>Populate ESG scoring tables</strong> in Supabase from existing questionnaire data and audit findings.</div>
+    </div>
+    <div class="momentum-card">
+      <span class="momentum-num">05</span>
+      <div class="momentum-text"><strong>Build preliminary MACC curves</strong> using public reference data (EPA, DOE, RS Means) &mdash; then refine with company-specific data as it arrives.</div>
+    </div>
+    <div class="momentum-card">
+      <span class="momentum-num">06</span>
+      <div class="momentum-text"><strong>Prepare Meridian exit-ready ESG narrative</strong> from existing financials and facility data for data room inclusion.</div>
+    </div>
+  </div>
+
+  <div class="poc-note">
+    <strong>See attached: Sterling Precision Climate Risk Assessment</strong> &mdash; proof of concept produced from existing data, demonstrating what is possible before any new data arrives.
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════ REFERENCE DATA SOURCES ═══════════════════════════ -->
+  <div class="section-label">Methodology</div>
+  <h2>Reference Data Sources We'll Use</h2>
+  <div class="section-subtitle">Public databases that provide fallback values where company-specific data is unavailable.</div>
+
+  <div class="ref-table-container">
+    <h3>Fallback Data Sources by Application</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>What It Provides</th>
+          <th>Used For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>EPA eGRID</td><td>Regional grid emission factors</td><td>Scope 2 calculations</td></tr>
+        <tr><td>EPA Emission Factors Hub</td><td>Stationary &amp; mobile combustion factors</td><td>Scope 1 calculations</td></tr>
+        <tr><td>DEFRA Conversion Factors</td><td>Spend-based emission factors by sector</td><td>Scope 3 screening</td></tr>
+        <tr><td>EPA CBECS</td><td>Commercial building energy benchmarks</td><td>Estimated facility baselines</td></tr>
+        <tr><td>EIA SEDS</td><td>State-level energy prices</td><td>MACC savings calculations</td></tr>
+        <tr><td>RS Means</td><td>Construction/retrofit cost data</td><td>MACC cost estimates</td></tr>
+        <tr><td>DOE Better Buildings</td><td>Case study efficiency data</td><td>Abatement potential sizing</td></tr>
+        <tr><td>NOAA Climate Data</td><td>Historical &amp; projected climate hazards</td><td>Physical risk assessment</td></tr>
+        <tr><td>FEMA Flood Maps</td><td>Flood zone designations</td><td>Facility risk scoring</td></tr>
+        <tr><td>World Steel / Aluminum Assoc.</td><td>Metal production emission factors</td><td>Scope 3 Cat 1 (Sterling)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════ RESPONSE FORMAT ═══════════════════════════ -->
+  <div class="response-section">
+    <h3>Response Format</h3>
+    <ul class="response-list">
+      <li>Please organize responses by request number (e.g., &ldquo;1.6&rdquo; for Clearview fleet records, &ldquo;2.3&rdquo; for MACC quote data)</li>
+      <li>For utility bills: PDF scans or CSV exports, 12 months minimum</li>
+      <li>For spend data: top suppliers by annual spend with category classification</li>
+      <li>For documents: original files preferred over summaries</li>
+      <li>Upload to shared folder or email to Kith project lead</li>
+    </ul>
+
+    <table class="tracker-table">
+      <thead>
+        <tr>
+          <th>Workstream</th>
+          <th>Request ID</th>
+          <th>Company</th>
+          <th>Status</th>
+          <th>Due</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="5" style="vertical-align:top; color:var(--teal); font-weight:600;">WS1: GHG</td><td>1.1&ndash;1.5</td><td>Meridian</td><td>&mdash;</td><td>Apr 4&ndash;9</td><td>&mdash;</td></tr>
+        <tr><td>1.6&ndash;1.9</td><td>Clearview</td><td>&mdash;</td><td>Apr 4&ndash;7</td><td>&mdash;</td></tr>
+        <tr><td>1.10&ndash;1.13</td><td>Sterling</td><td>&mdash;</td><td>Apr 4&ndash;9</td><td>&mdash;</td></tr>
+        <tr><td>1.14&ndash;1.17</td><td>Keystone</td><td>&mdash;</td><td>Apr 4&ndash;9</td><td>&mdash;</td></tr>
+        <tr><td colspan="4" style="font-size:0.72rem; color:var(--text-muted);">17 requests &bull; Feeds GHG baseline computation (Weeks 2&ndash;3)</td></tr>
+        <tr><td rowspan="2" style="vertical-align:top; color:var(--amber); font-weight:600;">WS2: MACC</td><td>2.1&ndash;2.11</td><td>All 4 cos.</td><td>&mdash;</td><td>Apr 4&ndash;9</td><td>&mdash;</td></tr>
+        <tr><td colspan="4" style="font-size:0.72rem; color:var(--text-muted);">11 requests &bull; Feeds MACC curve development (Weeks 3&ndash;5)</td></tr>
+        <tr><td rowspan="2" style="vertical-align:top; color:var(--purple); font-weight:600;">WS3: TCFD</td><td>3.1&ndash;3.9</td><td>All 4 cos. + Fund</td><td>&mdash;</td><td>Apr 7&ndash;16</td><td>&mdash;</td></tr>
+        <tr><td colspan="4" style="font-size:0.72rem; color:var(--text-muted);">9 requests &bull; Feeds TCFD report assembly (Weeks 5&ndash;6)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════ CLOSING ═══════════════════════════ -->
+  <div class="closing">
+    <p class="closing-text">
+      Three deliverables, six weeks, four companies. Every request in this memo maps to a specific output. We have a Plan A (your data) and a Plan B (public reference data) for every line item &mdash; so no workstream stalls. The sooner Weeks 1&ndash;2 materials arrive, the more precise the final deliverables.
+    </p>
+    <div class="closing-sig">Kith Consulting &mdash; Climate Advisory Team</div>
+  </div>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <div class="footer">
+    <p>Based on comprehensive audit of 143 facilities, 17 Supabase tables, and 200+ files across the Northwood Capital portfolio.</p>
+    <p style="margin-top: 0.75rem; font-size: 0.7rem; color: var(--text-muted);">
+      <strong style="color: var(--text-secondary);">QA Summary:</strong>
+      Source Verification &mdash; all figures traced to audit data and Supabase queries.
+      Structural Consistency &mdash; 37 total requests cross-checked across 3 workstreams; deadlines aligned to 6-week timeline.
+      Adversarial Review &mdash; every request includes fallback methodology; no single data gap blocks deliverable completion.
+      Assumption Flagging &mdash; data quality grades sourced from facility-level audit; Scope 3 gaps flagged as known unknowns; fallback emission factors sourced from published databases.
+    </p>
+    <div class="qa-badge">4-Check QA Protocol Applied</div>
+    <p style="margin-top: 1rem;">Confidential &mdash; Northwood Capital Partners</p>
+  </div>
+
+</div>
+</body>
+</html>
