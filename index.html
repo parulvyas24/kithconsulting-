@@ -371,6 +371,7 @@ h1.section-title {
 
 /* Featured / proof-of-concept card */
 .featured-card {
+  display: block;
   background: var(--card);
   border: 1px solid var(--teal);
   border-radius: 12px;
@@ -378,6 +379,7 @@ h1.section-title {
   transition: all 0.24s;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 }
 .featured-card:hover {
   transform: translateY(-2px);
@@ -499,7 +501,8 @@ h1.section-title {
     <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
     <button class="tab-btn" data-tab="week1">Week 1</button>
     <button class="tab-btn" data-tab="week2">Week 2</button>
-    <button class="tab-btn" data-tab="weeks36">Weeks 3&ndash;6</button>
+    <button class="tab-btn" data-tab="week3">Week 3</button>
+    <button class="tab-btn" data-tab="weeks36">Weeks 4&ndash;6</button>
   </div>
   <div class="nav-right">Northwood Capital Partners</div>
 </nav>
@@ -799,7 +802,89 @@ h1.section-title {
   </div>
 
   <!-- ────────────────────────────────────────────────
-       TAB: WEEKS 3-6
+       TAB: WEEK 3
+       ──────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-week3">
+    <div class="week-header">
+      <h1 class="section-title">Week 3 &mdash; Carbon Inventory &amp; ESG Risk Dashboard</h1>
+      <span class="week-date">Apr 6, 2026</span>
+      <span class="badge badge-gold">&#9679; Current</span>
+    </div>
+    <p class="section-sub">First-ever firm-wide carbon footprint, Scope 3 screening estimate, carbon&rarr;risk linkage, and the inaugural run of the dormant 2023 McKinsey ESG framework.</p>
+
+    <!-- Section 1: Headline Deliverable -->
+    <div class="section-header">Headline Deliverable</div>
+    <a class="featured-card" href="./carbon-esg-dashboard-2026-04-06-v4.html">
+      <h3>Portfolio Carbon, Scope 3 &amp; ESG Risk Dashboard</h3>
+      <div class="desc">9-tab interactive dashboard: Scope 1+2 inventory across 138 facilities, Scope 3 screening estimate, intensity metrics, data quality scorecard, carbon&rarr;risk linkage with bubble matrix, and full McKinsey 6-dimension ESG scorecard with sub-scores, financial impact, and trajectory.</div>
+      <div class="inline-stats">
+        <div class="inline-stat"><strong>Scope 1+2:</strong> 24,613 mt CO&#8322;e</div>
+        <div class="inline-stat"><strong>Scope 3 (est):</strong> ~603K mt &middot; 24x</div>
+        <div class="inline-stat"><strong>Shadow cost:</strong> $1.23M/yr</div>
+        <div class="inline-stat"><strong>High-risk portcos:</strong> 4 of 10</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="format-tag format-html">HTML</span>
+        <span class="badge badge-green">&#10003; Complete</span>
+        <button class="btn btn-teal" onclick="event.preventDefault();">Open Dashboard &rarr;</button>
+      </div>
+    </a>
+
+    <!-- Section 2: Five Deliverables -->
+    <div class="section-header">Five Deliverables (per brief)</div>
+    <div class="deliv-grid-3">
+      <div class="deliv-card">
+        <h4>1. Carbon Inventory</h4>
+        <div class="deliv-desc">EPA 2023 + eGRID 2022 factors applied to 138 facilities. Scope 1: 13,008 mt &middot; Scope 2: 11,606 mt</div>
+        <div class="deliv-footer"><span class="badge badge-green">&#10003; Complete</span></div>
+      </div>
+      <div class="deliv-card">
+        <h4>2. Interactive Dashboard</h4>
+        <div class="deliv-desc">9 tabs &middot; portfolio overview, portco breakdown, facility drilldown, charts</div>
+        <div class="deliv-footer"><span class="badge badge-green">&#10003; Complete</span></div>
+      </div>
+      <div class="deliv-card">
+        <h4>3. Data Quality Scorecard</h4>
+        <div class="deliv-desc">Grade A 59% &middot; B 27% &middot; C 13% &middot; 50 facility rows flagged &middot; 3 portcos Grade C</div>
+        <div class="deliv-footer"><span class="badge badge-green">&#10003; Complete</span></div>
+      </div>
+      <div class="deliv-card">
+        <h4>4. Intensity Metrics</h4>
+        <div class="deliv-desc">mt/$M Rev &middot; mt/FTE &middot; mt/$M EBITDA &middot; pulled from Supabase</div>
+        <div class="deliv-footer"><span class="badge badge-green">&#10003; Complete</span></div>
+      </div>
+      <div class="deliv-card">
+        <h4>5. Scope 3 Analysis</h4>
+        <div class="deliv-desc">Material category flags + EEIO screening estimate (~603K mt, 24x S1+2)</div>
+        <div class="deliv-footer"><span class="badge badge-green">&#10003; Complete</span></div>
+      </div>
+      <div class="deliv-card">
+        <h4>+ Bonus: ESG Scorecard</h4>
+        <div class="deliv-desc">First run of dormant McKinsey framework. 6 dimensions, sub-scores, financial impact, trajectory</div>
+        <div class="deliv-footer"><span class="badge badge-gold">&#10003; Bonus</span></div>
+      </div>
+    </div>
+
+    <!-- Section 3: Headline Findings -->
+    <div class="section-header">Headline Findings</div>
+    <div class="deliv-grid-3">
+      <div class="deliv-card">
+        <h4>Sterling + Harvest Ridge</h4>
+        <div class="deliv-desc">44% of S1+2 emissions &middot; both at composite 5 on McKinsey scorecard &middot; Q2 priority</div>
+      </div>
+      <div class="deliv-card">
+        <h4>Scope 3 = 24x S1+2</h4>
+        <div class="deliv-desc">~603K mt CO&#8322;e screening estimate &middot; Cat 1 Purchased Goods dominant</div>
+      </div>
+      <div class="deliv-card">
+        <h4>3 Portcos Grade C</h4>
+        <div class="deliv-desc">NovaCare, Patriot, Keystone &middot; landlord/proxy data &middot; LP qualification required</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────────────────────
+       TAB: WEEKS 4-6
        ──────────────────────────────────────────────── -->
   <div class="tab-panel" id="panel-weeks36">
     <h1 class="section-title">Weeks 3&ndash;6 &mdash; Upcoming Phases</h1>
@@ -878,6 +963,7 @@ h1.section-title {
     dashboard: 'panel-dashboard',
     week1: 'panel-week1',
     week2: 'panel-week2',
+    week3: 'panel-week3',
     weeks36: 'panel-weeks36'
   };
   const btns = document.querySelectorAll('.tab-btn');
